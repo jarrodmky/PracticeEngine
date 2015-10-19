@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Mathematics.h" />
+    <ClInclude Include="Vector.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="MathBase.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{fec99357-2e68-4c40-b89a-7c088acb99a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algebra">
+      <UniqueIdentifier>{75772df3-cbbd-47d9-a8b7-fe6a94788962}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Algebra</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Algebra</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Vector.inl">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Point.inl">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Matrix.inl">
+      <Filter>Algebra</Filter>
+    </None>
+    <None Include="Quaternion.inl">
+      <Filter>Algebra</Filter>
+    </None>
+  </ItemGroup>
+</Project>

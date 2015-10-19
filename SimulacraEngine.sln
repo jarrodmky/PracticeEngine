@@ -1,0 +1,98 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{2E3E511B-7C63-4B6A-B768-FABB4EE4047D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mathematics", "Mathematics\Mathematics.vcxproj", "{A1812159-EAC0-4307-B5E8-42BBD5B3F262}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Abstracts", "Abstracts\Abstracts.vcxproj", "{E8EAA466-1C84-4356-A157-49F11AE03EB3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Algorithms", "Algorithms\Algorithms.vcxproj", "{5EEFB04E-CA82-4EEE-8A2D-00098E0B182B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{2053CAEF-8CA3-4FEF-BB74-1B71ADCAA072}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\UnitTests.vcxproj", "{7928AF64-81BC-4C22-A168-3F76708A45A6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Visualization", "Visualization\Visualization.vcxproj", "{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://fornicationstation.visualstudio.com/defaultcollection
+		SccProjectUniqueName0 = Core\\Core.vcxproj
+		SccProjectName0 = Core
+		SccAuxPath0 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath0 = Core
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = Mathematics\\Mathematics.vcxproj
+		SccProjectName1 = Mathematics
+		SccAuxPath1 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath1 = Mathematics
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = Abstracts\\Abstracts.vcxproj
+		SccProjectName2 = Abstracts
+		SccAuxPath2 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath2 = Abstracts
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = Algorithms\\Algorithms.vcxproj
+		SccProjectName3 = Algorithms
+		SccAuxPath3 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath3 = Algorithms
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = Game\\Game.vcxproj
+		SccProjectName4 = Game
+		SccAuxPath4 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath4 = Game
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName5 = UnitTests\\UnitTests.vcxproj
+		SccProjectName5 = UnitTests
+		SccAuxPath5 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath5 = UnitTests
+		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName6 = Visualization\\Visualization.vcxproj
+		SccProjectName6 = Visualization
+		SccAuxPath6 = https://fornicationstation.visualstudio.com/defaultcollection
+		SccLocalPath6 = Visualization
+		SccProvider6 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E3E511B-7C63-4B6A-B768-FABB4EE4047D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E3E511B-7C63-4B6A-B768-FABB4EE4047D}.Debug|Win32.Build.0 = Debug|Win32
+		{2E3E511B-7C63-4B6A-B768-FABB4EE4047D}.Release|Win32.ActiveCfg = Release|Win32
+		{2E3E511B-7C63-4B6A-B768-FABB4EE4047D}.Release|Win32.Build.0 = Release|Win32
+		{A1812159-EAC0-4307-B5E8-42BBD5B3F262}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A1812159-EAC0-4307-B5E8-42BBD5B3F262}.Debug|Win32.Build.0 = Debug|Win32
+		{A1812159-EAC0-4307-B5E8-42BBD5B3F262}.Release|Win32.ActiveCfg = Release|Win32
+		{A1812159-EAC0-4307-B5E8-42BBD5B3F262}.Release|Win32.Build.0 = Release|Win32
+		{E8EAA466-1C84-4356-A157-49F11AE03EB3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8EAA466-1C84-4356-A157-49F11AE03EB3}.Debug|Win32.Build.0 = Debug|Win32
+		{E8EAA466-1C84-4356-A157-49F11AE03EB3}.Release|Win32.ActiveCfg = Release|Win32
+		{E8EAA466-1C84-4356-A157-49F11AE03EB3}.Release|Win32.Build.0 = Release|Win32
+		{5EEFB04E-CA82-4EEE-8A2D-00098E0B182B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5EEFB04E-CA82-4EEE-8A2D-00098E0B182B}.Debug|Win32.Build.0 = Debug|Win32
+		{5EEFB04E-CA82-4EEE-8A2D-00098E0B182B}.Release|Win32.ActiveCfg = Release|Win32
+		{5EEFB04E-CA82-4EEE-8A2D-00098E0B182B}.Release|Win32.Build.0 = Release|Win32
+		{2053CAEF-8CA3-4FEF-BB74-1B71ADCAA072}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2053CAEF-8CA3-4FEF-BB74-1B71ADCAA072}.Debug|Win32.Build.0 = Debug|Win32
+		{2053CAEF-8CA3-4FEF-BB74-1B71ADCAA072}.Release|Win32.ActiveCfg = Release|Win32
+		{2053CAEF-8CA3-4FEF-BB74-1B71ADCAA072}.Release|Win32.Build.0 = Release|Win32
+		{7928AF64-81BC-4C22-A168-3F76708A45A6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7928AF64-81BC-4C22-A168-3F76708A45A6}.Debug|Win32.Build.0 = Debug|Win32
+		{7928AF64-81BC-4C22-A168-3F76708A45A6}.Release|Win32.ActiveCfg = Release|Win32
+		{7928AF64-81BC-4C22-A168-3F76708A45A6}.Release|Win32.Build.0 = Release|Win32
+		{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}.Debug|Win32.Build.0 = Debug|Win32
+		{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}.Release|Win32.ActiveCfg = Release|Win32
+		{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
