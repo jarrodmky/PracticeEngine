@@ -29,16 +29,12 @@ Application::~Application() {}
 
 //---------------------------------------------------------------------------
 
-bool Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32 p_Height)
+void Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32 p_Height)
 {
 	m_Instance = p_Instance;
 	m_AppName = p_AppName;
 
 	OnInitialize(p_Width, p_Height);
-
-	m_Running = true;
-
-	return true;
 }
 
 //---------------------------------------------------------------------------
@@ -46,8 +42,6 @@ bool Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width
 void Application::Terminate()
 {
 	OnTerminate();
-
-	m_Running = false;
 }
 
 //---------------------------------------------------------------------------

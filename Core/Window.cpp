@@ -31,7 +31,7 @@ Window::~Window() {}
 
 bool Window::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32 p_Height, WNDPROC handlerFunction)
 {
-	m_Instance = m_Instance;
+	m_Instance = p_Instance;
 	m_AppName = p_AppName;
 
 	//Register class
@@ -64,7 +64,7 @@ bool Window::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32
 
 	//Create window object
 	m_Window = CreateWindowA
-		(
+	(
 		p_AppName,
 		p_AppName,
 		WS_OVERLAPPEDWINDOW,
@@ -74,14 +74,13 @@ bool Window::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32
 		winHeight,
 		nullptr,
 		nullptr,
-		m_Instance,
+		p_Instance,
 		nullptr
-		);
+	);
 
 	Assert(m_Window, "[Window.cpp] Failed to create window!");
 
 	ShowWindow(m_Window, true);
-	UpdateWindow(m_Window);
 	Verify(SetCursorPos(screenWidth >> 1, screenHeight >> 1), "[Window.cpp] Failed to set cursor position!");
 
 	return true;
@@ -93,7 +92,7 @@ void Window::Terminate()
 {
 	DestroyWindow(m_Window);
 
-	UnregisterClassA(m_AppName.c_str(), m_Instance);
+	UnregisterClassA(m_AppName, m_Instance);
 
 	m_Window = nullptr;
 

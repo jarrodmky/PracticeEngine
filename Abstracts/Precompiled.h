@@ -12,6 +12,5 @@
 //===========================================================================
 
 #include <Core.h>
-#include <Mathematics.h>
 
 #endif //#ifndef IncludedAbstPrecompiledH

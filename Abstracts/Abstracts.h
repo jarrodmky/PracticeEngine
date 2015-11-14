@@ -11,6 +11,11 @@
 // Includes
 //===========================================================================
 
+#include "Array.h"
+#include "List.h"
+#include "LinkedList.h"
+#include "Queue.h"
+#include "Stack.h"
 #include "Graph.h"
 #include "Grid.h"
 

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="FileConverter.h" />
+    <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="ObjFile.h" />
+    <ClInclude Include="JsonFile.h">
+      <Filter>JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="Value.h">
+      <Filter>JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="CsvFile.h">
+      <Filter>CSV</Filter>
+    </ClInclude>
+    <ClInclude Include="Table.h">
+      <Filter>CSV</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CmdMain.cpp" />
+    <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="Value.cpp">
+      <Filter>JSON</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="JSON">
+      <UniqueIdentifier>{1d07802f-c6b4-4169-b4ae-07a73674332d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CSV">
+      <UniqueIdentifier>{846b5bec-4e51-42d6-98f4-fc9ffdc3a6fa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

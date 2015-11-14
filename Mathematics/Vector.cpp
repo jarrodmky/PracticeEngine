@@ -9,49 +9,41 @@
 
 #include "Precompiled.h"
 #include "Vector.h"
-#include "Matrix.h"
 
 using namespace Mathematics;
 
 //===========================================================================
 // Class Definitions
 //===========================================================================
-
-const Matrix Vector::operator ^(const Vector& p_Lhs) const
-{
-	return ConstantMatrices::Identity;
-}
-
-//---------------------------------------------------------------------------
 		
-const scalar Vector::LengthAlong(const Vector& p_Lhs) const
+const scalar Vector::LengthAlong(const Vector& p_Rhs) const
 {
-	return (*this) | p_Lhs.Direction();
+	return (*this) | p_Rhs.Direction();
 }
 
 //---------------------------------------------------------------------------
 
-const scalar Vector::AngleBetween(const Vector& p_Lhs) const
+const scalar Vector::AngleBetween(const Vector& p_Rhs) const
 {
-	return std::acosf(Direction() | p_Lhs.Direction());
+	return std::acosf(Direction() | p_Rhs.Direction());
 }
 
 //---------------------------------------------------------------------------
 
-Vector& Vector::ProjectAlong(const Vector& p_Lhs)
+Vector& Vector::ProjectAlong(const Vector& p_Rhs)
 {
-	scalar invSquareLHS = p_Lhs.LengthSquared();
+	scalar invSquareLHS = p_Rhs.LengthSquared();
 	Invert(invSquareLHS);
 
-	(*this) = p_Lhs * (((*this) | p_Lhs) * invSquareLHS);
+	(*this) = p_Rhs * (((*this) | p_Rhs) * invSquareLHS);
 	return *this;
 }
 
 //---------------------------------------------------------------------------
 
-const Vector Vector::ProjectedAlong(const Vector& p_Lhs) const
+const Vector Vector::ProjectedAlong(const Vector& p_Rhs) const
 {
 	Vector temp(*this);
-	temp.ProjectAlong(p_Lhs);
+	temp.ProjectAlong(p_Rhs);
 	return temp;
 }

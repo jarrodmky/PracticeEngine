@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="Algebra.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Interval.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MathBase.h" />
     <ClInclude Include="Mathematics.h" />
@@ -21,24 +22,36 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Interval.inl" />
     <None Include="Matrix.inl" />
+    <None Include="Plane.inl" />
     <None Include="Point.inl" />
     <None Include="Quaternion.inl" />
+    <None Include="Sphere.inl" />
     <None Include="Vector.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
+      <Project>{e8eaa466-1c84-4356-a157-49f11ae03eb3}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
       <Private>false</Private>
@@ -76,13 +89,12 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\VS 2013 Property Sheets\Core.props" />
     <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
+    <Import Project="..\VS 2013 Property Sheets\Algorithms.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -100,7 +112,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Abstracts</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -124,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Abstracts</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>

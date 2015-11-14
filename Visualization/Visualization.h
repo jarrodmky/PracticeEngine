@@ -11,7 +11,18 @@
 // Includes
 //===========================================================================
 
-#include <Core.h>
+#include "Common.h"
+#include "LinearColour.h"
+#include "System.h"
+#include "Vertices.h"
+#include "Mesh.h"
+#include "Buffers.h"
+#include "Shaders.h"
+#include "MeshBuilder.h"
+#include "ConstantBuffer.h"
+#include "Solid.h"
+#include "Material.h"
+#include "Light.h"
 
 //===========================================================================
 // Definitions
@@ -27,7 +38,17 @@ namespace Visualization
 	//Methods
 	public:
 
-		static void Initialize(HWND p_HandleToWindow);
+		static void Initialize(HWND p_HandleToWindow, s32 p_ScreenHeight, s32 p_ScreenWidth);
+
+		static void AddSphere(const Mathematics::Sphere& p_Sphere, LinearColour p_Colour);
+
+		static void AddPlane(const Mathematics::Plane& p_Plane, LinearColour p_Colour);
+
+		static void AddLineSegment(const Mathematics::Point& p_Point1
+			, const Mathematics::Point& p_Point2
+			, LinearColour p_Colour);
+
+		static void Canvas();
 
 		static void Paint();
 
@@ -35,9 +56,9 @@ namespace Visualization
 
 		static void UpdatePalette();
 
-	private:
-
 		static void SwapBuffer();
+
+	private:
 
 		static void SetPixels(bool p_UseDoubleBuffer);
 
@@ -45,22 +66,29 @@ namespace Visualization
 
 		static HPALETTE GetPalette();
 
+		static void SetColour(const LinearColour& p_Colour);
+
 	//Attributes
 	private:
 
-		static HWND hWindow;
+		static HWND s_Window;
 
 		//GDI device context
-		static HDC hDeviceContext;
+		static HDC s_DeviceContext;
 
-		static HGLRC hRenderingContext;
+		static HGLRC s_RenderingContext;
 
-		static HPALETTE hPalette;
+		static HPALETTE s_Palette;
 
-		static s32 hExposure; 
+		static s32 s_Exposure;
 		
-		static PIXELFORMATDESCRIPTOR hPixelDescriptor;
+		static PIXELFORMATDESCRIPTOR s_PixelDescriptor;
 
+		static s32 s_WindowWidth;
+
+		static s32 s_WindowHeight;
+
+		static f32 s_AspectRatio;
 	};
 } // namespace Visualization
 

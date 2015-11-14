@@ -8,10 +8,12 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
 </Project>

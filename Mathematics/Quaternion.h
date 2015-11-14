@@ -94,7 +94,7 @@ namespace Mathematics
 
 	namespace ConstantQuaternions
 	{
-		const static Quaternion Identity(ConstantVectors::Null, ConstantScalars::Unity);
+		const static Quaternion Identity(ConstantVectors::I, ConstantScalars::Zero); //??
 	}
 
 	#include "Quaternion.inl"

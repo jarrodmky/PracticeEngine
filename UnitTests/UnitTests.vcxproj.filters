@@ -22,9 +22,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VectorTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -32,6 +29,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LogTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MathTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

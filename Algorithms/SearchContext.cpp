@@ -3,27 +3,44 @@
 
 using namespace Algorithms;
 
-SearchContext::SearchContext()
-: StartIndex(0)
-, EndIndex(0)
-, HaveFinished(false)
-, HaveFound(false)
-, OpenList(0)
-, ClosedList(0)
-, Parents(0)
-, HaveOpened(0)
-, HaveClosed(0)
-{}
-
-void SearchContext::Initialize(const u32 p_NumberOfNodes, const u32 p_Start, const u32 p_Goal)
+u32 DepthFirst::Next(SearchContext<DepthFirst>& p_Context)
 {
-	StartIndex = p_Start;
-	EndIndex = p_Goal;
-	HaveFinished = false;
-	HaveFound = false;
-	OpenList.reserve(p_NumberOfNodes);
-	ClosedList.reserve(p_NumberOfNodes);
-	Parents.resize(p_NumberOfNodes, INFINITE);
-	HaveOpened.resize(p_NumberOfNodes, false);
-	HaveClosed.resize(p_NumberOfNodes, false);
+	u32 index = 0;
+	p_Context.OpenList.Pop(index);
+	return index;
+}
+	
+void DepthFirst::Open(SearchContext<DepthFirst>& p_Context, const u32 p_Index, const u32 p_Parent)
+{
+	p_Context.OpenList.Push(p_Index);
+	p_Context.HaveOpened[p_Index] = true;
+}
+
+u32 BreadthFirst::Next(SearchContext<BreadthFirst>& p_Context)
+{
+	u32 index = p_Context.OpenList.front();
+	p_Context.OpenList.erase(p_Context.OpenList.begin());
+	return index;
+}
+
+void BreadthFirst::Open(SearchContext<BreadthFirst>& p_Context, const u32 p_Index, const u32 p_Parent)
+{
+	p_Context.OpenList.push_back(p_Index);
+	p_Context.HaveOpened[p_Index] = true;
+}
+
+u32 Dijkstra::Next(SearchContext<Dijkstra>& p_Context)
+{
+	u32 index = p_Context.OpenList.back();
+	p_Context.OpenList.pop_back();
+	return index;
+}
+
+void Dijkstra::Open(SearchContext<Dijkstra>& p_Context, const u32 p_Index, const u32 p_Parent)
+{
+	p_Context.OpenList.push_back(p_Index);
+	p_Context.HaveOpened[p_Index] = true;
+
+	p_Context.g[p_Index] = p_Context.GetG(p_Parent, p_Index) + p_Context.g[p_Parent];
+	p_Context.h[p_Index] = p_Context.GetH(p_Index, p_Context.EndIndex);
 }

@@ -12,6 +12,7 @@
 //===========================================================================
 
 #include <Core.h>
+#include <Visualization.h>
 
 //===========================================================================
 // Classes
@@ -35,12 +36,13 @@ private:
 
 	virtual void OnUpdate();
 
-	static LRESULT CALLBACK HandleMessages(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT WINAPI HandleMessages(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Attributes
 protected:
 
 	Core::Window m_Viewport;
+
 };
 
 #endif //#ifndef IncludedWindowedAppH

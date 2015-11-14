@@ -56,7 +56,7 @@ namespace Core
 		HWND m_Window;
 
 		//application name
-		std::string m_AppName;
+		LPCSTR m_AppName;
 	};
 } // namespace Core
 

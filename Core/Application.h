@@ -31,7 +31,7 @@ namespace Core
 	//Methods
 	public:
 
-		bool Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32 p_Height);
+		void Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32 p_Height);
 
 		void Terminate();
 
@@ -49,7 +49,7 @@ namespace Core
 
 		HWND GetWindow() const {return m_Window; }
 
-		const char* GetAppName() const {return m_AppName.c_str(); }
+		LPCSTR GetAppName() const {return m_AppName; }
 
 	private:
 
@@ -70,7 +70,7 @@ namespace Core
 
 		HWND m_Window;
 
-		std::string m_AppName;
+		LPCSTR m_AppName;
 	};
 } // namespace Core
 

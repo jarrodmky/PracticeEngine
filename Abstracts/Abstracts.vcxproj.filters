@@ -10,5 +10,10 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Abstracts.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="LinkedList.h" />
   </ItemGroup>
 </Project>

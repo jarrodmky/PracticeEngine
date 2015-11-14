@@ -18,10 +18,10 @@ void Grid::Initialize(u32 p_NumberOfRows, u32 p_NumberOfColumns)
 
 	m_Graph.Allocate(p_NumberOfRows * p_NumberOfColumns);
 
-	MooreNeighbourhood();
+	SetMooreNeighbourhood();
 }
 
-void Grid::Terminate()
+void Grid::Free()
 {
 	m_Graph.Free();
 
@@ -29,7 +29,7 @@ void Grid::Terminate()
 	m_NumberOfRows = 0;
 }
 
-const u32 Grid::GetNodeIndex(const u32 p_X, const u32 p_Y) const
+const u32 Grid::GetIndex(const u32 p_X, const u32 p_Y) const
 {	
 	Assert(p_X < m_NumberOfRows, "Invalid Coordinates");
 	Assert(p_Y < m_NumberOfColumns, "Invalid Coordinates");
@@ -54,40 +54,33 @@ const Graph::Node& Grid::GetNode(const u32 p_Index) const
 	return m_Graph.GetNode(p_Index);
 }
 
-void Grid::MooreNeighbourhood()
+void Grid::SetMooreNeighbourhood()
 {
-	//Graph::Node UpN(nullptr);
-	//Graph::Node* UpRightN(nullptr);
-	//Graph::Node* RightN(nullptr);
-	//Graph::Node* LowRightN(nullptr);
-	//Graph::Node* LowN(nullptr);
-	//Graph::Node* LowLeftN(nullptr);
-	//Graph::Node* LeftN(nullptr);
-	//Graph::Node* UpLeftN(nullptr);
+	//set horizontal laterals
+	for (u32 i = 0; i < m_NumberOfRows; ++i)
+	{
+		for (u32 j = 0; j < m_NumberOfColumns - 1; ++j)
+		{
+			m_Graph.ConnectNodes(GetIndex(i, j), GetIndex(i, j + 1));
+		}
+	}
 
-	//for(u32 i = 1; i <= m_NumberOfRows; ++i)
-	//{
-	//	for(u32 j = 1; j <= m_NumberOfColumns; ++j)
-	//	{
-	//		Graph::Node& currentNode(m_Graph.GetNode(GetNodeIndex(i, j)));
+	//set horizontal laterals
+	for (u32 j = 0; j < m_NumberOfColumns; ++j)
+	{
+		for (u32 i = 0; i < m_NumberOfRows - 1; ++i)
+		{
+			m_Graph.ConnectNodes(GetIndex(i, j), GetIndex(i + 1, j));
+		}
+	}
 
-	//		//UpN = GetNode(i - 1, j);
-	//		//UpRightN = GetNode(i - 1, j + 1);
-	//		//RightN = GetNode(i, j + 1);
-	//		//LowRightN = GetNode(i + 1, j + 1);
-	//		//LowN = GetNode(i + 1, j);
-	//		//LowLeftN = GetNode(i + 1, j - 1);
-	//		//LeftN = GetNode(i, j - 1);
-	//		//UpLeftN = GetNode(i - 1, j - 1);
-
-	//		if(UpN) currentNode.AddNeighbour(UpN);
-	//		if(UpRightN) currentNode.AddNeighbour(UpRightN);
-	//		if(RightN) currentNode.AddNeighbour(RightN);
-	//		if(LowRightN) currentNode.AddNeighbour(LowRightN);
-	//		if(LowN) currentNode.AddNeighbour(LowN);
-	//		if(LowLeftN) currentNode.AddNeighbour(LowLeftN);
-	//		if(LeftN) currentNode.AddNeighbour(LeftN);
-	//		if(UpLeftN) currentNode.AddNeighbour(UpLeftN);
-	//	}
-	//}
+	//set diagonals
+	for (u32 i = 0; i < m_NumberOfRows - 1; ++i)
+	{
+		for (u32 j = 0; j < m_NumberOfColumns - 1; ++j)
+		{
+			m_Graph.ConnectNodes(GetIndex(i, j), GetIndex(i + 1, j + 1));
+			m_Graph.ConnectNodes(GetIndex(i + 1, j), GetIndex(i, j + 1));
+		}
+	}
 }

@@ -36,6 +36,10 @@
     <ClInclude Include="Algebra.h">
       <Filter>Algebra</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="Interval.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Geometry">
@@ -49,9 +53,6 @@
     <ClCompile Include="Vector.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Point.cpp">
-      <Filter>Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Matrix.cpp">
       <Filter>Algebra</Filter>
@@ -59,6 +60,7 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Algebra</Filter>
     </ClCompile>
+    <ClCompile Include="Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vector.inl">
@@ -71,6 +73,15 @@
       <Filter>Algebra</Filter>
     </None>
     <None Include="Quaternion.inl">
+      <Filter>Algebra</Filter>
+    </None>
+    <None Include="Sphere.inl">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Plane.inl">
+      <Filter>Geometry</Filter>
+    </None>
+    <None Include="Interval.inl">
       <Filter>Algebra</Filter>
     </None>
   </ItemGroup>

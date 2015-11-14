@@ -21,16 +21,18 @@
 namespace Algorithms
 {
 
+template <typename t_Policy>
 class GraphSearch
 {
-	static void Run(const Abstracts::Graph& p_Graph, SearchContext& p_Context)
+public:
+	static void Run(const Abstracts::Graph& p_Graph, SearchContext<t_Policy>& p_Context)
 	{
 		//Until goal reached or graph completely searched
+		//while(!p_Context.HaveFinished && !p_Context.OpenList.IsEmpty())
 		while(!p_Context.HaveFinished && !p_Context.OpenList.empty())
 		{
 			//pick next node
-			u32 next = p_Context.OpenList.front();
-			p_Context.OpenList.erase(p_Context.OpenList.begin());
+			u32 next = t_Policy::Next(p_Context);
 
 			//check if node is our goal
 			if(next == p_Context.EndIndex)
@@ -44,12 +46,12 @@ class GraphSearch
 				const Abstracts::Graph::Node& node = p_Graph.GetNode(next);
 				for(u32 i = 0; i < node.GetNumberOfNeighbours(); ++i)
 				{
-					u32 neighbour = node.GetNeighbour(i)->GetIndex();
+					u32 neighbour = node.GetNeighbour(i).GetIndex();
 					if(!p_Context.HaveClosed[neighbour] &&
-					   !p_Context.HaveOpened[neighbour])
+					   !p_Context.HaveOpened[neighbour] &&
+					   p_Context.Filter(next, neighbour))
 					{
-						p_Context.OpenList.push_back(neighbour);
-						p_Context.HaveOpened[neighbour] = true;
+						t_Policy::Open(p_Context, next, neighbour);
 						p_Context.Parents[neighbour] = next;
 					}
 				}
@@ -59,18 +61,17 @@ class GraphSearch
 			p_Context.ClosedList.push_back(next);
 			p_Context.HaveClosed[next] = true;
 		}
-
-
 	}
 
-	static void GetPath(SearchContext& p_Context, std::vector<u32>& p_Path)
+	static void GetPath(SearchContext<t_Policy>& p_Context, std::vector<u32>& p_Path)
 	{
 		p_Path.clear();
 
 		u32 next = p_Context.EndIndex;
-		while(next != -1)
+		while(next != INFINITE)
 		{
-
+			p_Path.push_back(next);
+			next = p_Context.Parents[next];
 		}
 	}
 };

@@ -1,9 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Visualization.cpp" />
+    <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="LinearColour.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertices.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DSystem.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Visualization.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUtil.cpp">
+      <Filter>Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid.cpp">
+      <Filter>Meshes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Visualization.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="ConicColour.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearColour.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertices.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Visualization.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuilder.h">
+      <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUtil.h">
+      <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid.h">
+      <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffers.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Components">
+      <UniqueIdentifier>{0343f11e-fff8-44e6-acf4-2fcb84488a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{e62eb7db-2c40-404f-a1c6-fc5c89f8e177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Meshes">
+      <UniqueIdentifier>{1b901987-4925-4108-a411-3098c308d253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{cad7dbb6-ade3-4663-ae4b-30aad73e8e80}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mesh.inl">
+      <Filter>Meshes</Filter>
+    </None>
+    <None Include="MeshBuilder.inl">
+      <Filter>Meshes</Filter>
+    </None>
+    <None Include="Buffers.inl">
+      <Filter>Components</Filter>
+    </None>
   </ItemGroup>
 </Project>

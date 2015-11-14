@@ -12,7 +12,6 @@
 //===========================================================================
 
 #include "MathBase.h"
-#include "Array.h"
 #include "Vector.h"
 #include "Point.h"
 
@@ -26,8 +25,8 @@ namespace Mathematics
 	{
 	//Attributes
 	private:
-
-		Array<scalar, 4, 4> m_Array;
+		
+		Abstracts::Array<scalar, 4, 4> m_Array;
 
 	//Operators
 	public:
@@ -39,33 +38,36 @@ namespace Mathematics
 					, const Vector p_ThirdAxis
 					, const Point p_Origin);
 
-		Matrix(const scalar p_11, const scalar p_12, const scalar p_13, const scalar p_14
-			 , const scalar p_21, const scalar p_22, const scalar p_23, const scalar p_24
-			 , const scalar p_31, const scalar p_32, const scalar p_33, const scalar p_34
-			 , const scalar p_41, const scalar p_42, const scalar p_43, const scalar p_44);
+		Matrix(const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3, const scalar p_r1c4
+			 , const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3, const scalar p_r2c4
+			 , const scalar p_r3c1, const scalar p_r3c2, const scalar p_r3c3, const scalar p_r3c4
+			 , const scalar p_r4c1, const scalar p_r4c2, const scalar p_r4c3, const scalar p_r4c4);
 
 		//equality
-		const bool operator ==(const Matrix& p_Lhs) const;
-		inline const bool operator !=(const Matrix& p_Lhs) const;
+		const bool operator ==(const Matrix& p_Rhs) const;
+		inline const bool operator !=(const Matrix& p_Rhs) const;
 
 		//arithmetic
 		Matrix& Negate();
 		inline const Matrix operator -() const;
-		Matrix& operator +=(const Matrix& p_Lhs);
-		inline const Matrix operator +(const Matrix& p_Lhs) const;
-		Matrix& operator -=(const Matrix& p_Lhs);
-		inline const Matrix operator -(const Matrix& p_Lhs) const;
+		Matrix& operator +=(const Matrix& p_Rhs);
+		inline const Matrix operator +(const Matrix& p_Rhs) const;
+		Matrix& operator -=(const Matrix& p_Rhs);
+		inline const Matrix operator -(const Matrix& p_Rhs) const;
 
 		//scalar multiplication
-		Matrix& operator *=(const scalar& p_Lhs);
-		inline const Matrix operator *(const scalar p_Lhs) const;
-		Matrix& operator /=(const scalar& p_Lhs);
-		inline const Matrix operator /(const scalar p_Lhs) const;
+		Matrix& operator *=(const scalar& p_Rhs);
+		inline const Matrix operator *(const scalar p_Rhs) const;
+		Matrix& operator /=(const scalar& p_Rhs);
+		inline const Matrix operator /(const scalar p_Rhs) const;
 
 		//product
-		Matrix& operator *=(const Matrix& p_Lhs);
-		inline const Matrix operator *(const Matrix& p_Lhs) const;
+		Matrix& operator *=(const Matrix& p_Rhs);
+		inline const Matrix operator *(const Matrix& p_Rhs) const;
 
+		//access
+		inline scalar& operator ()(const u32 p_Row, const u32 p_Column);
+		inline const scalar operator ()(const u32 p_Row, const u32 p_Column) const;
 
 	//Methods
 	public:
@@ -82,14 +84,14 @@ namespace Mathematics
 	namespace ConstantMatrices
 	{
 		const static Matrix Null = Matrix();
-		const static Matrix Identity = Matrix(ConstantVectors::UnitX
-											, ConstantVectors::UnitY
-											, ConstantVectors::UnitZ
+		const static Matrix Identity = Matrix(ConstantVectors::I
+											, ConstantVectors::J
+											, ConstantVectors::K
 											, ConstantPoints::Origin);
 	};
 
-	#include "Matrix.inl"
-
 } // namespace Mathematics
+
+#include "Matrix.inl"
 
 #endif //#ifndef IncludedMathMatrixH

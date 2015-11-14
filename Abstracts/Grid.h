@@ -33,9 +33,9 @@ public:
 
 	void Initialize(u32 p_NumberOfRows, u32 p_NumberOfColumns);
 
-	void Terminate();
+	void Free();
 
-	const u32 GetNodeIndex(const u32 p_X, const u32 p_Y) const;
+	const u32 GetIndex(const u32 p_X, const u32 p_Y) const;
 
 	const u32 GetX(const u32 p_Index) const;
 
@@ -47,7 +47,7 @@ private:
 
 	const Graph::Node& GetNode(const u32 p_Index) const;
 
-	void MooreNeighbourhood();
+	void SetMooreNeighbourhood();
 
 //Attributes
 private:

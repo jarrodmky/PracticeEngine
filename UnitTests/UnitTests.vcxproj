@@ -40,19 +40,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Mathematics.props" />
-    <Import Project="..\VS 2013 Property Sheets\Abstracts.props" />
-    <Import Project="..\VS 2013 Property Sheets\Algorithms.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Mathematics.props" />
-    <Import Project="..\VS 2013 Property Sheets\Abstracts.props" />
-    <Import Project="..\VS 2013 Property Sheets\Algorithms.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -104,14 +94,16 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractTest.cpp" />
     <ClCompile Include="DeleteTest.cpp" />
     <ClCompile Include="GraphTest.cpp" />
     <ClCompile Include="LogTest.cpp" />
+    <ClCompile Include="MatrixTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="VectorTest.cpp" />
+    <ClCompile Include="MathTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">

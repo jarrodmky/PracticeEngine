@@ -1,10 +1,10 @@
-#ifndef IncludedMathGraphH
-#define IncludedMathGraphH
+#ifndef IncludedAbstGraphH
+#define IncludedAbstGraphH
 
 //===========================================================================
 // Filename:	Graph.h
 // Author:		Jarrod MacKay
-// Description:	Provides a general graph structure.
+// Description:	Provides a general graph topology structure.
 //===========================================================================
 
 //===========================================================================
@@ -37,13 +37,13 @@ public:
 	//Methods
 	public:
 
-		void AddNeighbour(Node* p_Node);
+		void MakeAdjacentTo(Node* p_Node);
 
 		u32 GetNumberOfNeighbours() const;
 
-		Node* GetNeighbour(const u32 p_Index);
+		Node& GetNeighbour(const u32 p_Index);
 
-		const Node* GetNeighbour(const u32 p_Index) const;
+		const Node& GetNeighbour(const u32 p_Index) const;
 
 		u32 GetIndex() const {return m_Index;}
 
@@ -80,6 +80,8 @@ public:
 
 	const Node& GetNode(const u32 p_Index) const;
 
+	void ConnectNodes(const u32 p_IndexA, const u32 p_IndexB);
+
 //Attributes
 private:
 
@@ -90,4 +92,4 @@ private:
 
 } // namespace Abstracts 
 
-#endif // #ifndef IncludedMathGraphH
+#endif // #ifndef IncludedAbstGraphH

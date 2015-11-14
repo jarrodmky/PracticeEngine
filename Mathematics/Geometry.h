@@ -11,25 +11,29 @@
 // Includes
 //===========================================================================
 
+#include "MathBase.h"
+#include "Vector.h"
+#include "Point.h"
+#include "Sphere.h"
+#include "Ray.h"
 #include "Line.h"
 #include "Plane.h"
-#include "Point.h"
-#include "Ray.h"
-#include "Sphere.h"
-#include "Vector.h"
 
+namespace Mathematics
+{
 //===========================================================================
 // Operators
 //===========================================================================
 
-inline const Vector operator *(const scalar p_Rhs, const Vector& p_Lhs);
+	inline const Vector operator *(const scalar p_Lhs, const Vector& p_Rhs);
+
+	//vector outer product
+	const Matrix operator ^(const Vector& p_Lhs, const Vector& p_Rhs);
 
 //===========================================================================
 // Functions
 //===========================================================================
 
-namespace Mathematics
-{
 //Distance Functions
 
 	//Minimum distance between a point and a line

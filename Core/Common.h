@@ -16,9 +16,17 @@
 #include <Windows.h>
 
 //STL Headers
+#include <algorithm>
+#include <complex>
+#include <fstream>
+#include <functional>
+#include <iomanip>
 #include <limits>
 #include <map>
+#include <memory>
 #include <random>
+#include <regex>
+#include <sstream>
 #include <vector>
 
 //===========================================================================

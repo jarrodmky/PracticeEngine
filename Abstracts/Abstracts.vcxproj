@@ -13,13 +13,23 @@
   <ItemGroup>
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="Precompiled.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Precompiled.h</PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abstracts.h" />
+    <ClInclude Include="Array.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
@@ -29,9 +39,6 @@
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
-      <Project>{a1812159-eac0-4307-b5e8-42bbd5b3f262}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -62,15 +69,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Mathematics.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Mathematics.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -80,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Mathematics</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -98,7 +99,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Mathematics</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>

@@ -14,13 +14,14 @@
 // Main
 //===========================================================================
 
-int CALLBACK WinMain(_In_ HINSTANCE hInstance
-				   , _In_ HINSTANCE hPrevInstance
-				   , _In_ LPSTR     lpCmdLine
-				   , _In_ int       nCmdShow)
+int WINAPI WinMain( HINSTANCE hInstance
+				   ,  HINSTANCE hPrevInstance
+				   ,  LPSTR     lpCmdLine
+				   ,  int       nCmdShow)
 {
+	Mathematics::Random::Initialize();
 	WindowedApp myApplication;
-	myApplication.Initialize(hInstance, "MY GAME!!!", 1024, 768);
+	myApplication.Initialize(hInstance, "JARROD", 1024, 768);
 
 	while(myApplication.IsRunning())
 	{

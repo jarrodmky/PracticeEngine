@@ -11,7 +11,7 @@
 // Includes
 //===========================================================================
 
-#include <Core.h>
+#include "Precompiled.h"
 
 //===========================================================================
 // Typedefs
@@ -21,6 +21,7 @@ namespace Mathematics
 {
 	typedef f32	scalar;
 	typedef std::pair<scalar, scalar> scalarPair;
+	typedef std::complex<scalar> complex;
 	
 	//TODO: define literal some general unit suffix e.g. (1.0s)
 
@@ -48,6 +49,14 @@ namespace Mathematics
 		const static scalar OneOverTwoPi		= 0.1591549430918953357689f;
 		const static scalar DegsPerRad			= 57.2957795130823208768f;
 		const static scalar RadsPerDeg			= 0.01745329251994329576924f;
+	}
+	
+	namespace ConstantIntegers
+	{
+		const static u8 MaxU8					= 0xffui8;
+		const static u16 MaxU16					= 0xffffui16;
+		const static u32 MaxU32					= 0xffffffffui32;
+		const static u64 MaxU64					= 0xffffffffffffffffui64;
 	}
 
 	inline void DropSign(scalar& p_Scalar)
@@ -110,6 +119,14 @@ namespace Mathematics
 	{
 		scalar temp(p_Scalar);
 		InverseSquare(temp);
+		return temp;
+	}
+
+	inline const scalar ClampInclusive(const scalar p_Value, const scalar p_Min, const scalar p_Max)
+	{
+		scalar temp(p_Value);
+		temp = (p_Value > p_Max) ? (p_Max) : (p_Value);
+		temp = (p_Value < p_Min) ? (p_Min) : (p_Value);
 		return temp;
 	}
 

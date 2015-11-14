@@ -11,6 +11,7 @@
 // Includes
 //===========================================================================
 
+#include <algorithm>
 #include "GraphSearch.h"
 
 #endif //#ifndef IncludedAlgorithmsH

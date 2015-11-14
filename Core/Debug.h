@@ -21,7 +21,7 @@
 		writeOutBuffer[writeLength] = '\n';\
 		writeOutBuffer[writeLength + 1] = '\0';\
 		OutputDebugStringA(writeOutBuffer);\
-	}
+		}
 
 	#define Assert(condition, format, ...)\
 	{\
@@ -31,6 +31,8 @@
 			DebugBreak();\
 		}\
 	}
+
+	#define AssertOnly(condition) Assert(condition, #condition);
 
 	#define Verify(condition, format, ...)\
 	{\

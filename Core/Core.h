@@ -15,6 +15,7 @@
 #include "Application.h"
 #include "Common.h"
 #include "Debug.h"
+#include "Timer.h"
 #include "Types.h"
 #include "Window.h"
 

@@ -22,23 +22,26 @@ namespace AbstractsTest
 		{
 			Graph tester;
 			tester.Allocate(3);
-			Graph::Node& invalidNode = tester.GetNode(42);
 			Graph::Node& validNode = tester.GetNode(2);
 			Assert::IsTrue(
 				validNode.GetNumberOfNeighbours() == 0);
 			Graph::Node& otherNode = tester.GetNode(1);
-			validNode.AddNeighbour(&otherNode);
-			otherNode.AddNeighbour(&validNode);
+			validNode.MakeAdjacentTo(&otherNode);
+			otherNode.MakeAdjacentTo(&validNode);
 			Assert::IsTrue(
 				validNode.GetNumberOfNeighbours() == 1);
 			Assert::IsTrue(
 				otherNode.GetNumberOfNeighbours() == 1);
+			tester.Free();
 		}
 		
 		TEST_METHOD(GridConstruction)
 		{
 			Grid testGrid;
-			testGrid.Initialize(203, 5);
+			testGrid.Initialize(3, 3);
+			Assert::AreEqual(testGrid.GetGraph().GetNumberOfNodes(), u32(3 * 3));
+			testGrid.Free();
+			Assert::AreEqual(testGrid.GetGraph().GetNumberOfNodes(), u32(0));
 		}
 	};
 }

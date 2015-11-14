@@ -17,7 +17,6 @@
     <ClInclude Include="SearchContext.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GraphSearch.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="SearchContext.cpp" />
   </ItemGroup>
@@ -61,17 +60,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Mathematics.props" />
-    <Import Project="..\VS 2013 Property Sheets\Abstracts.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Mathematics.props" />
-    <Import Project="..\VS 2013 Property Sheets\Abstracts.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

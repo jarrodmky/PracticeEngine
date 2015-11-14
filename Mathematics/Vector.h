@@ -19,8 +19,6 @@
 
 namespace Mathematics
 {
-	class Matrix;
-
 	class Vector
 	{
 	//Attributes
@@ -34,35 +32,32 @@ namespace Mathematics
 	public:
 		
 		inline Vector(const scalar p_Scalar = ConstantScalars::Zero);
-		inline Vector(const scalar p_X, const scalar p_Y, const scalar p_Z);
+		inline Vector(const scalar p_X, const scalar p_Y, const scalar p_Z = ConstantScalars::Zero);
 
 		//equality
-		inline const bool operator ==(const Vector& p_Lhs) const;
-		inline const bool operator !=(const Vector& p_Lhs) const;
+		inline const bool operator ==(const Vector& p_Rhs) const;
+		inline const bool operator !=(const Vector& p_Rhs) const;
 
 		//arithmetic
 		inline Vector& Negate();
 		inline const Vector operator -() const;
-		inline Vector& operator +=(const Vector& p_Lhs);
-		inline const Vector operator +(const Vector& p_Lhs) const;
-		inline Vector& operator -=(const Vector& p_Lhs);
-		inline const Vector operator -(const Vector& p_Lhs) const;
+		inline Vector& operator +=(const Vector& p_Rhs);
+		inline const Vector operator +(const Vector& p_Rhs) const;
+		inline Vector& operator -=(const Vector& p_Rhs);
+		inline const Vector operator -(const Vector& p_Rhs) const;
 
 		//scalar multiplication
-		inline Vector& operator *=(const scalar& p_Lhs);
-		inline const Vector operator *(const scalar p_Lhs) const;
-		inline Vector& operator /=(const scalar& p_Lhs);
-		inline const Vector operator /(const scalar p_Lhs) const;
+		inline Vector& operator *=(const scalar& p_Rhs);
+		inline const Vector operator *(const scalar p_Rhs) const;
+		inline Vector& operator /=(const scalar& p_Rhs);
+		inline const Vector operator /(const scalar p_Rhs) const;
 
 		//inner (dot) product
-		inline const scalar operator |(const Vector& p_Lhs) const;
-
-		//outer product
-		const Matrix operator ^(const Vector& p_Lhs) const;
+		inline const scalar operator |(const Vector& p_Rhs) const;
 
 		//cross product
-		inline Vector& operator *=(const Vector& p_Lhs);
-		inline const Vector operator *(const Vector& p_Lhs) const;
+		inline Vector& operator *=(const Vector& p_Rhs);
+		inline const Vector operator *(const Vector& p_Rhs) const;
 
 
 	//Methods
@@ -73,17 +68,19 @@ namespace Mathematics
 		inline const scalar Length() const;
 		inline const scalar InverseLength() const;
 
+		inline const scalar ManhattanLength() const;
+
 		//direction
 		inline Vector& Normalize();
 		inline const Vector Direction() const;
 
 		//scalar projection
-		const scalar LengthAlong(const Vector& p_Lhs) const;
-		const scalar AngleBetween(const Vector& p_Lhs) const;
+		const scalar LengthAlong(const Vector& p_Rhs) const;
+		const scalar AngleBetween(const Vector& p_Rhs) const;
 
 		//vector projection
-		Vector& ProjectAlong(const Vector& p_Lhs);
-		const Vector ProjectedAlong(const Vector& p_Lhs) const;
+		Vector& ProjectAlong(const Vector& p_Rhs);
+		const Vector ProjectedAlong(const Vector& p_Rhs) const;
 
 		//boolean
 		inline bool IsNull() const;
@@ -94,10 +91,10 @@ namespace Mathematics
 
 	namespace ConstantVectors
 	{
-		const static Vector Null(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Zero);
-		const static Vector UnitX(ConstantScalars::Unity, ConstantScalars::Zero, ConstantScalars::Zero);
-		const static Vector UnitY(ConstantScalars::Zero, ConstantScalars::Unity, ConstantScalars::Zero);
-		const static Vector UnitZ(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Unity);
+		const static Vector Null(ConstantScalars::Zero);
+		const static Vector I(ConstantScalars::Unity, ConstantScalars::Zero, ConstantScalars::Zero);
+		const static Vector J(ConstantScalars::Zero, ConstantScalars::Unity, ConstantScalars::Zero);
+		const static Vector K(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Unity);
 	};
 
 } // namespace Mathematics

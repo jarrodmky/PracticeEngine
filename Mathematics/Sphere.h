@@ -21,12 +21,24 @@ namespace Mathematics
 {
 	class Sphere
 	{
-		//Attributes
-		public:
+	//Operators
+	public:
+
+		inline Sphere(const scalar& p_X
+			 , const scalar& p_Y
+			 , const scalar& p_Z
+			 , const scalar& p_Radius);
+
+		inline Sphere(const Point& p_Centre, const scalar& p_Radius);
+
+	//Attributes
+	public:
 	
-			Point Centre;
-			scalar Radius;
+		Point Centre;
+		scalar Radius;
 	};
 } // namespace Mathematics
+
+#include "Sphere.inl"
 
 #endif //#ifndef IncludedMathSphereH
