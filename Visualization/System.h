@@ -22,6 +22,15 @@ namespace Visualization
 //====================================================================================================
 	
 
+	enum IndexTopology
+	{
+		PointList,
+		LineList,
+		LineStrip,
+		TriangleList,
+		TriangleStrip
+	};
+
 class System
 {
 public:

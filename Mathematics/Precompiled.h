@@ -12,6 +12,5 @@
 //===========================================================================
 
 #include <Core.h>
-#include <Abstracts.h>
 
 #endif //#ifndef IncludedMathPrecompiledH

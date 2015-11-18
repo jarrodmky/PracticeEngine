@@ -54,5 +54,28 @@ const D3D11_INPUT_ELEMENT_DESC SurfaceVertex::Layout[3] =
 {
 	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	, {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-	, {"COLOR" , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	, {"COLOR" , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
+
+TexturedVertex::TexturedVertex()
+	: Position(Null)
+	, Normal(I)
+	, U(0.0f)
+	, V(0.0f)
+{}
+
+TexturedVertex::TexturedVertex(const Mathematics::Vector& p_Position
+							 , const Mathematics::Vector& p_Normal
+							 , const scalarPair& p_Coords)
+	: Position(p_Position)
+	, Normal(p_Normal)
+	, U(p_Coords.first)
+	, V(p_Coords.second)
+{}
+
+const D3D11_INPUT_ELEMENT_DESC TexturedVertex::Layout[3] = 
+{
+	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	, {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	, {"TEXCOORD" , 0, DXGI_FORMAT_R32G32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0}
 };

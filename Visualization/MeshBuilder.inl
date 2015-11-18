@@ -7,7 +7,7 @@ namespace
 	using VertexSet = std::vector<Mathematics::Vector>;
 	using IndexSet = std::vector<u32>;
 
-	const u32 NumSphereIterations = 9;
+	const u32 g_SphereResolution = 10; // controls poly level of sphere
 
 	void InitTetrahedron(VertexSet& p_Vertices, IndexSet& p_Indices)
 	{
@@ -76,23 +76,42 @@ namespace
 		p_Indices = FracturedIndices;
 	}
 
-	void InitFractalSphere(VertexSet& p_Vertices, IndexSet& p_Indices)
+	void InitFractalSphere(VertexSet& p_Vertices, IndexSet& p_Indices, Visualization::IndexTopology& p_Topology)
 	{
 		InitTetrahedron(p_Vertices, p_Indices);
 
-		for (u32 i = 0; i < NumSphereIterations; ++i)
+		p_Topology = Visualization::TriangleList;
+
+		for (u32 i = 0; i < g_SphereResolution; ++i)
 		{
 			FractureTrianglesToTetrahedrons(p_Vertices, p_Indices);
 		}
 	}
 
-	void InitRingedSphere(VertexSet& p_Vertices, IndexSet& p_Indices)
+	void InitRingedSphere(VertexSet& p_Vertices, IndexSet& p_Indices, Visualization::IndexTopology& p_Topology)
 	{
-		InitTetrahedron(p_Vertices, p_Indices);
+		u32 uRes = 2 * g_SphereResolution + 1;
+		u32 vRes = g_SphereResolution + 1;
+		f32 theta, phi;
 
-		for (u32 i = 0; i < NumSphereIterations; ++i)
+		f32 deltaAngle = Mathematics::ConstantScalars::Pi / static_cast<f32>(g_SphereResolution);
+
+		p_Topology = Visualization::TriangleStrip;
+
+		for (u32 v = 0; v < vRes; ++v)
 		{
-			FractureTrianglesToTetrahedrons(p_Vertices, p_Indices);
+			for (u32 u = 0; u < uRes; ++u)
+			{
+				theta = static_cast<f32>(u) * deltaAngle;
+
+				for (u32 k = 0; k < 2; ++k)
+				{
+					phi = static_cast<f32>(v + k) * deltaAngle;
+
+					p_Vertices.push_back(Mathematics::SphericalToCartesian(Mathematics::Vector(1.0f, phi, theta)));
+					p_Indices.push_back(p_Vertices.size() - 1);
+				}
+			}
 		}
 	}
 }
@@ -104,7 +123,7 @@ namespace
 namespace Visualization
 {
 	template <typename t_MeshType>
-	void MeshBuilder<t_MeshType>::CreateQuad(t_MeshType& p_Mesh)
+	void MeshBuilder::CreateQuad(t_MeshType& p_Mesh)
 	{
 		p_Mesh.Allocate(4, 6);
 
@@ -129,7 +148,7 @@ namespace Visualization
 //----------------------------------------------------------------------------------------------------
 
 	template <typename t_MeshType>
-	void MeshBuilder<t_MeshType>::CreateCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width)
+	void MeshBuilder::CreateCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width)
 	{
 		p_Mesh.Allocate(8, 36);
 
@@ -194,14 +213,15 @@ namespace Visualization
 //----------------------------------------------------------------------------------------------------
 
 	template <typename t_MeshType>
-	void MeshBuilder<t_MeshType>::CreateSphere(t_MeshType& p_Mesh, const Mathematics::Sphere& p_Sphere)
+	void MeshBuilder::CreateSphere(t_MeshType& p_Mesh, const Mathematics::Sphere& p_Sphere)
 	{
-		VertexSet vertices;
-		IndexSet indices;
+		VertexSet vertices(0);
+		IndexSet indices(0);
+		IndexTopology topology = PointList;
 
-		//TODO:Apply transform to get on centre and radius
+		InitRingedSphere(vertices, indices, topology);
 
-		InitFractalSphere(vertices, indices);
+		p_Mesh.Topology = topology;
 
 		const u32 numVs = vertices.size();
 		const u32 numIs = indices.size();
@@ -210,12 +230,17 @@ namespace Visualization
 
 		for(u32 j = 0; j < numVs; ++j)
 		{
-			p_Mesh.GetVertex(j).Position = vertices[j];
+			p_Mesh.GetVertex(j).Position = (p_Sphere.Centre + (p_Sphere.Radius * vertices[j])) - ConstantPoints::Origin;
 		}
 
 		for(u32 j = 0; j < numVs; ++j)
 		{
-			p_Mesh.GetVertex(j).Colour = LinearColour(vertices[j].x, vertices[j].y, vertices[j].z, 1.0f);
+			p_Mesh.GetVertex(j).Normal = vertices[j];
+		}
+
+		for(u32 j = 0; j < numVs; ++j)
+		{
+			//p_Mesh.GetVertex(j).Colour = ConstantColours::White;
 		}
 
 		for(u32 j = 0; j < numIs; ++j)

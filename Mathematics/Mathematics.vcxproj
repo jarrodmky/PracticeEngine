@@ -11,6 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
+      <Project>{e8eaa466-1c84-4356-a157-49f11ae03eb3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Algebra.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Interval.h" />
@@ -28,13 +36,6 @@
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Precompiled.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
-    <ClCompile Include="Random.cpp" />
-    <ClCompile Include="Vector.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Interval.inl" />
     <None Include="Matrix.inl" />
     <None Include="Plane.inl" />
@@ -44,31 +45,16 @@
     <None Include="Vector.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
-      <Project>{e8eaa466-1c84-4356-a157-49f11ae03eb3}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A1812159-EAC0-4307-B5E8-42BBD5B3F262}</ProjectGuid>
+    <ProjectGuid>{D7CD47EF-70F5-44CD-959D-A45E5A44FBD7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Mathematics</RootNamespace>
-    <SccProjectName>$/SimulacraEngine/Mathematics</SccProjectName>
-    <SccAuxPath>https://fornicationstation.visualstudio.com/defaultcollection</SccAuxPath>
-    <SccLocalPath>.</SccLocalPath>
-    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -92,53 +78,33 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\VS 2013 Property Sheets\Core.props" />
-    <Import Project="..\VS 2013 Property Sheets\Precompiled.props" />
-    <Import Project="..\VS 2013 Property Sheets\Algorithms.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <SourcePath>$(VC_SourcePath);</SourcePath>
-    <IncludePath>..\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <SourcePath>$(VC_SourcePath);</SourcePath>
-    <IncludePath>..\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile />
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile />
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,12 +112,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

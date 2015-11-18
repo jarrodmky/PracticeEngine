@@ -12,7 +12,9 @@
 // Includes
 //===========================================================================
 
+#include <Mathematics.h>
 #include "System.h"
+#include "LinearColour.h"
 #include "Vertices.h"
 #include "Buffers.h"
 #include "ConstantBuffer.h"
@@ -25,11 +27,19 @@
 
 namespace Visualization
 {
-	struct TransformData
+	struct SceneData
 	{
 		DirectX::XMMATRIX MatWorld;
 		DirectX::XMMATRIX MatView;
 		DirectX::XMMATRIX MatProjection;
+		Mathematics::Vector ViewPosition;
+		Mathematics::Vector LightDirection;
+		LinearColour LightAmbient;
+		LinearColour LightDiffuse;
+		LinearColour LightSpecular;
+		LinearColour MaterialAmbient;
+		LinearColour MaterialDiffuse;
+		LinearColour MaterialSpecular;
 	};
 
 	class Solid
@@ -37,15 +47,15 @@ namespace Visualization
 	//Attributes
 	public:
 
-		Mesh<BasicVertex> Mesh;
+		Mesh<TexturedVertex> Mesh;
 
 	private:
 
 		System& m_GraphicsSystem;
 
-		TypedConstantBuffer<TransformData> m_TransformBuffer;
+		TypedConstantBuffer<SceneData> m_TransformBuffer;
 		
-		VertexBuffer<BasicVertex> m_VertexBuffer;
+		VertexBuffer<TexturedVertex> m_VertexBuffer;
 
 		IndexBuffer<u32> m_IndexBuffer;
 
@@ -71,7 +81,7 @@ namespace Visualization
 
 		void Terminate();
 
-		void Render(const TransformData& p_Transformations) const;
+		void Render(const SceneData& p_Transformations) const;
 
 	};
 }

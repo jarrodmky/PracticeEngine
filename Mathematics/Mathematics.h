@@ -22,8 +22,21 @@
 
 namespace Mathematics
 {
-	Matrix RotationMatrix(const Vector& p_Axis, const scalar p_Angle);
-	Matrix RotationMatrix(const Quaternion& p_Rotation);
+
+	//vector outer product
+	inline const Matrix operator ^(const Vector& p_Lhs, const Vector& p_Rhs)
+	{
+		//TODO
+
+		return Matrix(Vector(), Vector(), Vector(), ConstantPoints::Origin);
+	}
+
+	inline Matrix RotationMatrixLH(const Vector& p_Axis, const scalar p_Angle)
+	{
+
+	}
+
+	Matrix RotationMatrixLH(const Quaternion& p_Rotation);
 
 	inline Vector InterpolateLinearly(const Vector& p_A, const Vector& p_B, const scalar p_Ratio)
 	{

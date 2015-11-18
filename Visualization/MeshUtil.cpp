@@ -77,7 +77,7 @@ void CreateVertexLayout(u32 vertexFormat, std::vector<D3D11_INPUT_ELEMENT_DESC>&
 		layout.push_back(desc);
 		offset += 16;
 	}
-	if (vertexFormat & VertexFormat::Texture)
+	if (vertexFormat & VertexFormat::Textured)
 	{
 		D3D11_INPUT_ELEMENT_DESC desc;
 		desc.SemanticName = "TEXCOORD";

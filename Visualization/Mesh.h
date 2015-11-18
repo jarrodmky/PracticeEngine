@@ -51,6 +51,7 @@ namespace Visualization
 
 		u32 GetIndexCount() const				{ return m_IndexCount; }
 
+	//Attributes
 	private:
 
 		t_VertexType* m_VertexBuffer;
@@ -58,6 +59,10 @@ namespace Visualization
 
 		u32 m_VertexCount;
 		u32 m_IndexCount;
+
+	public:
+
+		IndexTopology Topology;
 	};
 }
 

@@ -73,6 +73,7 @@ namespace Mathematics
 
 		NonInstantiable(Random);
 
+		//xor shift 64 bit
 		static u64 Unsigned64_64()
 		{
 			m_Seed64 ^= m_Seed64 >> 12;
@@ -81,6 +82,7 @@ namespace Mathematics
 			return m_Seed64 * u64(2685821657736338717);
 		}
 
+		//xorshift 1024 bit
 		static u64 Unsigned64_1024()
 		{
 			u64 s0 = m_Seed1024[m_Step];

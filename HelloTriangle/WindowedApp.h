@@ -13,7 +13,7 @@
 
 #include <Core.h>
 #include <Visualization.h>
-#include "Buffer.h"
+#include "Buffers.h"
 
 //===========================================================================
 // Classes
@@ -48,9 +48,9 @@ protected:
 
 	Visualization::Mesh<Visualization::BasicVertex> m_Mesh;
 	
-	Visualization::Buffer<Visualization::VertexBuffer, Visualization::BasicVertex> m_VertexBuffer;
+	Visualization::VertexBuffer<Visualization::BasicVertex> m_VertexBuffer;
 
-	Visualization::Buffer<Visualization::IndexBuffer, u32> m_IndexBuffer;
+	Visualization::IndexBuffer<u32> m_IndexBuffer;
 
 	Visualization::VertexShader m_VertexShader;
 

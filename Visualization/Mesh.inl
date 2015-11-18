@@ -11,6 +11,7 @@ namespace Visualization
 	, m_IndexBuffer(nullptr)
 	, m_VertexCount(0)
 	, m_IndexCount(0)
+	, Topology(PointList)
 	{}
 
 //---------------------------------------------------------------------------

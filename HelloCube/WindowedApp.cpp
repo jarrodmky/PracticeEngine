@@ -10,7 +10,6 @@
 #include "WindowedApp.h"
 #include <Abstracts.h>
 #include <Algorithms.h>
-#include <Visualization.h>
 
 using namespace Visualization;
 using namespace Mathematics;
@@ -25,7 +24,8 @@ WindowedApp::WindowedApp()
 : Core::Application()
 , m_Viewport()
 , m_GraphicSystem()
-, m_Mesh(m_GraphicSystem)
+, m_Sphere1(m_GraphicSystem)
+, m_Sphere2(m_GraphicSystem)
 , m_Timer()
 , m_Light()
 , m_Material()
@@ -47,18 +47,32 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 	m_GraphicSystem.Initialize(m_Viewport.GetWindowHandle(), false);
 	
 	//MeshBuilder<decltype(m_Mesh.Mesh)>::CreateCube(m_Mesh.Mesh, Point(0.0f, 0.0f, 0.0f), 3.0f);
-	MeshBuilder<decltype(m_Mesh.Mesh)>::CreateSphere(m_Mesh.Mesh, Sphere(Point(0.0f, 0.0f, 0.0f), 1.0f));
+	MeshBuilder::CreateSphere(m_Sphere1.Mesh, Sphere(Point(0.0f, 0.0f, 0.0f), 1.0f));
+	MeshBuilder::CreateSphere(m_Sphere2.Mesh, Sphere(Point(1.0f, 0.0f, 0.0f), 1.0f));
 
-	m_Mesh.Initialize();
+	m_Sphere1.Initialize();
+	m_Sphere2.Initialize();
 
 	m_Timer.Initialize();
+
+
+	m_Light.Position = Vector(2.0f, 0.0f, 0.0f);
+	m_Light.Ambient = ConstantColours::DarkGray;
+	m_Light.Diffuse = ConstantColours::Chartreuse;
+	m_Light.Specular = ConstantColours::White;
+
+	m_Material.Ambient = ConstantColours::White;
+	m_Material.Diffuse = ConstantColours::White;
+	m_Material.Specular = ConstantColours::White;
+
 }
 
 //---------------------------------------------------------------------------
 
 void WindowedApp::OnTerminate()
 {
-	m_Mesh.Terminate();
+	m_Sphere1.Terminate();
+	m_Sphere2.Terminate();
 
 	//Direct3D
 	m_GraphicSystem.Terminate();
@@ -90,7 +104,7 @@ void WindowedApp::OnUpdate()
 
 
 	//get matrices
-	TransformData data;
+	SceneData data;
 
 	data.MatWorld = DirectX::XMMatrixRotationY(t) * DirectX::XMMatrixRotationZ(1.5f * t);
 
@@ -103,7 +117,19 @@ void WindowedApp::OnUpdate()
 	//projection
 	data.MatProjection = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, 1024.0f / 768.0f, 0.01f, 100.0f));
 
-	m_Mesh.Render(data);
+	data.ViewPosition = Vector(0.0f, 1.0f, -5.0f);
+
+	data.LightDirection = m_Light.Position;
+	data.LightAmbient = m_Light.Ambient;
+	data.LightDiffuse = m_Light.Diffuse;
+	data.LightSpecular = m_Light.Specular;
+
+	data.MaterialAmbient = m_Material.Ambient;
+	data.MaterialDiffuse = m_Material.Diffuse;
+	data.MaterialSpecular = m_Material.Specular;
+
+	m_Sphere1.Render(data);
+	m_Sphere2.Render(data);
 
 	m_GraphicSystem.EndRender();
 }

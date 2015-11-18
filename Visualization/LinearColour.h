@@ -34,7 +34,7 @@ namespace Visualization
 
 		LinearColour(f32 p_Red, f32 p_Green, f32 Blue, f32 Alpha);
 
-		LinearColour(const u32 p_HexRGB);
+		LinearColour(const u32 p_HexRGB = 0);
 
 		LinearColour& operator +=(const LinearColour& p_Other);
 

@@ -25,10 +25,10 @@ namespace Mathematics
 // Operators
 //===========================================================================
 
-	inline const Vector operator *(const scalar p_Lhs, const Vector& p_Rhs);
-
-	//vector outer product
-	const Matrix operator ^(const Vector& p_Lhs, const Vector& p_Rhs);
+	inline const Vector operator *(const scalar p_Lhs, const Vector& p_Rhs)
+	{
+		return p_Rhs * p_Lhs;
+	}
 
 //===========================================================================
 // Functions
@@ -58,6 +58,20 @@ namespace Mathematics
 
 	//True if a plane intersects a plane, false otherwise. Sets the line of intersection
 	const bool PlaneIntersectsPlane(const Plane& p_Plane1, const Plane& p_Plane2, Line& p_Line);
+	
+
+//Coordinate Transforms
+
+	inline const Vector SphericalToCartesian(const Vector& p_RadPhiTheta)
+	{
+		scalar st = sin(p_RadPhiTheta.z);
+		scalar sp = sin(p_RadPhiTheta.y);
+		scalar ct = cos(p_RadPhiTheta.z);
+		scalar cp = cos(p_RadPhiTheta.y);
+		scalar rad = p_RadPhiTheta.x;
+
+		return Vector(rad * ct * sp, rad * st * sp, rad * cp);
+	}
 }
 
 #endif //#ifndef IncludedGeometryH

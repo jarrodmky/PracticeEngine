@@ -23,6 +23,8 @@
 #include "Solid.h"
 #include "Material.h"
 #include "Light.h"
+#include "Sampler.h"
+#include "Texture.h"
 
 //===========================================================================
 // Definitions

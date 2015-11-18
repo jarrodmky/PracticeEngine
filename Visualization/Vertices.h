@@ -27,7 +27,7 @@ namespace Visualization
 		Position	= 0x1 << 0,
 		Colour		= 0x1 << 1,
 		Normal		= 0x1 << 2,
-		Texture		= 0x1 << 3
+		Textured		= 0x1 << 3
 	};
 
 //===========================================================================
@@ -75,10 +75,10 @@ namespace Visualization
 		SurfaceVertex(const Mathematics::Vector& p_Position, const LinearColour& p_Colour, const Mathematics::Vector& p_Normal);
 	};
 
-	struct TexturedSurfaceVertex
+	struct TexturedVertex
 	{
 		//Attributes
-		const static u32 Format = Position | Colour | Normal | Texture;
+		const static u32 Format = Position | Normal | Textured;
 
 		const static D3D11_INPUT_ELEMENT_DESC Layout[3];
 
@@ -88,12 +88,14 @@ namespace Visualization
 
 		Mathematics::Vector Normal;
 
-		LinearColour Colour;
+		f32 U;
+
+		f32 V;
 
 		//Operators
-		TexturedSurfaceVertex();
+		TexturedVertex();
 
-		TexturedSurfaceVertex(const Mathematics::Vector& p_Position, const LinearColour& p_Colour, const Mathematics::Vector& p_Normal);
+		TexturedVertex(const Mathematics::Vector& p_Position, const Mathematics::Vector& p_Normal, const Mathematics::scalarPair& p_Coords);
 	};
 
 //===========================================================================
@@ -117,7 +119,7 @@ namespace Visualization
 
 	inline bool HasTexture(const u32 p_Format)
 	{
-		return (p_Format & Texture) != 0;
+		return (p_Format & Textured) != 0;
 	}
 
 }

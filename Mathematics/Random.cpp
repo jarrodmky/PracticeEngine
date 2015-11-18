@@ -1,3 +1,4 @@
+#include "Precompiled.h"
 #include "Random.h"
 
 using namespace Mathematics;

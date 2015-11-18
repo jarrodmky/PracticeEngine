@@ -34,6 +34,8 @@ void Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width
 	m_Instance = p_Instance;
 	m_AppName = p_AppName;
 
+	CoInitialize(nullptr);
+
 	OnInitialize(p_Width, p_Height);
 }
 
@@ -42,6 +44,8 @@ void Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width
 void Application::Terminate()
 {
 	OnTerminate();
+
+	CoUninitialize();
 }
 
 //---------------------------------------------------------------------------

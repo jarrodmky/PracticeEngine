@@ -26,6 +26,12 @@
     <ClCompile Include="Solid.cpp">
       <Filter>Meshes</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Texturing</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>Texturing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
@@ -72,6 +78,12 @@
     <ClInclude Include="Buffers.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>Texturing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -85,6 +97,9 @@
     </Filter>
     <Filter Include="Lighting">
       <UniqueIdentifier>{cad7dbb6-ade3-4663-ae4b-30aad73e8e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texturing">
+      <UniqueIdentifier>{1ba9477e-ff9a-41bd-9a6b-ccb73359edcc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

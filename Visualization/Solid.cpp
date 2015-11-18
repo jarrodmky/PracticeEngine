@@ -38,13 +38,13 @@ void Solid::Initialize()
 	m_VertexBuffer.Allocate(Mesh.GetVertices(), Mesh.GetVertexCount(), m_GraphicsSystem.GetDevice());
 
 	//index buffer
-	m_IndexBuffer.Allocate(Mesh.GetIndices(), Mesh.GetIndexCount(),  m_GraphicsSystem.GetDevice(), TriangleList);
+	m_IndexBuffer.Allocate(Mesh.GetIndices(), Mesh.GetIndexCount(),  m_GraphicsSystem.GetDevice(), Mesh.Topology);
 
 	//vertex shader compile
-	m_VertexShader.Compile(L"../Data/Shaders/DoSomethingElse.fx", m_GraphicsSystem.GetDevice());
+	m_VertexShader.Compile(L"../Data/Shaders/Lighting.fx", m_GraphicsSystem.GetDevice());
 
 	//pixel shader compile
-	m_PixelShader.Compile(L"../Data/Shaders/DoSomethingElse.fx", m_GraphicsSystem.GetDevice());
+	m_PixelShader.Compile(L"../Data/Shaders/Lighting.fx", m_GraphicsSystem.GetDevice());
 
 	m_IndexCount = Mesh.GetIndexCount();
 	Mesh.Destroy();
@@ -60,7 +60,7 @@ void Solid::Terminate()
 	m_TransformBuffer.Terminate();
 }
 
-void Solid::Render(const TransformData& p_Transformations) const
+void Solid::Render(const SceneData& p_Transformations) const
 {
 	ID3D11DeviceContext* context = m_GraphicsSystem.GetContext();
 

@@ -20,15 +20,18 @@ cbuffer ConstantBuffer : register( b0 )
 	vector materialAmbient;
 	vector materialDiffuse;
 	vector materialSpecular;
-}
+};
+
+Texture2D diffuseMap : register(t0);
+SamplerState sampleTaker : register(s0);
 
 //--------------------------------------------------------------------------------------
 
 struct VS_INPUT
 {
-    float4 position : POSITION;
-	float4 normal : NORMAL;
-    float4 texCoord : TEXCOORD;
+    float3 position : POSITION;
+	float3 normal : NORMAL;
+    float2 texCoord : TEXCOORD;
 };
 
 //--------------------------------------------------------------------------------------
@@ -36,10 +39,10 @@ struct VS_INPUT
 struct VS_OUTPUT
 {
     float4 position : SV_POSITION;
-    float4 normal : TEXCOORD0;
-    float4 dirToLight : TEXCOORD1;
-    float4 dirToView : TEXCOORD2;
-    float4 texCoord : TEXCOORD3;
+    float3 normal : TEXCOORD0;
+    float3 dirToLight : TEXCOORD1;
+    float3 dirToView : TEXCOORD2;
+    float2 texCoord : TEXCOORD3;
 };
 
 //--------------------------------------------------------------------------------------
@@ -49,22 +52,22 @@ VS_OUTPUT VS( VS_INPUT input )
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
 
-	float4 posWorld = mul(input.Position, World);
-    float4 posView = mul( PosWorld, View );
-    float4 posProj = mul( PosView, Projection );
+	float4 posWorld = mul(input.position, world);
+    float4 posView = mul( posWorld, view );
+    float4 posProj = mul( posView, projection );
 	
-	float4 normal = mul(float4(input.Normal, 0.0f), World).xyz;
+	float3 normal = mul(float4(input.normal.xyz, 0.0f), world).xyz;
 	normal = normalize(normal);
 
-	float3 DirToLight = -normalize(LightDirection.xyz);
-	float3 DirToView = normalize(ViewPosition.xyz - PosWorld.xyz);
+	float3 dirToLight = -normalize(lightDirection.xyz);
+	float3 dirToView = normalize(viewPosition.xyz - posWorld.xyz);
 
 
-    output.Position = PosProj;
-	output.Normal = normal;
-	output.DirToLight = DirToLight;
-	output.DirToView = DirToView;
-	output.TexCoord = TexCoord;
+    output.position = posProj;
+	output.normal = normal;
+	output.dirToLight = dirToLight;
+	output.dirToView = dirToView;
+	output.texCoord = input.texCoord;
 
     return output;
 }
@@ -85,9 +88,11 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 	float d = saturate(dot(dirToLight, normal));
 	float4 diffuse = d * lightDiffuse * materialDiffuse;
 
-	float4 r = reflect(-dirToLight, normal);
+	float3 r = reflect(-dirToLight, normal);
 	float s = saturate(dot(r, dirToView));
 	float4 specular = s * lightSpecular * materialSpecular;
 
-	return ambient + diffuse + specular;
+	float4 diffuseColour = diffuseMap.Sample(sampleTaker, input.texCoord);
+
+	return (ambient + diffuse) * diffuseColour + specular;
 }

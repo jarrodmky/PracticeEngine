@@ -34,9 +34,6 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
-      <Project>{a1812159-eac0-4307-b5e8-42bbd5b3f262}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{781FDB4A-C3D4-4C9C-B417-3D0A479F5677}</ProjectGuid>

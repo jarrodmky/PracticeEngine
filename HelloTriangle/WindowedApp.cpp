@@ -58,7 +58,7 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 	m_VertexBuffer.Allocate(m_Mesh.GetVertices(), m_Mesh.GetVertexCount(), m_GraphicSystem.GetDevice());
 
 	//index buffer
-	m_IndexBuffer.Allocate(m_Mesh.GetIndices(), m_Mesh.GetIndexCount(),  m_GraphicSystem.GetDevice());
+	m_IndexBuffer.Allocate(m_Mesh.GetIndices(), m_Mesh.GetIndexCount(),  m_GraphicSystem.GetDevice(), TriangleList);
 
 	//vertex shader compile
 	m_VertexShader.Compile(L"../Data/Shaders/DoSomething.fx", m_GraphicSystem.GetDevice());

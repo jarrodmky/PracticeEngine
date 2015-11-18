@@ -41,8 +41,8 @@ void VertexShader::Compile(LPCWSTR p_FileName, ID3D11Device* p_Device)
 	, &m_ShaderPointer);
 
 	p_Device->CreateInputLayout
-		( BasicVertex::Layout
-		, BasicVertex::NumberOfComponents
+		( TexturedVertex::Layout
+		, TexturedVertex::NumberOfComponents
 		, shaderBlob->GetBufferPointer()
 		, shaderBlob->GetBufferSize()
 		, &m_InputLayout);

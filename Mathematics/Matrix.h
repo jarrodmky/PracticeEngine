@@ -12,6 +12,7 @@
 //===========================================================================
 
 #include "MathBase.h"
+#include "../Abstracts/Array.h"
 #include "Vector.h"
 #include "Point.h"
 
@@ -33,10 +34,10 @@ namespace Mathematics
 		
 		inline Matrix(const scalar p_Value = ConstantScalars::Zero);
 
-		inline Matrix(const Vector p_FirstAxis
-					, const Vector p_SecondAxis
-					, const Vector p_ThirdAxis
-					, const Point p_Origin);
+		Matrix(const Vector p_FirstAxis
+			 , const Vector p_SecondAxis
+			 , const Vector p_ThirdAxis
+			 , const Point p_Origin);
 
 		Matrix(const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3, const scalar p_r1c4
 			 , const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3, const scalar p_r2c4

@@ -1,0 +1,18 @@
+Nove. 14, 2015
+
+-would be nice if the mesh builder could set the topolgy to give more methods of geomtric construction
+-need a physics engine of some sort, Particles only would be very cool
+
+
+Nov. 7, 2015
+
+-Frame class gives
+
+-Needs a solid or simple geometries (cone, cube, shpere etc.) that can be created, destroyed and drawn with a basic shader
+
+	--> Mesh can be created, saved to vram and then destroyed and only rendered with transform
+
+
+-Intervals, for scalar, vectors or quaternions etc. would be cool
+
+-extending intervals into safe functions (if input is not in interval, error) would be useful for manual, non-physical control or physical controll....

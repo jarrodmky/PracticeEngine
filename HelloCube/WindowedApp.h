@@ -12,6 +12,7 @@
 //===========================================================================
 
 #include <Core.h>
+#include <Mathematics.h>
 #include <Visualization.h>
 
 //===========================================================================
@@ -46,7 +47,9 @@ protected:
 
 	Visualization::System m_GraphicSystem;
 
-	Visualization::Solid m_Mesh;
+	Visualization::Solid m_Sphere1;
+
+	Visualization::Solid m_Sphere2;
 
 	Core::Timer m_Timer;
 

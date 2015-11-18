@@ -102,9 +102,6 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
-      <Project>{a1812159-eac0-4307-b5e8-42bbd5b3f262}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Visualization\Visualization.vcxproj">
       <Project>{42f4e3e6-7d3c-4c8f-858a-fe3b9f3a36f1}</Project>
     </ProjectReference>
