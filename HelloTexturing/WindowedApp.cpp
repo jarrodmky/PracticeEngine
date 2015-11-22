@@ -23,12 +23,11 @@ using namespace Algorithms;
 WindowedApp::WindowedApp()
 : Core::Application()
 , m_Viewport()
+, m_Camera()
 , m_GraphicSystem()
-, m_Sphere1(m_GraphicSystem)
-, m_Sphere2(m_GraphicSystem)
+, m_Sphere(m_GraphicSystem)
 , m_Timer()
 , m_Light()
-, m_Material()
 , m_Texture()
 , m_Sampler()
 {}
@@ -48,12 +47,11 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 	//Direct3D
 	m_GraphicSystem.Initialize(m_Viewport.GetWindowHandle(), false);
 	
-	//MeshBuilder<decltype(m_Mesh.Mesh)>::CreateCube(m_Mesh.Mesh, Point(0.0f, 0.0f, 0.0f), 3.0f);
-	MeshBuilder::CreateSphere(m_Sphere1.Mesh, Sphere(Point(0.0f, 0.0f, 0.0f), 1.0f));
-	MeshBuilder::CreateSphere(m_Sphere2.Mesh, Sphere(Point(1.0f, 0.0f, 0.0f), 1.0f));
+	MeshBuilder::CreateSphere(m_Sphere.Mesh, Sphere(Point(0.0f, 0.0f, 0.0f), 1.0f));
 
-	m_Sphere1.Initialize();
-	m_Sphere2.Initialize();
+	Material mat = Material(ConstantColours::DarkRed, ConstantColours::Blue, ConstantColours::White);
+
+	m_Sphere.Initialize(mat);
 
 	m_Timer.Initialize();
 
@@ -61,14 +59,10 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 
 	m_Sampler.Initialize(m_GraphicSystem, Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 
-	m_Light.Position = Vector(2.0f, 0.0f, 0.0f);
+	m_Light.Position = Vector(0.0f, 0.0f, 0.0f);
 	m_Light.Ambient = ConstantColours::White;
 	m_Light.Diffuse = ConstantColours::White;
 	m_Light.Specular = ConstantColours::White;
-
-	m_Material.Ambient = ConstantColours::White;
-	m_Material.Diffuse = ConstantColours::White;
-	m_Material.Specular = ConstantColours::White;
 
 }
 
@@ -80,8 +74,7 @@ void WindowedApp::OnTerminate()
 
 	m_Texture.Terminate();
 
-	m_Sphere2.Terminate();
-	m_Sphere1.Terminate();
+	m_Sphere.Terminate();
 
 	//Direct3D
 	m_GraphicSystem.Terminate();
@@ -103,7 +96,7 @@ void WindowedApp::OnUpdate()
 	m_Timer.Update();
 
 	//direct3D
-	m_GraphicSystem.BeginRender(ConstantColours::Indigo);
+	m_GraphicSystem.BeginRender();
 
 	//rendering
 	ID3D11DeviceContext* context = m_GraphicSystem.GetContext();
@@ -114,32 +107,29 @@ void WindowedApp::OnUpdate()
 	m_Sampler.BindPixelShader(m_GraphicSystem, 0);
 
 	//get matrices
-	SceneData data;
+	TransformData data;
 
 	data.MatWorld = DirectX::XMMatrixRotationY(t) * DirectX::XMMatrixRotationZ(1.5f * t);
 
 	//view matrix
-	DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 1.0f, -5.0f, 0.0f);
-	DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 1.0f, -0.0f, 0.0f);
-	DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, -0.0f, 0.0f);
+	DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, 3.0f, 0.0f);
+	DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	data.MatView = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(Eye, At, Up));
 
 	//projection
-	data.MatProjection = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, 1024.0f / 768.0f, 0.01f, 100.0f));
+	data.MatProjection = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(ConstantScalars::PiOverTwo, 1024.0f / 768.0f, 0.01f, 100.0f));
 
-	data.ViewPosition = Vector(0.0f, 1.0f, -5.0f);
+	LightingData lights;
 
-	data.LightDirection = m_Light.Position;
-	data.LightAmbient = m_Light.Ambient;
-	data.LightDiffuse = m_Light.Diffuse;
-	data.LightSpecular = m_Light.Specular;
+	lights.ViewPosition = Vector(0.0f, 0.0f, -5.0f);
+	lights.LightDirection = m_Light.Position;
 
-	data.MaterialAmbient = m_Material.Ambient;
-	data.MaterialDiffuse = m_Material.Diffuse;
-	data.MaterialSpecular = m_Material.Specular;
+	lights.LightAmbient = m_Light.Ambient;
+	lights.LightDiffuse = m_Light.Diffuse;
+	lights.LightSpecular = m_Light.Specular;
 
-	m_Sphere1.Render(data);
-	m_Sphere2.Render(data);
+	m_Sphere.Render(data, &lights);
 
 	m_GraphicSystem.EndRender();
 }

@@ -24,7 +24,7 @@ namespace Visualization
 	//Definitions
 	public:
 
-		using Vertex = t_VertexType;
+		using VertexType = t_VertexType;
 
 	//Operators
 	public:

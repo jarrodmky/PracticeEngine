@@ -19,7 +19,10 @@ using namespace Visualization;
 Solid::Solid(System& p_GraphicsSystem)
 	: Mesh()
 	, m_GraphicsSystem(p_GraphicsSystem)
+	, m_Material()
 	, m_TransformBuffer()
+	, m_LightingBuffer()
+	, m_MaterialBuffer()
 	, m_VertexBuffer()
 	, m_IndexBuffer()
 	, m_VertexShader()
@@ -30,9 +33,12 @@ Solid::Solid(System& p_GraphicsSystem)
 Solid::~Solid()
 {}
 
-void Solid::Initialize()
+void Solid::Initialize(const Material& p_Material)
 {
+	m_Material = p_Material;
 	m_TransformBuffer.Initialize(m_GraphicsSystem);
+	m_LightingBuffer.Initialize(m_GraphicsSystem);
+	m_MaterialBuffer.Initialize(m_GraphicsSystem);
 
 	//Vertex buffer
 	m_VertexBuffer.Allocate(Mesh.GetVertices(), Mesh.GetVertexCount(), m_GraphicsSystem.GetDevice());
@@ -55,12 +61,14 @@ void Solid::Terminate()
 	m_PixelShader.Release();
 	m_VertexShader.Release();
 	m_IndexBuffer.Free();
-	m_VertexBuffer.Free();;
-
+	m_VertexBuffer.Free();
+	
+	m_MaterialBuffer.Terminate();
+	m_LightingBuffer.Terminate();
 	m_TransformBuffer.Terminate();
 }
 
-void Solid::Render(const SceneData& p_Transformations) const
+void Solid::Render(const TransformData& p_Transformations, const LightingData* p_Lighting) const
 {
 	ID3D11DeviceContext* context = m_GraphicsSystem.GetContext();
 
@@ -69,6 +77,21 @@ void Solid::Render(const SceneData& p_Transformations) const
 
 	m_TransformBuffer.Set(m_GraphicsSystem, p_Transformations);
 	m_TransformBuffer.BindVS(m_GraphicsSystem, 0);
+
+	MaterialData mat = { m_Material.Ambient
+					   , m_Material.Diffuse
+					   , m_Material.Specular};
+
+	m_MaterialBuffer.Set(m_GraphicsSystem, mat);
+	m_MaterialBuffer.BindPS(m_GraphicsSystem, 1);
+
+	if(p_Lighting != nullptr)
+	{
+		m_LightingBuffer.Set(m_GraphicsSystem, *p_Lighting);
+		m_LightingBuffer.BindVS(m_GraphicsSystem, 2);
+		m_LightingBuffer.BindPS(m_GraphicsSystem, 2);
+	}
+	
 	m_VertexBuffer.Bind(context);
 	m_IndexBuffer.Bind(context);
 

@@ -40,10 +40,10 @@
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vertices.cpp" />
-    <ClCompile Include="Visualization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffers.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ConicColour.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Light.h" />
@@ -66,6 +66,7 @@
     <None Include="Buffers.inl" />
     <None Include="Mesh.inl" />
     <None Include="MeshBuilder.inl" />
+    <None Include="Shaders.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}</ProjectGuid>

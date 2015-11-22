@@ -20,6 +20,7 @@
 #include "ConstantBuffer.h"
 #include "Shaders.h"
 #include "Mesh.h"
+#include "Material.h"
 
 //===========================================================================
 // Classes
@@ -27,19 +28,27 @@
 
 namespace Visualization
 {
-	struct SceneData
+	struct TransformData
 	{
 		DirectX::XMMATRIX MatWorld;
 		DirectX::XMMATRIX MatView;
 		DirectX::XMMATRIX MatProjection;
+	};
+
+	struct MaterialData
+	{
+		LinearColour MaterialAmbient;
+		LinearColour MaterialDiffuse;
+		LinearColour MaterialSpecular;
+	};
+
+	struct LightingData
+	{
 		Mathematics::Vector ViewPosition;
 		Mathematics::Vector LightDirection;
 		LinearColour LightAmbient;
 		LinearColour LightDiffuse;
 		LinearColour LightSpecular;
-		LinearColour MaterialAmbient;
-		LinearColour MaterialDiffuse;
-		LinearColour MaterialSpecular;
 	};
 
 	class Solid
@@ -47,19 +56,25 @@ namespace Visualization
 	//Attributes
 	public:
 
-		Mesh<TexturedVertex> Mesh;
+		Mesh<ShadedVertex> Mesh;
 
 	private:
 
 		System& m_GraphicsSystem;
 
-		TypedConstantBuffer<SceneData> m_TransformBuffer;
+		Material m_Material;
+
+		TypedConstantBuffer<TransformData> m_TransformBuffer;
+
+		TypedConstantBuffer<LightingData> m_LightingBuffer;
+
+		TypedConstantBuffer<MaterialData> m_MaterialBuffer;
 		
-		VertexBuffer<TexturedVertex> m_VertexBuffer;
+		VertexBuffer<ShadedVertex> m_VertexBuffer;
 
 		IndexBuffer<u32> m_IndexBuffer;
 
-		VertexShader m_VertexShader;
+		VertexShader<ShadedVertex> m_VertexShader;
 
 		PixelShader m_PixelShader;
 
@@ -77,11 +92,11 @@ namespace Visualization
 	//Functions
 	public:
 
-		void Initialize();
+		void Initialize(const Material& p_Material);
 
 		void Terminate();
 
-		void Render(const SceneData& p_Transformations) const;
+		void Render(const TransformData& p_Transformations, const LightingData* p_Lighting) const;
 
 	};
 }

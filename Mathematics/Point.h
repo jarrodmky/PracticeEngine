@@ -12,7 +12,7 @@
 //===========================================================================
 
 #include "MathBase.h"
-#include "Vector.h"
+#include "Algebra.h"
 
 //===========================================================================
 // Classes
@@ -47,6 +47,8 @@ namespace Mathematics
 
 	//Methods
 	public:
+
+		inline const Vector PositionVector() const;
 		
 		//magnitude
 		inline const scalar DistanceSquaredTo(const Point& p_Lhs) const;
@@ -61,8 +63,8 @@ namespace Mathematics
 
 	namespace ConstantPoints
 	{
-		const static Point Origin(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Zero);
-		const static Point Infinity(ConstantScalars::Infinity, ConstantScalars::Infinity, ConstantScalars::Infinity);
+		const Point Origin(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Zero);
+		const Point Infinity(ConstantScalars::Infinity, ConstantScalars::Infinity, ConstantScalars::Infinity);
 	};
 
 	typedef std::pair<Point, Point> PointPair;

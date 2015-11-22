@@ -13,6 +13,7 @@
 
 #include <Core.h>
 #include "System.h"
+#include "MeshUtil.h"
 
 namespace Visualization
 {
@@ -21,6 +22,7 @@ namespace Visualization
 // Classes
 //===========================================================================
 
+	template <typename t_VertexType>
 	class VertexShader
 	{
 	//Attributes
@@ -54,6 +56,10 @@ namespace Visualization
 		void Release();
 
 		void Bind(ID3D11DeviceContext* p_Context) const;
+
+	private:
+
+		static void CompileFileIntoShader(ID3DBlob*& p_ShaderBlob, LPCWSTR p_FileName, LPCSTR p_EntryPoint, LPCSTR p_Target);
 	};
 
 
@@ -89,8 +95,14 @@ namespace Visualization
 		void Release();
 
 		void Bind(ID3D11DeviceContext* p_Context) const;
+
+	private:
+
+		static void CompileFileIntoShader(ID3DBlob*& p_ShaderBlob, LPCWSTR p_FileName, LPCSTR p_EntryPoint, LPCSTR p_Target);
 	};
 
 }
+
+#include "Shaders.inl"
 
 #endif // #ifndef IncludedVisuShadersH

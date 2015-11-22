@@ -34,21 +34,22 @@ namespace Mathematics
 	
 	namespace ConstantScalars
 	{
-		const static scalar Zero				= 0.0f;
-		const static scalar Unity				= 1.0f;
-		const static scalar Epsilon				= std::numeric_limits<scalar>::epsilon();
-		const static scalar Infinity			= std::numeric_limits<scalar>::infinity();
-		const static scalar NegativeInfinity	= -Infinity;
-		const static scalar NotANumber			= std::numeric_limits<scalar>::signaling_NaN();
-		const static scalar Maximum				= std::numeric_limits<scalar>::max();
-		const static scalar Minimum				= std::numeric_limits<scalar>::min();
-		const static scalar Pi					= 3.141592653589793238462643383279f;
-		const static scalar TwoPi				= 6.28318530717958647692528676656f;
-		const static scalar PiSquared			= 9.869604401089358618834f;
-		const static scalar OneOverPi			= 0.3183098861837906715378f;
-		const static scalar OneOverTwoPi		= 0.1591549430918953357689f;
-		const static scalar DegsPerRad			= 57.2957795130823208768f;
-		const static scalar RadsPerDeg			= 0.01745329251994329576924f;
+		const scalar Zero				= 0.0f;
+		const scalar Unity				= 1.0f;
+		const scalar Epsilon			= std::numeric_limits<scalar>::epsilon();
+		const scalar Infinity			= std::numeric_limits<scalar>::infinity();
+		const scalar NegativeInfinity	= -Infinity;
+		const scalar NotANumber			= std::numeric_limits<scalar>::signaling_NaN();
+		const scalar Maximum			= std::numeric_limits<scalar>::max();
+		const scalar Minimum			= std::numeric_limits<scalar>::min();
+		const scalar PiOverTwo			= 1.570796326794896619231321691639f;
+		const scalar Pi					= 3.141592653589793238462643383279f;
+		const scalar TwoPi				= 6.28318530717958647692528676656f;
+		const scalar PiSquared			= 9.869604401089358618834f;
+		const scalar OneOverPi			= 0.3183098861837906715378f;
+		const scalar OneOverTwoPi		= 0.1591549430918953357689f;
+		const scalar DegsPerRad			= 57.2957795130823208768f;
+		const scalar RadsPerDeg			= 0.01745329251994329576924f;
 	}
 	
 	namespace ConstantIntegers

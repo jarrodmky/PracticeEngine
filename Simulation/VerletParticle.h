@@ -1,34 +1,37 @@
+#ifndef IncludedMathVerletParticleH
+#define IncludedMathVerletParticleH
+
 //===========================================================================
-// Filename:	HelooTriangleWinMain.cpp
+// Filename:	VerletParticle.h
 // Author:		Jarrod MacKay
-// Description:	Game application launcher.
+// Description:	Defines a class that represents a 
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
-#include "WindowedApp.h"
+#include "MathBase.h"
 
 //===========================================================================
-// Main
+// Classes
 //===========================================================================
 
-int WINAPI WinMain( HINSTANCE hInstance
-				   ,  HINSTANCE hPrevInstance
-				   ,  LPSTR     lpCmdLine
-				   ,  int       nCmdShow)
+namespace Mathematics
 {
-	Mathematics::Random::Initialize();
-	WindowedApp myApplication;
-
-	myApplication.Initialize(hInstance, "Hello", 1024, 768);
-
-	while(myApplication.IsRunning())
+	class VerletParticle
 	{
-		myApplication.Update();
-	}
+	//Attributes
+	public:
 
-	myApplication.Terminate();
-	return 0;
-}
+	//Operators
+	public:
+		
+	//Methods
+	public:
+		
+	};
+
+} // namespace Mathematics
+
+#endif //#ifndef IncludedMathVerletParticleH

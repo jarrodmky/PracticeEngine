@@ -61,7 +61,7 @@ public:
 	f32 GetRightAnalogY() const;
 
 private:
-	NONCOPYABLE(System);
+	NonCopyable(System);
 	
 	friend BOOL CALLBACK EnumGamePadCallback(const DIDEVICEINSTANCE* pDIDeviceInstance, VOID* pContext);
 

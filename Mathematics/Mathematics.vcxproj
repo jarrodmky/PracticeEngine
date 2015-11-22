@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algebra.h" />
+    <ClInclude Include="Series.h" />
+    <ClInclude Include="Frame.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Interval.h" />
     <ClInclude Include="Line.h" />
@@ -47,7 +49,6 @@
   <ItemGroup>
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Precompiled.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>

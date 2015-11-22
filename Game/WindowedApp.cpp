@@ -50,7 +50,7 @@ namespace
 			Vector a(x0 * kTileSize, y0 * kTileSize);
 			Vector b(x1 * kTileSize, y1 * kTileSize);
 
-			Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Green);
+			//Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Green);
 		}
 	}
 
@@ -72,7 +72,7 @@ namespace
 				Vector a(x0 * kTileSize, y0 * kTileSize);
 				Vector b(x1 * kTileSize, y1 * kTileSize);
 
-				Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Blue);
+				//Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Blue);
 			}
 		}
 	}
@@ -97,7 +97,7 @@ namespace
 			Vector a(x0 * kTileSize, y0 * kTileSize);
 			Vector b(x1 * kTileSize, y1 * kTileSize);
 
-			Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Red);
+			//Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Red);
 		}
 	}
 }
@@ -126,7 +126,7 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 	HookupWindow(m_Viewport.GetWindowHandle());
 
 	//OpenGL
-	Renderer::Initialize(m_Viewport.GetWindowHandle(), p_Height, p_Width);
+	//Renderer::Initialize(m_Viewport.GetWindowHandle(), p_Height, p_Width);
 
 
 	//AI
@@ -176,7 +176,7 @@ void WindowedApp::OnUpdate()
 	}
 	
 	//OpenGL
-	Renderer::Canvas();
+	//Renderer::Canvas();
 	//Renderer::AddSphere(Sphere(0.0, 0.0, 0.0, 1.0), 0.0, 0.0, 0.0);
 	//Renderer::AddSphere(Sphere(3.0, 0.0, 0.0, 0.5), 1.0, 0.0, 0.0);
 	//Renderer::AddSphere(Sphere(0.0, 3.0, 0.0, 1.0), 0.0, 1.0, 0.0);
@@ -189,8 +189,8 @@ void WindowedApp::OnUpdate()
 	ShowClosedList();
 	ShowNeighbours();
 
-	Renderer::Paint();
-	Renderer::SwapBuffer();
+	//Renderer::Paint();
+	//Renderer::SwapBuffer();
 }
 
 //---------------------------------------------------------------------------

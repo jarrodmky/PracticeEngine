@@ -27,7 +27,7 @@ namespace Visualization
 	public:
 
 		Light()
-			: Position(Mathematics::ConstantVectors::Null)
+			: Position(Mathematics::ConstantVectors::Zero)
 			, Ambient(ConstantColours::White)
 			, Diffuse(ConstantColours::White)
 			, Specular(ConstantColours::White)

@@ -250,7 +250,7 @@ void System::Terminate()
 
 void System::BeginRender(Visualization::LinearColour p_ClearColour)
 {
-	float ClearColor[4] = { p_ClearColour.R, p_ClearColour.B, p_ClearColour.G, p_ClearColour.A }; // RGBA
+	float ClearColor[4] = { p_ClearColour.R, p_ClearColour.G, p_ClearColour.B, p_ClearColour.A }; // RGBA
 	mpImmediateContext->ClearRenderTargetView(mpRenderTargetView, ClearColor);
 	mpImmediateContext->ClearDepthStencilView(mpDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }

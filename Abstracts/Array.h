@@ -62,13 +62,33 @@ namespace Abstracts
 			return m_Array[GetIndex(p_Row, p_Column, p_Page)];
 		}
 
-		//Methods
+	//Methods
 	public:
 
 		//single value assignment
 		inline void Fill(const t_Type& p_Value = t_Type())
 		{
 			std::fill(m_Array, (m_Array + t_Rows * t_Columns * t_Pages), p_Value);
+		}
+
+		//comparisons
+		inline const bool Equals(const Array<t_Type, t_Rows, t_Columns, t_Pages>& p_Other
+			                   , std::function<const bool(const t_Type&, const t_Type&)> p_Function) const
+		{
+			return std::equal(m_Array, m_Array + (t_Rows * t_Columns * t_Pages), p_Other.m_Array, p_Function);
+		}
+
+		//apply function methods
+		inline void ApplyFunction(std::function<const t_Type(const t_Type&)> p_Function)
+		{
+			std::transform(m_Array, m_Array + (t_Rows * t_Columns * t_Page), m_Array, p_Function);
+		}
+
+		inline void ApplyFunction(
+			  const Array<t_Type, t_Rows, t_Columns, t_Pages>& p_Other
+			, std::function<const t_Type(const t_Type&, const t_Type&)> p_Function)
+		{
+			std::transform(m_Array, m_Array + (t_Rows * t_Columns * t_Page), p_Other.m_Array, m_Array, p_Function);
 		}
 
 	private:
@@ -142,6 +162,26 @@ namespace Abstracts
 			std::fill(m_Array, (m_Array + t_Rows * t_Columns), p_Value);
 		}
 
+		//comparisons
+		inline const bool Equals(const Array<t_Type, t_Rows, t_Columns>& p_Other
+			, std::function<const bool(const t_Type&, const t_Type&)> p_Function) const
+		{
+			return std::equal(m_Array, m_Array + (t_Rows * t_Columns), p_Other.m_Array, p_Function);
+		}
+
+		//apply function methods
+		inline void ApplyFunction(std::function<const t_Type(const t_Type&)> p_Function)
+		{
+			std::transform(m_Array, m_Array + (t_Rows * t_Columns), m_Array, p_Function);
+		}
+
+		inline void ApplyFunction(
+			const Array<t_Type, t_Rows, t_Columns>& p_Other
+			, std::function<const t_Type(const t_Type&, const t_Type&)> p_Function)
+		{
+			std::transform(m_Array, m_Array + (t_Rows * t_Columns), p_Other.m_Array, m_Array, p_Function);
+		}
+
 	private:
 
 		inline u32 GetIndex(const u32 p_Row, const u32 p_Column) const
@@ -149,7 +189,7 @@ namespace Abstracts
 			Assert(p_Row < t_Rows, "Invalid row index!");
 			Assert(p_Column < t_Columns, "Invalid column index!");
 
-			return (t_Rows) * p_Column + p_Row;
+			return (t_Rows)* p_Column + p_Row;
 		}
 
 	};

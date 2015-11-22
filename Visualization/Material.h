@@ -34,6 +34,22 @@ namespace Visualization
 			, Emission(ConstantColours::White)
 		{}
 
+		Material(const LinearColour& p_Colour)
+			: Reflectance(1.0f)
+			, Ambient(p_Colour)
+			, Diffuse(p_Colour)
+			, Specular(p_Colour)
+			, Emission(ConstantColours::Black)
+		{}
+
+		Material(const LinearColour& p_Ambient, const LinearColour& p_Diffuse, const LinearColour& p_Specular)
+			: Reflectance(1.0f)
+			, Ambient(p_Ambient)
+			, Diffuse(p_Diffuse)
+			, Specular(p_Specular)
+			, Emission(ConstantColours::Black)
+		{}
+
 	//Attributes
 	public:
 

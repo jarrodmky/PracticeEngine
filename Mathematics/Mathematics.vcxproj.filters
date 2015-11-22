@@ -4,7 +4,6 @@
     <ClInclude Include="MathBase.h" />
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="Precompiled.h" />
-    <ClInclude Include="Random.h" />
     <ClInclude Include="Algebra.h">
       <Filter>Algebra</Filter>
     </ClInclude>
@@ -36,7 +35,16 @@
       <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
       <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Series.h">
+      <Filter>Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Generators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,20 +67,19 @@
       <Filter>Geometry</Filter>
     </None>
     <None Include="Vector.inl">
-      <Filter>Geometry</Filter>
+      <Filter>Algebra</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp" />
-    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Matrix.cpp">
       <Filter>Algebra</Filter>
     </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
+    <ClCompile Include="Vector.cpp">
       <Filter>Algebra</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Geometry</Filter>
+    <ClCompile Include="Random.cpp">
+      <Filter>Generators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +88,9 @@
     </Filter>
     <Filter Include="Geometry">
       <UniqueIdentifier>{edd54f24-8bf5-4daf-a6d3-580a8b1d1c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generators">
+      <UniqueIdentifier>{418892eb-3a52-4eb1-8562-2a9a2cc70466}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

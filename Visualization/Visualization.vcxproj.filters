@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp" />
-    <ClCompile Include="LinearColour.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Vertices.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -15,9 +12,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="D3DSystem.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="Visualization.cpp">
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="MeshUtil.cpp">
@@ -32,16 +26,13 @@
     <ClCompile Include="Sampler.cpp">
       <Filter>Texturing</Filter>
     </ClCompile>
+    <ClCompile Include="LinearColour.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Precompiled.h" />
-    <ClInclude Include="ConicColour.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LinearColour.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Vertices.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -52,9 +43,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="System.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization.h">
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="MeshBuilder.h">
@@ -84,6 +72,14 @@
     <ClInclude Include="Sampler.h">
       <Filter>Texturing</Filter>
     </ClInclude>
+    <ClInclude Include="ConicColour.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearColour.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Visualization.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -110,6 +106,9 @@
       <Filter>Meshes</Filter>
     </None>
     <None Include="Buffers.inl">
+      <Filter>Components</Filter>
+    </None>
+    <None Include="Shaders.inl">
       <Filter>Components</Filter>
     </None>
   </ItemGroup>

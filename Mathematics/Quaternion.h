@@ -35,38 +35,42 @@ namespace Mathematics
 		inline Quaternion(const Vector& p_Axis, const scalar p_Angle = ConstantScalars::Zero);
 
 		//equality
-		inline const bool operator ==(const Quaternion& p_Lhs) const;
-		inline const bool operator !=(const Quaternion& p_Lhs) const;
+		inline const bool operator ==(const Quaternion& p_Rhs) const;
+		inline const bool operator !=(const Quaternion& p_Rhs) const;
 
 		//arithmetic
 		inline Quaternion& Negate();
 		inline const Quaternion operator -() const;
-		inline Quaternion& operator +=(const Quaternion& p_Lhs);
-		inline const Quaternion operator +(const Quaternion& p_Lhs) const;
-		inline Quaternion& operator -=(const Quaternion& p_Lhs);
-		inline const Quaternion operator -(const Quaternion& p_Lhs) const;
-		inline Quaternion& operator *=(const Quaternion& p_Lhs);
-		inline const Quaternion operator *(const Quaternion& p_Lhs) const;
-		inline Quaternion& operator /=(const Quaternion& p_Lhs);
-		inline const Quaternion operator /(const Quaternion& p_Lhs) const;
+		inline Quaternion& operator +=(const Quaternion& p_Rhs);
+		inline const Quaternion operator +(const Quaternion& p_Rhs) const;
+		inline Quaternion& operator -=(const Quaternion& p_Rhs);
+		inline const Quaternion operator -(const Quaternion& p_Rhs) const;
+		inline Quaternion& operator *=(const Quaternion& p_Rhs);
+		inline const Quaternion operator *(const Quaternion& p_Rhs) const;
+		inline Quaternion& operator /=(const Quaternion& p_Rhs);
+		inline const Quaternion operator /(const Quaternion& p_Rhs) const;
 
 		//scalar multiplication
-		inline Quaternion& operator *=(const scalar& p_Lhs);
-		inline const Quaternion operator *(const scalar p_Lhs) const;
-		inline Quaternion& operator /=(const scalar& p_Lhs);
-		inline const Quaternion operator /(const scalar p_Lhs) const;
+		inline const Quaternion operator *(const scalar p_Rhs) const;
+		inline Quaternion& operator *=(const scalar& p_Rhs);
+		inline Quaternion& operator /=(const scalar& p_Rhs);
+		inline const Quaternion operator /(const scalar p_Rhs) const;
+
+	private:
+
+		inline Quaternion(const scalar p_Real, const Vector& p_Imaginary);
 
 	//Methods
 	public:
 
 		//rotational eqaulity
-		inline const bool RotationallyEqualTo(const Quaternion& p_Lhs) const;
+		inline const bool RotationallyEqualTo(const Quaternion& p_Rhs) const;
 
 		//relatives
 		inline Quaternion& Reciprocate();
 		inline const Quaternion Reciprocal() const;
 		inline Quaternion& Conjugate();
-		inline const Quaternion Conjugal() const;
+		inline const Quaternion Conjugate() const;
 
 		//magnitude
 		inline const scalar LengthSquared() const;
@@ -79,7 +83,7 @@ namespace Mathematics
 
 		//decomposition
 		inline const scalar ScalarPart();
-		inline const Vector& VectorPart() const;
+		inline const Vector VectorPart() const;
 
 		//boolean
 		inline bool IsAtOrigin() const;
@@ -87,17 +91,19 @@ namespace Mathematics
 		inline bool IsValid() const;
 		inline bool IsScalar() const;
 		inline bool IsVector() const;
-		inline bool IsRight() const;
 		inline bool IsUnit() const;
+
+		//vector functions
+		inline void RotateVector(Vector& p_Vector) const;
 	};
 
 	namespace ConstantQuaternions
 	{
-		const static Quaternion Identity(ConstantVectors::I, ConstantScalars::Zero); //??
+		const Quaternion Identity(ConstantVectors::I, ConstantScalars::Zero); //??
 	}
 
-	#include "Quaternion.inl"
-
 } // namespace Mathematics
+
+#include "Quaternion.inl"
 
 #endif //#ifndef IncludedMathQuaternionH

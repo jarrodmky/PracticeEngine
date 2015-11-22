@@ -17,7 +17,7 @@
 // Includes
 //====================================================================================================
 
-#include <Core/Core.h>
+#include <Core.h>
 
 // DirectX headers
 #include <dinput.h>

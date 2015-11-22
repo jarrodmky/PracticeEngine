@@ -19,11 +19,13 @@ namespace Visualization
 namespace MeshUtil
 {
 
+using LayoutVector = std::vector<D3D11_INPUT_ELEMENT_DESC>;
+
 //====================================================================================================
 // Function Declarations
 //====================================================================================================
 
-void CreateVertexLayout(u32 vertexFormat, std::vector<D3D11_INPUT_ELEMENT_DESC>& layout);
+void CreateVertexLayout(u32 vertexFormat, LayoutVector& layout);
 
 } // namespace MeshUtil
 } // namespace Graphics

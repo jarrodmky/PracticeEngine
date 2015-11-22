@@ -11,7 +11,7 @@ namespace MathematicsTest
 		
 		TEST_METHOD(VectorConstruction)
 		{
-			Vector a(ConstantVectors::Null);
+			Vector a(ConstantVectors::Zero);
 			Assert::IsTrue(a.x == ConstantScalars::Zero);
 			Assert::IsTrue(a.y == ConstantScalars::Zero);
 			Assert::IsTrue(a.z == ConstantScalars::Zero);
@@ -27,8 +27,9 @@ namespace MathematicsTest
 			Assert::IsTrue(EquivalentToZero(b|c));
 		}
 
-		TEST_METHOD(Matrix)
+		TEST_METHOD(MatrixCreation)
 		{
+			Matrix a(1.0f);
 		}
 	};
 }

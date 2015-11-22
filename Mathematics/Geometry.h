@@ -12,12 +12,13 @@
 //===========================================================================
 
 #include "MathBase.h"
-#include "Vector.h"
+#include "Algebra.h"
 #include "Point.h"
 #include "Sphere.h"
 #include "Ray.h"
 #include "Line.h"
 #include "Plane.h"
+#include "Frame.h"
 
 namespace Mathematics
 {
@@ -25,9 +26,9 @@ namespace Mathematics
 // Operators
 //===========================================================================
 
-	inline const Vector operator *(const scalar p_Lhs, const Vector& p_Rhs)
+	inline const Point operator *(const Matrix& p_Matrix, const Point& p_Point)
 	{
-		return p_Rhs * p_Lhs;
+		return Point(p_Matrix.Column(4)) + (p_Matrix * p_Point.PositionVector());
 	}
 
 //===========================================================================

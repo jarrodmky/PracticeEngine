@@ -53,13 +53,18 @@ namespace Mathematics
 	public:
 
 		//maniplators
-		inline void ProjectLower(t_Type& p_Value);
-		inline void ProjectHigher(t_Type& p_Value);
+		inline void ExtendLower(const t_Type& p_Value);
+		inline void ExtendHigher(const t_Type& p_Value);
 		inline Interval<t_Type>& Bisect();
 
 		//queries
 		inline bool HasElement(const t_Type& p_Value) const;
 		inline bool HasNoElement(const t_Type& p_Value) const;
+
+		//projections
+		inline t_Type ProjectWrapping(const t_Type& p_Value) const;
+		inline t_Type ProjectMirroring(const t_Type& p_Value) const;
+		inline t_Type ProjectClamping(const t_Type& p_Value) const;
 	};
 } // namespace Mathematics
 

@@ -14,6 +14,7 @@
 #include <Core.h>
 #include <Mathematics.h>
 #include <Visualization.h>
+#include <Utilization.h>
 
 //===========================================================================
 // Classes
@@ -45,17 +46,15 @@ protected:
 
 	Core::Window m_Viewport;
 
+	Visualization::Camera m_Camera;
+
 	Visualization::System m_GraphicSystem;
 
-	Visualization::Solid m_Sphere1;
-
-	Visualization::Solid m_Sphere2;
+	Visualization::Solid m_Sphere;
 
 	Core::Timer m_Timer;
 
 	Visualization::Light m_Light;
-
-	Visualization::Material m_Material;
 
 	Visualization::Texture m_Texture;
 

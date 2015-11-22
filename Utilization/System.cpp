@@ -25,7 +25,7 @@ BOOL CALLBACK Input::EnumGamePadCallback(const DIDEVICEINSTANCE* pDIDeviceInstan
 	IDirectInputDevice8** pGamePad = &(inputSystem->mpGamePadDevice);
 	if (FAILED(pDI->CreateDevice(pDIDeviceInstance->guidInstance, pGamePad, nullptr))) 
 	{
-		LOG("[System] Failed to create game pad device.");
+		Assert(false, "[System] Failed to create game pad device.");
 	}
 
 	return DIENUM_STOP;
@@ -58,7 +58,7 @@ System::System()
 
 System::~System()
 {
-	ASSERT(!mInitialized, "[System] Terminate() must be called to clean up!");
+	Assert(!mInitialized, "[System] Terminate() must be called to clean up!");
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -68,50 +68,49 @@ void System::Initialize(HWND window)
 	// Check if we have already initialized the system
 	if (mInitialized)
 	{
-		LOG("[System] System already initialized.");
-		return;
+		Assert(false, "[System] System already initialized.");
 	}
 
-	LOG("[System] Initializing...");
+	//LOG("[System] Initializing...");
 
 	// Obtain an interface to DirectInput
 	HRESULT hr = DirectInput8Create(GetModuleHandle(nullptr), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&mpDirectInput, nullptr);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to create DirectInput object.");
+	Assert(SUCCEEDED(hr), "[System] Failed to create DirectInput object.");
 
 	//----------------------------------------------------------------------------------------------------
 	// Create keyboard device
 	hr = mpDirectInput->CreateDevice(GUID_SysKeyboard, &mpKeyboardDevice, nullptr);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to create keyboard device.");
+	Assert(SUCCEEDED(hr), "[System] Failed to create keyboard device.");
 
 	// Set the keyboard data format
 	hr = mpKeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to set keyboard data format.");
+	Assert(SUCCEEDED(hr), "[System] Failed to set keyboard data format.");
 
 	// Set the keyboard cooperative level
 	hr = mpKeyboardDevice->SetCooperativeLevel(window, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to set keyboard cooperative level.");
+	Assert(SUCCEEDED(hr), "[System] Failed to set keyboard cooperative level.");
 
 	// Acquire the keyboard device
 	hr = mpKeyboardDevice->Acquire();
-	ASSERT(SUCCEEDED(hr), "[System] Failed to acquire keyboard device.");
+	Assert(SUCCEEDED(hr), "[System] Failed to acquire keyboard device.");
 	//----------------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------------
 	// Create mouse device
 	hr = mpDirectInput->CreateDevice(GUID_SysMouse, &mpMouseDevice, nullptr);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to create mouse device.");
+	Assert(SUCCEEDED(hr), "[System] Failed to create mouse device.");
 
 	// Set the mouse data format
 	hr = mpMouseDevice->SetDataFormat(&c_dfDIMouse);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to set mouse data format.");
+	Assert(SUCCEEDED(hr), "[System] Failed to set mouse data format.");
 
 	// Set the mouse cooperative level
 	hr = mpMouseDevice->SetCooperativeLevel(window, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
-	ASSERT(SUCCEEDED(hr), "[System] Failed to set mouse cooperative level.");
+	Assert(SUCCEEDED(hr), "[System] Failed to set mouse cooperative level.");
 
 	// Acquire the mouse device
 	hr = mpMouseDevice->Acquire();
-	ASSERT(SUCCEEDED(hr), "[System] Failed to acquire mouse device.");
+	Assert(SUCCEEDED(hr), "[System] Failed to acquire mouse device.");
 
 	// Calculate starting mouse position
 	RECT clientRect;
@@ -127,7 +126,7 @@ void System::Initialize(HWND window)
 	// Enumerate for game pad device
 	if (FAILED(mpDirectInput->EnumDevices(DI8DEVCLASS_GAMECTRL, EnumGamePadCallback, this, DIEDFL_ATTACHEDONLY)))
 	{
-		LOG("[System] Failed to enumerate for game pad devices.");
+		Assert(false, "[System] Failed to enumerate for game pad devices.");
 	}
 
 	// Check if we have a game pad detected
@@ -135,25 +134,25 @@ void System::Initialize(HWND window)
 	{
 		// Set the game pad data format
 		hr = mpGamePadDevice->SetDataFormat(&c_dfDIJoystick);
-		ASSERT(SUCCEEDED(hr), "[System] Failed to set game pad data format.");
+		Assert(SUCCEEDED(hr), "[System] Failed to set game pad data format.");
 
 		// Set the game pad cooperative level
 		hr = mpGamePadDevice->SetCooperativeLevel(window, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
-		ASSERT(SUCCEEDED(hr), "[System] Failed to set game pad cooperative level.");
+		Assert(SUCCEEDED(hr), "[System] Failed to set game pad cooperative level.");
 
 		// Acquire the game pad device
 		hr = mpGamePadDevice->Acquire();
-		ASSERT(SUCCEEDED(hr), "[System] Failed to acquire game pad device.");
+		Assert(SUCCEEDED(hr), "[System] Failed to acquire game pad device.");
 	}
 	else
 	{
-		LOG("[System] No game pad attached.");
+		//LOG("[System] No game pad attached.");
 	}
 
 	// Set flag
 	mInitialized = true;
 
-	LOG("[System] System initialized.");
+	//LOG("[System] System initialized.");
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -163,11 +162,10 @@ void System::Terminate()
 	// Check if we have already terminated the system
 	if (!mInitialized)
 	{
-		LOG("[System] System already terminated.");
-		return;
+		Assert(false, "[System] System already terminated.");
 	}
 
-	LOG("[System] Terminating...");
+	//LOG("[System] Terminating...");
 
 	// Release devices
 	if (mpGamePadDevice != nullptr)
@@ -189,19 +187,19 @@ void System::Terminate()
 		mpKeyboardDevice = nullptr;
 	}
 
-	SafeRelease(mpDirectInput);
+	ProperlyRelease(mpDirectInput);
 
 	// Set flag
 	mInitialized = false;
 
-	LOG("[System] System terminated.");
+	//LOG("[System] System terminated.");
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void System::Update()
 {
-	ASSERT(mInitialized, "[System] System not initialized.");
+	Assert(mInitialized, "[System] System not initialized.");
 
 	// Update keyboard
 	if (mpKeyboardDevice != nullptr)
@@ -406,7 +404,7 @@ void System::UpdateKeyboard()
 		{
 			if (sWriteToLog)
 			{
-				LOG("[System] Keyboard device is lost.");
+				//LOG("[System] Keyboard device is lost.");
 				sWriteToLog = false;
 			}
 
@@ -415,7 +413,7 @@ void System::UpdateKeyboard()
 		}
 		else
 		{
-			LOG("[System] Failed to get keyboard state.");
+			Assert(false, "[System] Failed to get keyboard state.");
 			return;
 		}
 	}
@@ -443,7 +441,7 @@ void System::UpdateMouse()
 		{
 			if (sWriteToLog)
 			{
-				LOG("[System] Mouse device is lost.");
+				//LOG("[System] Mouse device is lost.");
 				sWriteToLog = false;
 			}
 
@@ -452,7 +450,7 @@ void System::UpdateMouse()
 		}
 		else
 		{
-			LOG("[System] Failed to get mouse state.");
+			Assert(false, "[System] Failed to get mouse state.");
 			return;
 		}
 	}
@@ -494,7 +492,7 @@ void System::UpdateGamePad()
 		{
 			if (sWriteToLog)
 			{
-				LOG("[System] Game pad device is lost.");
+				//LOG("[System] Game pad device is lost.");
 				sWriteToLog = false;
 			}
 
@@ -503,7 +501,7 @@ void System::UpdateGamePad()
 		}
 		else
 		{
-			LOG("[System] Failed to get game pad state.");
+			//LOG("[System] Failed to get game pad state.");
 			return;
 		}
 	}
@@ -522,7 +520,7 @@ void System::UpdateGamePad()
 		{
 			if (sWriteToLog)
 			{
-				LOG("[System] Game pad device is lost.");
+				//LOG("[System] Game pad device is lost.");
 				sWriteToLog = false;
 			}
 
@@ -531,7 +529,7 @@ void System::UpdateGamePad()
 		}
 		else
 		{
-			LOG("[System] Failed to get game pad state.");
+			//LOG("[System] Failed to get game pad state.");
 			return;
 		}
 	}

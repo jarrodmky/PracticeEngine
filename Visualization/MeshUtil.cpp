@@ -14,13 +14,12 @@
 #include "Vertices.h"
 
 using namespace Visualization;
-using namespace Visualization::MeshUtil;
 
 //====================================================================================================
 // Function Definitions
 //====================================================================================================
 
-void CreateVertexLayout(u32 vertexFormat, std::vector<D3D11_INPUT_ELEMENT_DESC>& layout)
+void MeshUtil::CreateVertexLayout(u32 vertexFormat, std::vector<D3D11_INPUT_ELEMENT_DESC>& layout)
 {
 	layout.clear();
 	u32 offset = 0;

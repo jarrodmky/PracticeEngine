@@ -35,54 +35,40 @@ namespace Visualization
 //===========================================================================
 
 
-	struct BasicVertex
+	struct FlatVertex
 	{
 	//Attributes
 		const static u32 Format = Position | Colour;
-
-		const static D3D11_INPUT_ELEMENT_DESC Layout[2];
-
-		const static UINT NumberOfComponents = 2;
 
 		Mathematics::Vector Position;
 
 		LinearColour Colour;
 
 	//Operators
-		BasicVertex();
+		FlatVertex();
 
-		BasicVertex(const Mathematics::Vector& p_Position, const LinearColour& p_Colour);
+		FlatVertex(const Mathematics::Vector& p_Position, const LinearColour& p_Colour);
 	};
 
-	struct SurfaceVertex
+	struct ShadedVertex
 	{
 		//Attributes
-		const static u32 Format = Position | Colour | Normal;
-
-		const static D3D11_INPUT_ELEMENT_DESC Layout[3];
-
-		const static UINT NumberOfComponents = 3;
+		const static u32 Format = Position | Normal;
 
 		Mathematics::Vector Position;
 
 		Mathematics::Vector Normal;
 
-		LinearColour Colour;
-
 		//Operators
-		SurfaceVertex();
+		ShadedVertex();
 
-		SurfaceVertex(const Mathematics::Vector& p_Position, const LinearColour& p_Colour, const Mathematics::Vector& p_Normal);
+		ShadedVertex(const Mathematics::Vector& p_Position, const Mathematics::Vector& p_Normal);
 	};
 
 	struct TexturedVertex
 	{
 		//Attributes
 		const static u32 Format = Position | Normal | Textured;
-
-		const static D3D11_INPUT_ELEMENT_DESC Layout[3];
-
-		const static UINT NumberOfComponents = 3;
 
 		Mathematics::Vector Position;
 

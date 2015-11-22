@@ -91,10 +91,10 @@ namespace Mathematics
 
 	namespace ConstantVectors
 	{
-		const static Vector Null(ConstantScalars::Zero);
-		const static Vector I(ConstantScalars::Unity, ConstantScalars::Zero, ConstantScalars::Zero);
-		const static Vector J(ConstantScalars::Zero, ConstantScalars::Unity, ConstantScalars::Zero);
-		const static Vector K(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Unity);
+		const Vector Zero(ConstantScalars::Zero);
+		const Vector I(ConstantScalars::Unity, ConstantScalars::Zero, ConstantScalars::Zero);
+		const Vector J(ConstantScalars::Zero, ConstantScalars::Unity, ConstantScalars::Zero);
+		const Vector K(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Unity);
 	};
 
 } // namespace Mathematics
