@@ -99,7 +99,8 @@ namespace Mathematics
 
 	namespace ConstantQuaternions
 	{
-		const Quaternion Identity(ConstantVectors::I, ConstantScalars::Zero); //??
+		const Quaternion Zero(ConstantVectors::Zero, ConstantScalars::Zero);
+		const Quaternion Unity(ConstantVectors::Zero, ConstantScalars::Unity);
 	}
 
 } // namespace Mathematics

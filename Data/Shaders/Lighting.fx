@@ -23,15 +23,15 @@ cbuffer MaterialBuffer : register(b1)
 
 cbuffer LightingBuffer : register( b2 )
 {
-	float3 viewPosition;
-	float3 lightDirection;
+	float4 viewPosition;
+	float4 lightDirection;
 	float4 lightAmbient;
 	float4 lightDiffuse;
 	float4 lightSpecular;
 };
 
 Texture2D diffuseMap : register(t0);
-SamplerState sampleTaker : register(s0);
+SamplerState mapState : register(s0);
 
 //--------------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ struct VS_INPUT
 {
     float3 position : POSITION;
 	float3 normal : NORMAL;
-    //float2 texCoord : TEXCOORD;
+    float2 texCoord : TEXCOORD;
 };
 
 //--------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ struct VS_OUTPUT
     float3 normal : TEXCOORD0;
     float3 dirToLight : TEXCOORD1;
     float3 dirToView : TEXCOORD2;
-    //float2 texCoord : TEXCOORD3;
+    float2 texCoord : TEXCOORD3;
 };
 
 //--------------------------------------------------------------------------------------
@@ -66,13 +66,13 @@ VS_OUTPUT VS( VS_INPUT input )
 	float3 normal = mul(float4(input.normal, 0.0f), world).xyz;
 	normal = normalize(normal);
 
-	float3 dirToLight = normalize(-lightDirection);
-	float3 dirToView = normalize(viewPosition - posWorld.xyz);
+	float3 dirToLight = normalize(-lightDirection.xyz);
+	float3 dirToView = normalize(viewPosition.xyz - posWorld.xyz);
 
 	output.normal = normal;
 	output.dirToLight = dirToLight;
 	output.dirToView = dirToView;
-	//output.texCoord = input.texCoord;
+	output.texCoord = input.texCoord;
 
     return output;
 }
@@ -96,7 +96,7 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 	float s = saturate(dot(r, dirToView));
 	float4 specular = s * lightSpecular * materialSpecular;
 
-	//float4 diffuseColour = diffuseMap.Sample(sampleTaker, input.texCoord);
+	float4 diffuseColour = diffuseMap.Sample(mapState, input.texCoord) * (ambient + diffuse);
 
-	return (ambient + diffuse) /** diffuseColour + specular*/;
+	return diffuseColour + specular;
 }

@@ -45,14 +45,12 @@ namespace Visualization
 		Mathematics::Matrix GetPerspectiveTransform();
 
 	//Attributes
-	private:
-
-		const Mathematics::Vector k_Up = Mathematics::ConstantVectors::J;
-
-		const Mathematics::Vector k_Forward = Mathematics::ConstantVectors::K;
+	public:
 
 		//extrinsic properties
-		Mathematics::Frame m_Frame;
+		Mathematics::Frame Transform;
+
+	private:
 
 		//intrinsic properties
 		f32 m_FieldOfViewAngle;

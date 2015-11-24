@@ -31,9 +31,9 @@ namespace Mathematics
 	//Operators
 	public:
 		
-		inline Matrix(const scalar p_Value = ConstantScalars::Zero);
+		Matrix(const scalar p_Value = ConstantScalars::Zero);
 
-		inline Matrix(const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3
+		Matrix(const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3
 			, const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3
 			, const scalar p_r3c1, const scalar p_r3c2, const scalar p_r3c3);
 
@@ -41,6 +41,8 @@ namespace Mathematics
 			 , const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3, const scalar p_r2c4
 			 , const scalar p_r3c1, const scalar p_r3c2, const scalar p_r3c3, const scalar p_r3c4
 			 , const scalar p_r4c1, const scalar p_r4c2, const scalar p_r4c3, const scalar p_r4c4);
+
+		Matrix(const Vector p_Column1, const Vector p_Column2, const Vector p_Column3);
 
 		//equality
 		inline const bool operator ==(const Matrix& p_Rhs) const;
@@ -83,12 +85,16 @@ namespace Mathematics
 		//inverse
 		const Matrix Inverse() const;
 		inline Matrix& Invert();
+
+		//Transpose
+		const Matrix Transpose() const;
+		inline Matrix& Transpose();
 	};
 
 	namespace ConstantMatrices
 	{
-		const Matrix Zero();
-		const Matrix Identity(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		const Matrix Zero;
+		const Matrix Identity;
 	};
 
 } // namespace Mathematics

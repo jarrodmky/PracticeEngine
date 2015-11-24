@@ -8,7 +8,7 @@ namespace
 	using IndexSet = std::vector<u32>;
 	using CoordSet = std::vector<Mathematics::scalarPair>;
 
-	const u32 g_SphereResolution = 10; // controls poly level of sphere
+	const u32 g_SphereResolution = 15; // controls poly level of sphere
 
 	void InitTetrahedron(VectorSet& p_Vertices, IndexSet& p_Indices)
 	{
@@ -119,7 +119,7 @@ namespace
 					p_Vertices.push_back(cartesianPosition);
 					p_Indices.push_back(p_Vertices.size() - 1);
 					p_Normals.push_back(cartesianPosition);
-					p_Coords.push_back(Mathematics::scalarPair(theta, phi));
+					p_Coords.push_back(Mathematics::scalarPair(1.0f-theta * Mathematics::ConstantScalars::OneOverTwoPi, phi * Mathematics::ConstantScalars::OneOverPi));
 				}
 			}
 		}
@@ -253,16 +253,10 @@ namespace Visualization
 		for(u32 j = 0; j < numVs; ++j)
 		{
 			p_Mesh.GetVertex(j).Normal = positions[j];
-		}
 
-		//if(HasTexture(p_Mesh.GetVertex(0).Format))
-		//{
-		//	for(u32 j = 0; j < numVs; ++j)
-		//	{
-		//		p_Mesh.GetVertex(j).U = uvs[j].first;
-		//		p_Mesh.GetVertex(j).V = uvs[j].second;
-		//	}
-		//}
+			p_Mesh.GetVertex(j).UV[0] = uvs[j].first;
+			p_Mesh.GetVertex(j).UV[1] = uvs[j].second;
+		}
 
 		for(u32 j = 0; j < numIs; ++j)
 		{

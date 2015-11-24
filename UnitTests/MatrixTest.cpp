@@ -26,10 +26,5 @@ namespace MathematicsTest
 			Assert::IsTrue(EquivalentToZero(a|c));
 			Assert::IsTrue(EquivalentToZero(b|c));
 		}
-
-		TEST_METHOD(MatrixCreation)
-		{
-			Matrix a(1.0f);
-		}
 	};
 }

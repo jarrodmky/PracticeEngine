@@ -100,7 +100,7 @@ namespace Mathematics
 	
 	inline void Invert(scalar& p_Scalar)
 	{
-		Assert(EquivalentToZero(p_Scalar), "Tried a division by zero!");
+		Assert(!EquivalentToZero(p_Scalar), "Tried a division by zero!");
 		p_Scalar = ConstantScalars::Unity / p_Scalar;
 	}
 

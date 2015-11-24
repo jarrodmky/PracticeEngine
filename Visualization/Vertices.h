@@ -53,35 +53,20 @@ namespace Visualization
 	struct ShadedVertex
 	{
 		//Attributes
-		const static u32 Format = Position | Normal;
-
-		Mathematics::Vector Position;
-
-		Mathematics::Vector Normal;
-
-		//Operators
-		ShadedVertex();
-
-		ShadedVertex(const Mathematics::Vector& p_Position, const Mathematics::Vector& p_Normal);
-	};
-
-	struct TexturedVertex
-	{
-		//Attributes
 		const static u32 Format = Position | Normal | Textured;
 
 		Mathematics::Vector Position;
 
 		Mathematics::Vector Normal;
 
-		f32 U;
-
-		f32 V;
+		f32 UV[2];
 
 		//Operators
-		TexturedVertex();
+		ShadedVertex();
 
-		TexturedVertex(const Mathematics::Vector& p_Position, const Mathematics::Vector& p_Normal, const Mathematics::scalarPair& p_Coords);
+		ShadedVertex(const Mathematics::Vector& p_Position
+			, const Mathematics::Vector& p_Normal
+			, const f32 p_U, const f32 p_V);
 	};
 
 //===========================================================================

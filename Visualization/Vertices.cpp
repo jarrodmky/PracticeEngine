@@ -32,27 +32,18 @@ FlatVertex::FlatVertex(const Mathematics::Vector& p_Position, const LinearColour
 ShadedVertex::ShadedVertex()
 	: Position(Zero)
 	, Normal(I)
-{}
+{
+	UV[0] = 0.0f;
+	UV[1] = 0.0f;
+}
 
 ShadedVertex::ShadedVertex(
 	const Mathematics::Vector& p_Position,
-	const Mathematics::Vector& p_Normal)
+	const Mathematics::Vector& p_Normal
+	, const f32 p_U, const f32 p_V)
 	: Position(p_Position)
 	, Normal(p_Normal)
-{}
-
-TexturedVertex::TexturedVertex()
-	: Position(Zero)
-	, Normal(I)
-	, U(0.0f)
-	, V(0.0f)
-{}
-
-TexturedVertex::TexturedVertex(const Mathematics::Vector& p_Position
-							 , const Mathematics::Vector& p_Normal
-							 , const scalarPair& p_Coords)
-	: Position(p_Position)
-	, Normal(p_Normal)
-	, U(p_Coords.first)
-	, V(p_Coords.second)
-{}
+{
+	UV[0] = p_U;
+	UV[1] = p_V;
+}

@@ -19,7 +19,10 @@ namespace Mathematics
 		: m_Real(std::cos(p_Angle * 0.5f))
 		, m_Imaginary(p_Axis.x, p_Axis.y, p_Axis.z)
 	{
-		m_Imaginary.Normalize();
+		if (m_Imaginary.LengthSquared() > ConstantScalars::Unity)
+		{
+			m_Imaginary.Normalize();
+		}
 		m_Imaginary *= std::sin(p_Angle * 0.5f);
 	}
 

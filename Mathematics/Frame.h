@@ -37,15 +37,22 @@ namespace Mathematics
 	//Operators
 	public:
 
-		Frame(const Vector& p_Forward = ConstantVectors::K
-			, const Vector& p_Position = ConstantVectors::Zero
-			, const Vector& p_Up = ConstantVectors::J)
-			: m_Position(p_Position)
+		Frame()
+			: m_Position()
 			, m_Rotation()
 		{}
 
 	//Methods
 	public:
+
+		void Initialize(const Vector& p_Up = ConstantVectors::Zero
+			, const Vector& p_Forward = ConstantVectors::J
+			, const Point& p_Position = ConstantPoints::Origin)
+		{
+			m_Position = p_Position.PositionVector();
+
+			//get rotation
+		}
 
 		const Vector GetForwardVector()
 		{
@@ -57,9 +64,14 @@ namespace Mathematics
 			return RotatedVector(m_Rotation, Up);
 		}
 
+		const Vector GetLeftVector()
+		{
+			return RotatedVector(m_Rotation, Up * Forward);
+		}
+
 		const Matrix WorldToLocalTransform()
 		{
-
+			return ConstantMatrices::Identity;
 		}
 	};
 

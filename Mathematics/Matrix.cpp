@@ -2,10 +2,77 @@
 #include "Matrix.h"
 
 using namespace Mathematics;
+
+//===========================================================================
+// Constant Definitions
+//===========================================================================
+
+namespace ConstantMatrices
+{
+	const Matrix Zero(ConstantScalars::Zero);
+	const Matrix Identity(ConstantVectors::I, ConstantVectors::J, ConstantVectors::K);
+};
+
 //===========================================================================
 // Function Definitions
 //===========================================================================
 
+Matrix::Matrix(const scalar p_Value)
+	: m_Array(p_Value)
+{}
+
+//---------------------------------------------------------------------------
+
+Matrix::Matrix(
+	const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3
+	, const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3
+	, const scalar p_r3c1, const scalar p_r3c2, const scalar p_r3c3)
+	: m_Array(ConstantScalars::Zero)
+{
+	//first column
+	m_Array(0, 0) = p_r1c1;
+	m_Array(1, 0) = p_r2c1;
+	m_Array(2, 0) = p_r3c1;
+
+	//second column
+	m_Array(0, 1) = p_r1c2;
+	m_Array(1, 1) = p_r2c2;
+	m_Array(2, 1) = p_r3c2;
+
+	//third column
+	m_Array(0, 2) = p_r1c3;
+	m_Array(1, 2) = p_r2c3;
+	m_Array(2, 2) = p_r3c3;
+
+	//homogeniety
+	m_Array(3, 3) = ConstantScalars::Unity;
+}
+
+//---------------------------------------------------------------------------
+
+Matrix::Matrix(const Vector p_Column1, const Vector p_Column2, const Vector p_Column3)
+	: m_Array(ConstantScalars::Zero)
+{
+	//first column
+	m_Array(0, 0) = p_Column1.x;
+	m_Array(1, 0) = p_Column1.y;
+	m_Array(2, 0) = p_Column1.z;
+
+	//second column
+	m_Array(0, 1) = p_Column2.x;
+	m_Array(1, 1) = p_Column2.y;
+	m_Array(2, 1) = p_Column2.z;
+
+	//third column
+	m_Array(0, 2) = p_Column3.x;
+	m_Array(1, 2) = p_Column3.y;
+	m_Array(2, 2) = p_Column3.z;
+
+	//homogeniety
+	m_Array(3, 3) = ConstantScalars::Unity;
+}
+
+//---------------------------------------------------------------------------
 Matrix::Matrix(
 		 const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3, const scalar p_r1c4
 	   , const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3, const scalar p_r2c4
@@ -127,4 +194,15 @@ const Matrix Matrix::Inverse() const
 			  - (M * ((T*T - T2) / 2))
 			  + (M2 * T) 
 			  - M3) / D;
+}
+
+//---------------------------------------------------------------------------
+
+const Matrix Matrix::Transpose() const
+{
+	const Matrix& M(*this);
+	return Matrix(M(1, 1), M(2, 1), M(3, 1), M(4, 1)
+				, M(1, 2), M(2, 2), M(3, 2), M(4, 2)
+				, M(1, 3), M(2, 3), M(3, 3), M(4, 3)
+				, M(1, 4), M(2, 4), M(3, 4), M(4, 4));
 }

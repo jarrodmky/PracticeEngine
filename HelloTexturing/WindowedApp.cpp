@@ -49,17 +49,17 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 	
 	MeshBuilder::CreateSphere(m_Sphere.Mesh, Sphere(Point(0.0f, 0.0f, 0.0f), 1.0f));
 
-	Material mat = Material(ConstantColours::DarkRed, ConstantColours::Blue, ConstantColours::White);
+	Material mat = Material(ConstantColours::White, ConstantColours::White, ConstantColours::White);
 
 	m_Sphere.Initialize(mat);
 
 	m_Timer.Initialize();
 
-	m_Texture.Initialize(m_GraphicSystem, L"../Data/Images/Earth.jpeg");
+	m_Texture.Initialize(m_GraphicSystem, L"../Data/Images/Earth.jpg");
 
 	m_Sampler.Initialize(m_GraphicSystem, Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 
-	m_Light.Position = Vector(0.0f, 0.0f, 0.0f);
+	m_Light.Position = Vector(0.0f, 2.0f, 0.0f);
 	m_Light.Ambient = ConstantColours::White;
 	m_Light.Diffuse = ConstantColours::White;
 	m_Light.Specular = ConstantColours::White;
@@ -109,20 +109,21 @@ void WindowedApp::OnUpdate()
 	//get matrices
 	TransformData data;
 
-	data.MatWorld = DirectX::XMMatrixRotationY(t) * DirectX::XMMatrixRotationZ(1.5f * t);
+	data.MatWorld = RotationAboutZ(t) * RotationAboutX(ConstantScalars::PiOverTwo) * Translation(Vector(0.0f, 0.0f, 1.0f));
+
 
 	//view matrix
-	DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, 3.0f, 0.0f);
-	DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	data.MatView = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtLH(Eye, At, Up));
+	Point Position(0.0f, 0.0f, 3.0f);
+	Point Focus(0.0f, 0.0f, 0.0f);
 
+	data.MatView = ViewLookAt_LH(Position, Focus).Transpose();
+	
 	//projection
-	data.MatProjection = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovLH(ConstantScalars::PiOverTwo, 1024.0f / 768.0f, 0.01f, 100.0f));
+	data.MatProjection = PerspectiveProjection_LH(ConstantScalars::PiOverTwo, 1024.0f / 768.0f, 100.0f, 0.01f).Transpose();
 
 	LightingData lights;
 
-	lights.ViewPosition = Vector(0.0f, 0.0f, -5.0f);
+	lights.ViewPosition = Vector(3.0f, 0.0f, 0.0f);
 	lights.LightDirection = m_Light.Position;
 
 	lights.LightAmbient = m_Light.Ambient;

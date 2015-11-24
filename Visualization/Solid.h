@@ -30,9 +30,9 @@ namespace Visualization
 {
 	struct TransformData
 	{
-		DirectX::XMMATRIX MatWorld;
-		DirectX::XMMATRIX MatView;
-		DirectX::XMMATRIX MatProjection;
+		Mathematics::Matrix MatWorld;
+		Mathematics::Matrix MatView;
+		Mathematics::Matrix MatProjection;
 	};
 
 	struct MaterialData
@@ -45,7 +45,9 @@ namespace Visualization
 	struct LightingData
 	{
 		Mathematics::Vector ViewPosition;
+		f32 PAD0 = 0.0f;
 		Mathematics::Vector LightDirection;
+		f32 PAD1 = 0.0f;
 		LinearColour LightAmbient;
 		LinearColour LightDiffuse;
 		LinearColour LightSpecular;

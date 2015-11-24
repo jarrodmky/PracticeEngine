@@ -86,19 +86,62 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	const Matrix RotationMatrixRH(const Quaternion& p_Rotation);
+	const Matrix Rotation(const Quaternion& p_Rotation);
 
 	//---------------------------------------------------------------------------
 
-	const Matrix RotationMatrixRH(const Vector& p_Axis, const scalar p_Angle);
+	const Matrix Rotation(const Vector& p_Axis, const scalar p_Angle);
 
 	//---------------------------------------------------------------------------
 
-	const Matrix RotationMatrixLH(const Quaternion& p_Rotation);
+	inline const Matrix RotationAboutX(const scalar p_Angle)
+	{
+		using namespace ConstantScalars;
+		const scalar s = std::sin(p_Angle);
+		const scalar c = std::cos(p_Angle);
+
+		return Matrix(Unity, Zero, Zero
+					, Zero, c, -s
+					, Zero, s, c);
+	}
 
 	//---------------------------------------------------------------------------
 
-	const Matrix RotationMatrixLH(const Vector& p_Axis, const scalar p_Angle);
+	inline const Matrix RotationAboutY(const scalar p_Angle)
+	{
+		using namespace ConstantScalars;
+		const scalar s = std::sin(p_Angle);
+		const scalar c = std::cos(p_Angle);
+
+		return Matrix(c, Zero, s
+					, Zero, Unity, Zero
+					, -s, Zero, c);
+	}
+
+	//---------------------------------------------------------------------------
+
+	inline const Matrix RotationAboutZ(const scalar p_Angle)
+	{
+		using namespace ConstantScalars;
+		const scalar s = std::sin(p_Angle);
+		const scalar c = std::cos(p_Angle);
+
+		return Matrix(c, -s, Zero
+			, s, c, Zero
+			, Zero, Zero, Unity);
+	}
+
+	//---------------------------------------------------------------------------
+
+	inline const Matrix Translation(const Vector p_Displacement)
+	{
+		using namespace ConstantScalars;
+
+		return Matrix(Unity, Zero, Zero, p_Displacement.x
+			, Zero, Unity, Zero, p_Displacement.y
+			, Zero, Zero, Unity, p_Displacement.z
+			, Zero, Zero, Zero, Unity);
+	}
 }
 
 #endif //#ifndef IncludedMathAlgebraH

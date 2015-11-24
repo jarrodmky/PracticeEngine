@@ -51,6 +51,11 @@ namespace Mathematics
 		return Vector(x - p_Lhs.x, y - p_Lhs.y, z - p_Lhs.z);
 	}
 
+	const Vector Point::PositionVector() const
+	{
+		return Vector(x, y, z);
+	}
+
 	const scalar Point::DistanceSquaredTo(const Point& p_Lhs) const
 	{
 		return (p_Lhs - (*this)).LengthSquared();

@@ -44,11 +44,12 @@ void Texture::Terminate()
 		
 void Texture::BindVertexShader(System& p_System, u32 p_Index)
 {
+	p_System.GetContext()->VSSetShaderResources(p_Index, 1, &m_Texture);
 }
 
 //---------------------------------------------------------------------------
 
 void Texture::BindPixelShader(System& p_System, u32 p_Index)
 {
-
+	p_System.GetContext()->PSSetShaderResources(p_Index, 1, &m_Texture);
 }
