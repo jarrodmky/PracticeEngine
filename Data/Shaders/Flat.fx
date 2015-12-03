@@ -7,11 +7,10 @@
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
-cbuffer TransformBuffer : register( b0 )
+cbuffer TransformBuffer : register(b0)
 {
 	matrix world;
-	matrix view;
-	matrix projection;
+	matrix viewProjection;
 };
 
 cbuffer MaterialBuffer : register(b1)
@@ -43,8 +42,7 @@ VS_OUTPUT VS( VS_INPUT input )
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     output.position = mul( float4(input.position.xyz, 1.0f), world );
-    output.position = mul( output.position, view );
-    output.position = mul( output.position, projection );
+	output.position = mul(output.position, viewProjection);
     return output;
 }
 

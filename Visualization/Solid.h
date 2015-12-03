@@ -28,49 +28,24 @@
 
 namespace Visualization
 {
-	struct TransformData
-	{
-		Mathematics::Matrix MatWorld;
-		Mathematics::Matrix MatView;
-		Mathematics::Matrix MatProjection;
-	};
-
-	struct MaterialData
-	{
-		LinearColour MaterialAmbient;
-		LinearColour MaterialDiffuse;
-		LinearColour MaterialSpecular;
-	};
-
-	struct LightingData
-	{
-		Mathematics::Vector ViewPosition;
-		f32 PAD0 = 0.0f;
-		Mathematics::Vector LightDirection;
-		f32 PAD1 = 0.0f;
-		LinearColour LightAmbient;
-		LinearColour LightDiffuse;
-		LinearColour LightSpecular;
-	};
-
 	class Solid
 	{
 	//Attributes
 	public:
 
-		Mesh<ShadedVertex> Mesh;
+		Mathematics::Frame Transform;
 
 	private:
 
-		System& m_GraphicsSystem;
+		System& m_System;
 
 		Material m_Material;
 
-		TypedConstantBuffer<TransformData> m_TransformBuffer;
+		TypedConstantBuffer<TransformBuffer> m_TransformBuffer;
 
-		TypedConstantBuffer<LightingData> m_LightingBuffer;
+		TypedConstantBuffer<LightingBuffer> m_LightingBuffer;
 
-		TypedConstantBuffer<MaterialData> m_MaterialBuffer;
+		TypedConstantBuffer<MaterialBuffer> m_MaterialBuffer;
 		
 		VertexBuffer<ShadedVertex> m_VertexBuffer;
 
@@ -87,18 +62,18 @@ namespace Visualization
 
 		NonCopyable(Solid);
 
-		Solid(System& p_GraphicsSystem);
+		Solid(System& p_System);
 
 		~Solid();
 
 	//Functions
 	public:
 
-		void Initialize(const Material& p_Material);
+		void Initialize(const Material& p_Material, const Mesh<ShadedVertex>& p_Mesh);
 
 		void Terminate();
 
-		void Render(const TransformData& p_Transformations, const LightingData* p_Lighting) const;
+		void Render(const TransformBuffer& p_Transformations, const LightingBuffer* p_Lighting) const;
 
 	};
 }

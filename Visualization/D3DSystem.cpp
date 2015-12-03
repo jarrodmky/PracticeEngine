@@ -248,7 +248,7 @@ void System::Terminate()
 
 //----------------------------------------------------------------------------------------------------
 
-void System::BeginRender(Visualization::LinearColour p_ClearColour)
+void System::BeginRender(Mathematics::LinearColour p_ClearColour)
 {
 	float ClearColor[4] = { p_ClearColour.R, p_ClearColour.G, p_ClearColour.B, p_ClearColour.A }; // RGBA
 	mpImmediateContext->ClearRenderTargetView(mpRenderTargetView, ClearColor);

@@ -81,20 +81,28 @@ namespace Mathematics
 		//metrics
 		const scalar Determinant() const;
 		const scalar Trace() const;
+		const Vector Diagonal() const;
 
 		//inverse
 		const Matrix Inverse() const;
 		inline Matrix& Invert();
 
 		//Transpose
-		const Matrix Transpose() const;
+		const Matrix Transposition() const;
 		inline Matrix& Transpose();
+
+		//Frobenius norm
+		const scalar Norm() const;
+
+		//Queries
+		bool IsOthogonal() const;
+		inline bool IsSpecialOthogonal() const;
 	};
 
 	namespace ConstantMatrices
 	{
-		const Matrix Zero;
-		const Matrix Identity;
+		const Matrix Zero(ConstantScalars::Zero);
+		const Matrix Identity(ConstantVectors::I, ConstantVectors::J, ConstantVectors::K);
 	};
 
 } // namespace Mathematics

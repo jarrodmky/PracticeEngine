@@ -19,32 +19,26 @@
     <ClInclude Include="Geometry.h">
       <Filter>Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
-      <Filter>Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Ray.h">
-      <Filter>Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
       <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Algebra</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame.h">
-      <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Series.h">
       <Filter>Generators</Filter>
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Simplices.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearColour.h">
+      <Filter>Algebra</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,13 +51,7 @@
     <None Include="Quaternion.inl">
       <Filter>Algebra</Filter>
     </None>
-    <None Include="Plane.inl">
-      <Filter>Geometry</Filter>
-    </None>
     <None Include="Point.inl">
-      <Filter>Geometry</Filter>
-    </None>
-    <None Include="Sphere.inl">
       <Filter>Geometry</Filter>
     </None>
     <None Include="Vector.inl">
@@ -80,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearColour.cpp">
+      <Filter>Algebra</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

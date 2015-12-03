@@ -28,9 +28,9 @@ namespace Visualization
 
 		Light()
 			: Position(Mathematics::ConstantVectors::Zero)
-			, Ambient(ConstantColours::White)
-			, Diffuse(ConstantColours::White)
-			, Specular(ConstantColours::White)
+			, Ambient(Mathematics::ConstantColours::White)
+			, Diffuse(Mathematics::ConstantColours::White)
+			, Specular(Mathematics::ConstantColours::White)
 		{}
 
 	//Attributes
@@ -38,11 +38,11 @@ namespace Visualization
 
 		Mathematics::Vector Position;
 
-		LinearColour Ambient;
+		Mathematics::LinearColour Ambient;
 
-		LinearColour Diffuse;
+		Mathematics::LinearColour Diffuse;
 
-		LinearColour Specular;
+		Mathematics::LinearColour Specular;
 	};
 } // namespace Visualization
 

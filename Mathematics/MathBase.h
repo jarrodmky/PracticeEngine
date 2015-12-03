@@ -20,7 +20,19 @@
 namespace Mathematics
 {
 	typedef f32	scalar;
-	typedef std::pair<scalar, scalar> scalarPair;
+
+	struct coordinate
+	{
+		coordinate(const scalar p_U = 0.0f, const scalar p_V = 0.0f)
+		: u(p_U)
+		, v(p_V)
+		{}
+
+		scalar u;
+		scalar v;
+	};
+	
+	
 	typedef std::complex<scalar> complex;
 	
 	//TODO: define literal some general unit suffix e.g. (1.0s)
@@ -50,6 +62,8 @@ namespace Mathematics
 		const scalar OneOverTwoPi		= 0.1591549430918953357689f;
 		const scalar DegsPerRad			= 57.2957795130823208768f;
 		const scalar RadsPerDeg			= 0.01745329251994329576924f;
+		const scalar RootTwo			= 1.41421356237309f;
+		const scalar RootThree			= 1.73205080756887f;
 	}
 	
 	namespace ConstantIntegers
@@ -60,21 +74,19 @@ namespace Mathematics
 		const static u64 MaxU64					= 0xffffffffffffffffui64;
 	}
 
-	inline void DropSign(scalar& p_Scalar)
-	{
-		p_Scalar = (p_Scalar > ConstantScalars::Zero) ? (p_Scalar) : (-p_Scalar);
-	}
-
 	inline const scalar AbsoluteValue(const scalar p_Scalar)
 	{
-		scalar temp(p_Scalar);
-		DropSign(temp);
-		return temp;
+		return (p_Scalar > ConstantScalars::Zero) ? (p_Scalar) : (-p_Scalar);
+	}
+
+	inline bool ApproximateToEachOther(const scalar p_LHS, const scalar p_RHS, const scalar p_Tolerance)
+	{
+		return (AbsoluteValue(p_LHS - p_RHS) < p_Tolerance);
 	}
 
 	inline bool EquivalentToEachOther(const scalar p_LHS, const scalar p_RHS)
 	{
-		return (AbsoluteValue(p_LHS - p_RHS) < ConstantScalars::Epsilon);
+		return ApproximateToEachOther(p_LHS, p_RHS, ConstantScalars::Epsilon);
 	}
 
 	inline bool EquivalentToZero(const scalar p_Scalar)

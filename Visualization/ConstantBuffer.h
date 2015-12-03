@@ -62,6 +62,7 @@ public:
 	}
 
 private:
+
 	u32 GetPaddedSize() const
 	{
 		const u32 typeSize = sizeof(T);

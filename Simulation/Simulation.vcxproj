@@ -13,6 +13,23 @@
   <ItemGroup>
     <ClInclude Include="VerletParticle.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
+      <Project>{e8eaa466-1c84-4356-a157-49f11ae03eb3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Algorithms\Algorithms.vcxproj">
+      <Project>{5eefb04e-ca82-4eee-8a2d-00098e0b182b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
+      <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VerletParticle.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A0839EC9-803B-46C2-A033-AE420B626D63}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -37,9 +54,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

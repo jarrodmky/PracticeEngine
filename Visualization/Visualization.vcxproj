@@ -28,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="LinearColour.cpp" />
     <ClCompile Include="MeshUtil.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -37,6 +36,7 @@
     <ClCompile Include="D3DSystem.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vertices.cpp" />
@@ -47,7 +47,6 @@
     <ClInclude Include="ConicColour.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="LinearColour.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
@@ -56,6 +55,7 @@
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="Shaders.h" />
+    <ClInclude Include="Draw.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Texture.h" />
@@ -97,9 +97,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -109,7 +111,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Abstracts;../Mathematics;../Core;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Serialization;../Abstracts;../Mathematics;../Core;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -129,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Abstracts;../Mathematics;../Core;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Serialization;../Abstracts;../Mathematics;../Core;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>

@@ -98,7 +98,7 @@
     <ClCompile Include="DeleteTest.cpp" />
     <ClCompile Include="GraphTest.cpp" />
     <ClCompile Include="LogTest.cpp" />
-    <ClCompile Include="MatrixTest.cpp" />
+    <ClCompile Include="MathTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -113,6 +113,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
+      <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

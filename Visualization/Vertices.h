@@ -12,7 +12,6 @@
 //===========================================================================
 
 #include <Mathematics.h>
-#include "LinearColour.h"
 #include "Common.h"
 
 namespace Visualization
@@ -42,12 +41,12 @@ namespace Visualization
 
 		Mathematics::Vector Position;
 
-		LinearColour Colour;
+		Mathematics::LinearColour Colour;
 
 	//Operators
 		FlatVertex();
 
-		FlatVertex(const Mathematics::Vector& p_Position, const LinearColour& p_Colour);
+		FlatVertex(const Mathematics::Vector& p_Position, const Mathematics::LinearColour& p_Colour);
 	};
 
 	struct ShadedVertex
@@ -59,14 +58,14 @@ namespace Visualization
 
 		Mathematics::Vector Normal;
 
-		f32 UV[2];
+		Mathematics::coordinate TextureCoord;
 
 		//Operators
 		ShadedVertex();
 
 		ShadedVertex(const Mathematics::Vector& p_Position
 			, const Mathematics::Vector& p_Normal
-			, const f32 p_U, const f32 p_V);
+			, const Mathematics::coordinate& p_TextureCoord);
 	};
 
 //===========================================================================

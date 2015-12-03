@@ -76,7 +76,6 @@ namespace Mathematics
 
 		//scalar projection
 		const scalar LengthAlong(const Vector& p_Rhs) const;
-		const scalar AngleBetween(const Vector& p_Rhs) const;
 
 		//vector projection
 		Vector& ProjectAlong(const Vector& p_Rhs);

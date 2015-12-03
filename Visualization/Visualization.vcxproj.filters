@@ -5,14 +5,8 @@
     <ClCompile Include="Vertices.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="D3DSystem.cpp">
-      <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="MeshUtil.cpp">
       <Filter>Meshes</Filter>
@@ -21,12 +15,16 @@
       <Filter>Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Texturing</Filter>
+      <Filter>Surface</Filter>
     </ClCompile>
     <ClCompile Include="Sampler.cpp">
-      <Filter>Texturing</Filter>
+      <Filter>Surface</Filter>
     </ClCompile>
-    <ClCompile Include="LinearColour.cpp">
+    <ClCompile Include="Draw.cpp">
+      <Filter>Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DSystem.cpp" />
+    <ClCompile Include="Shaders.cpp">
       <Filter>Lighting</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,14 +34,8 @@
     <ClInclude Include="Vertices.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="MeshBuilder.h">
       <Filter>Meshes</Filter>
@@ -57,9 +49,6 @@
     <ClInclude Include="Light.h">
       <Filter>Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="Solid.h">
       <Filter>Meshes</Filter>
     </ClInclude>
@@ -67,26 +56,32 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Texturing</Filter>
+      <Filter>Surface</Filter>
     </ClInclude>
     <ClInclude Include="Sampler.h">
-      <Filter>Texturing</Filter>
+      <Filter>Surface</Filter>
     </ClInclude>
     <ClInclude Include="ConicColour.h">
       <Filter>Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="LinearColour.h">
+    <ClInclude Include="Visualization.h" />
+    <ClInclude Include="Draw.h">
+      <Filter>Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Surface</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h" />
+    <ClInclude Include="Camera.h">
       <Filter>Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Visualization.h" />
+    <ClInclude Include="Shaders.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
       <UniqueIdentifier>{0343f11e-fff8-44e6-acf4-2fcb84488a44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System">
-      <UniqueIdentifier>{e62eb7db-2c40-404f-a1c6-fc5c89f8e177}</UniqueIdentifier>
     </Filter>
     <Filter Include="Meshes">
       <UniqueIdentifier>{1b901987-4925-4108-a411-3098c308d253}</UniqueIdentifier>
@@ -94,7 +89,10 @@
     <Filter Include="Lighting">
       <UniqueIdentifier>{cad7dbb6-ade3-4663-ae4b-30aad73e8e80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Texturing">
+    <Filter Include="Drawing">
+      <UniqueIdentifier>{68eb2b8f-76f9-4db6-aa71-0800349ea16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Surface">
       <UniqueIdentifier>{1ba9477e-ff9a-41bd-9a6b-ccb73359edcc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -109,7 +107,7 @@
       <Filter>Components</Filter>
     </None>
     <None Include="Shaders.inl">
-      <Filter>Components</Filter>
+      <Filter>Surface</Filter>
     </None>
   </ItemGroup>
 </Project>

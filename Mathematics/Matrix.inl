@@ -159,4 +159,11 @@ Matrix& Matrix::Transpose()
 	return *this;
 }
 
+//---------------------------------------------------------------------------
+
+bool Matrix::IsSpecialOthogonal() const
+{
+	return IsOthogonal() && (Determinant() == ConstantScalars::Unity);
+}
+
 } // namespace Mathematics

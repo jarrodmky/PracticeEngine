@@ -28,21 +28,16 @@ namespace Visualization
 	//Attributes
 	private:
 
+		System& m_System;
 		ID3D11InputLayout* m_InputLayout;
 		ID3D11VertexShader* m_ShaderPointer;
 
 	//Operations
 	public:
 
-		VertexShader()
-			: m_InputLayout(nullptr)
-			, m_ShaderPointer(nullptr)
-		{}
+		VertexShader(System& p_System);
 
-		~VertexShader()
-		{
-			Assert(nullptr == m_ShaderPointer && nullptr == m_InputLayout, "Not released!");
-		}
+		~VertexShader();
 
 	private:
 
@@ -51,15 +46,11 @@ namespace Visualization
 	//Methods
 	public:
 
-		void Compile(LPCWSTR p_FileName, ID3D11Device* p_Device);
+		void Compile(LPCWSTR p_FileName, LPCSTR p_EntryName, LPCSTR p_ShaderLevel);
 
 		void Release();
 
-		void Bind(ID3D11DeviceContext* p_Context) const;
-
-	private:
-
-		static void CompileFileIntoShader(ID3DBlob*& p_ShaderBlob, LPCWSTR p_FileName, LPCSTR p_EntryPoint, LPCSTR p_Target);
+		void Bind() const;
 	};
 
 
@@ -68,20 +59,16 @@ namespace Visualization
 	{
 	//Attributes
 	private:
-
+		
+		System& m_System;
 		ID3D11PixelShader* m_ShaderPointer;
 
 	//Operations
 	public:
 
-		PixelShader()
-			: m_ShaderPointer(nullptr)
-		{}
+		PixelShader(System& p_System);
 
-		~PixelShader()
-		{
-			Assert(nullptr == m_ShaderPointer, "Not released!");
-		}
+		~PixelShader();
 
 	private:
 
@@ -90,15 +77,11 @@ namespace Visualization
 	//Methods
 	public:
 
-		void Compile(LPCWSTR p_FileName, ID3D11Device* p_Device);
+		void Compile(LPCWSTR p_FileName, LPCSTR p_EntryName, LPCSTR p_ShaderLevel);
 
 		void Release();
 
-		void Bind(ID3D11DeviceContext* p_Context) const;
-
-	private:
-
-		static void CompileFileIntoShader(ID3DBlob*& p_ShaderBlob, LPCWSTR p_FileName, LPCSTR p_EntryPoint, LPCSTR p_Target);
+		void Bind() const;
 	};
 
 }

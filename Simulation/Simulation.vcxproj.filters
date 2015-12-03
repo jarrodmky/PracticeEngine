@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClInclude Include="VerletParticle.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VerletParticle.cpp" />
+  </ItemGroup>
 </Project>

@@ -34,7 +34,7 @@
     <ClCompile Include="AbstractTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MatrixTest.cpp">
+    <ClCompile Include="MathTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

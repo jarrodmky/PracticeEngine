@@ -80,7 +80,7 @@ bool Window::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width, u32
 
 	Assert(m_Window, "[Window.cpp] Failed to create window!");
 
-	ShowWindow(m_Window, true);
+	ShowWindow(m_Window, SW_SHOW);
 	Verify(SetCursorPos(screenWidth >> 1, screenHeight >> 1), "[Window.cpp] Failed to set cursor position!");
 
 	return true;

@@ -4,16 +4,6 @@
 using namespace Mathematics;
 
 //===========================================================================
-// Constant Definitions
-//===========================================================================
-
-namespace ConstantMatrices
-{
-	const Matrix Zero(ConstantScalars::Zero);
-	const Matrix Identity(ConstantVectors::I, ConstantVectors::J, ConstantVectors::K);
-};
-
-//===========================================================================
 // Function Definitions
 //===========================================================================
 
@@ -140,6 +130,7 @@ const Matrix Matrix::operator *(const Matrix& p_Rhs) const
 
 inline const Vector Matrix::Row(const u32 p_Row) const
 {
+	Assert(p_Row > 0 && p_Row <= 4, "Invalid row!");
 	const Matrix& M(*this);
 	return Vector(M(p_Row, 1), M(p_Row, 2), M(p_Row, 3));
 }
@@ -148,6 +139,7 @@ inline const Vector Matrix::Row(const u32 p_Row) const
 
 inline const Vector Matrix::Column(const u32 p_Column) const
 {
+	Assert(p_Column > 0 && p_Column <= 4, "Invalid column!");
 	const Matrix& M(*this);
 	return Vector(M(1, p_Column), M(2, p_Column), M(3, p_Column));
 }
@@ -179,16 +171,23 @@ const scalar Matrix::Trace() const
 
 //---------------------------------------------------------------------------
 
+const Vector Matrix::Diagonal() const
+{
+	return Vector((*this)(1, 1), (*this)(2, 2), (*this)(3, 3));
+}
+
+//---------------------------------------------------------------------------
+
 const Matrix Matrix::Inverse() const
 {
 	const scalar D = this->Determinant();
+	Assert(!::EquivalentToZero(D), "Matrix is singular, cannot invert!");
+
 	const Matrix& M(*this);
 	const scalar T = M.Trace();
 	const Matrix M2 = M * M;
 	const scalar T2 = M2.Trace();
 	const Matrix M3 = M * M2;
-
-	Assert(!::EquivalentToZero(D), "Matrix is singular, cannot invert!");
 
 	return (ConstantMatrices::Identity * ((T*T*T - 3 * T*T2 + 2 * M3.Trace()) / 6)
 			  - (M * ((T*T - T2) / 2))
@@ -198,11 +197,26 @@ const Matrix Matrix::Inverse() const
 
 //---------------------------------------------------------------------------
 
-const Matrix Matrix::Transpose() const
+const Matrix Matrix::Transposition() const
 {
 	const Matrix& M(*this);
 	return Matrix(M(1, 1), M(2, 1), M(3, 1), M(4, 1)
 				, M(1, 2), M(2, 2), M(3, 2), M(4, 2)
 				, M(1, 3), M(2, 3), M(3, 3), M(4, 3)
 				, M(1, 4), M(2, 4), M(3, 4), M(4, 4));
+}
+
+//---------------------------------------------------------------------------
+
+const scalar Matrix::Norm() const
+{
+	const Matrix& M(*this);
+	return std::sqrt((M.Transposition() * M).Trace());
+}
+
+//---------------------------------------------------------------------------
+
+bool Matrix::IsOthogonal() const
+{
+	return ((*this) * (*this).Transposition()) == ConstantMatrices::Identity;
 }

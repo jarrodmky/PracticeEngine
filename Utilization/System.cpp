@@ -11,13 +11,13 @@
 
 #include "System.h"
 
-using namespace Input;
+using namespace Utilization;
 
 //====================================================================================================
 // Callback Definitions
 //====================================================================================================
 
-BOOL CALLBACK Input::EnumGamePadCallback(const DIDEVICEINSTANCE* pDIDeviceInstance, VOID* pContext)
+BOOL CALLBACK Utilization::EnumGamePadCallback(const DIDEVICEINSTANCE* pDIDeviceInstance, VOID* pContext)
 {
 	// Obtain an interface to the enumerated joystick
 	System* inputSystem = static_cast<System*>(pContext);
@@ -25,7 +25,7 @@ BOOL CALLBACK Input::EnumGamePadCallback(const DIDEVICEINSTANCE* pDIDeviceInstan
 	IDirectInputDevice8** pGamePad = &(inputSystem->mpGamePadDevice);
 	if (FAILED(pDI->CreateDevice(pDIDeviceInstance->guidInstance, pGamePad, nullptr))) 
 	{
-		Assert(false, "[System] Failed to create game pad device.");
+		Log("[System] Failed to create game pad device.");
 	}
 
 	return DIENUM_STOP;
@@ -68,10 +68,13 @@ void System::Initialize(HWND window)
 	// Check if we have already initialized the system
 	if (mInitialized)
 	{
-		Assert(false, "[System] System already initialized.");
+		Log("[System] System already initialized.");
 	}
 
-	//LOG("[System] Initializing...");
+	Assert(IsWindowEnabled(window), "Window is not enabled!");
+	Assert(IsWindowVisible(window), "Window is not visible!");
+
+	Log("[System] Initializing...");
 
 	// Obtain an interface to DirectInput
 	HRESULT hr = DirectInput8Create(GetModuleHandle(nullptr), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&mpDirectInput, nullptr);
@@ -92,6 +95,10 @@ void System::Initialize(HWND window)
 
 	// Acquire the keyboard device
 	hr = mpKeyboardDevice->Acquire();
+	while (!SUCCEEDED(hr))
+	{
+		hr = mpKeyboardDevice->Acquire();
+	}
 	Assert(SUCCEEDED(hr), "[System] Failed to acquire keyboard device.");
 	//----------------------------------------------------------------------------------------------------
 
@@ -110,6 +117,10 @@ void System::Initialize(HWND window)
 
 	// Acquire the mouse device
 	hr = mpMouseDevice->Acquire();
+	while (!SUCCEEDED(hr))
+	{
+		hr = mpMouseDevice->Acquire();
+	}
 	Assert(SUCCEEDED(hr), "[System] Failed to acquire mouse device.");
 
 	// Calculate starting mouse position
@@ -126,7 +137,7 @@ void System::Initialize(HWND window)
 	// Enumerate for game pad device
 	if (FAILED(mpDirectInput->EnumDevices(DI8DEVCLASS_GAMECTRL, EnumGamePadCallback, this, DIEDFL_ATTACHEDONLY)))
 	{
-		Assert(false, "[System] Failed to enumerate for game pad devices.");
+		Log("[System] Failed to enumerate for game pad devices.");
 	}
 
 	// Check if we have a game pad detected
@@ -142,30 +153,31 @@ void System::Initialize(HWND window)
 
 		// Acquire the game pad device
 		hr = mpGamePadDevice->Acquire();
+		while (!SUCCEEDED(hr))
+		{
+			hr = mpGamePadDevice->Acquire();
+		}
 		Assert(SUCCEEDED(hr), "[System] Failed to acquire game pad device.");
 	}
 	else
 	{
-		//LOG("[System] No game pad attached.");
+		Log("[System] No game pad attached.");
 	}
 
 	// Set flag
 	mInitialized = true;
 
-	//LOG("[System] System initialized.");
+	Log("[System] System initialized.");
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void System::Terminate()
 {
-	// Check if we have already terminated the system
-	if (!mInitialized)
-	{
-		Assert(false, "[System] System already terminated.");
-	}
 
-	//LOG("[System] Terminating...");
+	Assert(mInitialized, "[System] System already terminated.");
+
+	Log("[System] Terminating...");
 
 	// Release devices
 	if (mpGamePadDevice != nullptr)
@@ -413,7 +425,7 @@ void System::UpdateKeyboard()
 		}
 		else
 		{
-			Assert(false, "[System] Failed to get keyboard state.");
+			Log("[System] Failed to get keyboard state.");
 			return;
 		}
 	}

@@ -29,13 +29,14 @@ namespace Visualization
 	{
 	//Attributes
 	private:
+
+		System& m_System;
 		ID3D11Buffer* m_Buffer;
-		ID3D11Device* m_RenderDevice;
 
 	//Operations
 	public:
 
-		VertexBuffer();
+		VertexBuffer(System& p_System);
 
 		~VertexBuffer();
 
@@ -46,11 +47,11 @@ namespace Visualization
 	//Methods
 	public:
 
-		void Allocate(const t_VertexType* p_Array, const u32 p_Size, ID3D11Device* p_Device);
+		void Allocate(const t_VertexType* p_Array, const u32 p_Size);
 
 		void Free();
 
-		void Bind(ID3D11DeviceContext* p_Context) const;
+		void Bind() const;
 	};
 
 //---------------------------------------------------------------------------
@@ -60,15 +61,15 @@ namespace Visualization
 	{
 	//Attributes
 	private:
-
+		
+		System& m_System;
 		ID3D11Buffer* m_Buffer;
-		ID3D11Device* m_RenderDevice;
 		IndexTopology m_Topology;
 
 	//Operations
 	public:
 
-		IndexBuffer();
+		IndexBuffer(System& p_System);
 
 		~IndexBuffer();
 
@@ -79,11 +80,11 @@ namespace Visualization
 	//Methods
 	public:
 
-		void Allocate(const t_IndexType* p_Array, const u32 p_Size, ID3D11Device* p_Device, const IndexTopology p_Topology);
+		void Allocate(const t_IndexType* p_Array, const u32 p_Size, const IndexTopology p_Topology);
 
 		void Free();
 
-		void Bind(ID3D11DeviceContext* p_Context) const;
+		void Bind() const;
 	};
 
 #include "Buffers.inl"

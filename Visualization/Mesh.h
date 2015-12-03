@@ -29,11 +29,14 @@ namespace Visualization
 	//Operators
 	public:
 
-		NonCopyable(Mesh<t_VertexType>);
-
 		Mesh();
 
 		~Mesh();
+
+		NonCopyable(Mesh<t_VertexType>);
+
+	//Methods
+	public:
 
 		void Allocate(const u32 p_NumVertices, const u32 p_numIndices);
 
@@ -43,9 +46,9 @@ namespace Visualization
 		
 		u32& GetIndex(const u32 p_Index) const;
 		
-		const t_VertexType* GetVertices() const	{ return m_VertexBuffer; }
+		const t_VertexType* const GetVertices() const	{ return &m_VertexBuffer[0]; }
 
-		const u32* GetIndices() const			{ return m_IndexBuffer; }
+		const u32* const GetIndices() const			{ return &m_IndexBuffer[0]; }
 
 		u32 GetVertexCount() const				{ return m_VertexCount; }
 
@@ -54,8 +57,8 @@ namespace Visualization
 	//Attributes
 	private:
 
-		t_VertexType* m_VertexBuffer;
-		u32* m_IndexBuffer;
+		std::unique_ptr<t_VertexType[]> m_VertexBuffer;
+		std::unique_ptr<u32[]> m_IndexBuffer;
 
 		u32 m_VertexCount;
 		u32 m_IndexCount;

@@ -26,5 +26,6 @@
 #include "Sampler.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "Draw.h"
 
 #endif //#ifndef IncludedVisualizationH

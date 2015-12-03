@@ -20,33 +20,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algebra.h" />
+    <ClInclude Include="LinearColour.h" />
     <ClInclude Include="Series.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Interval.h" />
-    <ClInclude Include="Line.h" />
     <ClInclude Include="MathBase.h" />
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Random.h" />
-    <ClInclude Include="Ray.h" />
-    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Simplices.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Interval.inl" />
     <None Include="Matrix.inl" />
-    <None Include="Plane.inl" />
     <None Include="Point.inl" />
     <None Include="Quaternion.inl" />
-    <None Include="Sphere.inl" />
     <None Include="Vector.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LinearColour.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Random.cpp" />
@@ -95,6 +92,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

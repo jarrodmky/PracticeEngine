@@ -14,11 +14,7 @@
 #include "MathBase.h"
 #include "Algebra.h"
 #include "Point.h"
-#include "Sphere.h"
-#include "Ray.h"
-#include "Line.h"
-#include "Plane.h"
-#include "Frame.h"
+#include "Simplices.h"
 
 namespace Mathematics
 {
@@ -63,18 +59,44 @@ namespace Mathematics
 
 //Coordinate Transforms
 
-	inline const Vector SphericalToCartesian(const Vector& p_RadPhiTheta)
+	inline const Vector SphericalToCartesian(const Vector& p_RadPolarAxial)
 	{
-		scalar st = sin(p_RadPhiTheta.z);
-		scalar sp = sin(p_RadPhiTheta.y);
-		scalar ct = cos(p_RadPhiTheta.z);
-		scalar cp = cos(p_RadPhiTheta.y);
-		scalar rad = p_RadPhiTheta.x;
+		const scalar st = sin(p_RadPolarAxial.z);
+		const scalar sp = sin(p_RadPolarAxial.y);
+		const scalar ct = cos(p_RadPolarAxial.z);
+		const scalar cp = cos(p_RadPolarAxial.y);
+		const scalar rad = p_RadPolarAxial.x;
 
 		return Vector(rad * ct * sp, rad * st * sp, rad * cp);
 	}
 
 //Matrix transforms
+
+	inline const Matrix Transform_RH(const Vector& p_Right
+								   , const Vector& p_Up
+								   , const Vector& p_Forward
+								   , const Point& p_Origin)
+	{
+		using namespace ConstantScalars;
+
+		return Matrix(p_Right.x, p_Up.x, p_Forward.x, p_Origin.x
+					, p_Right.y, p_Up.y, p_Forward.y, p_Origin.y
+					, p_Right.z, p_Up.z, p_Forward.z, p_Origin.z
+					, Zero, Zero, Zero, Unity);
+	}
+
+	inline const Matrix Transform_LH(const Vector& p_Left
+								   , const Vector& p_Up
+								   , const Vector& p_Forward
+								   , const Point& p_Origin)
+	{
+		using namespace ConstantScalars;
+
+		return Matrix(p_Left.x, p_Up.x, p_Forward.x, p_Origin.x
+					, p_Left.y, p_Up.y, p_Forward.y, p_Origin.y
+					, p_Left.z, p_Up.z, p_Forward.z, p_Origin.z
+					, Zero, Zero, Zero, Unity);
+	}
 
 	inline const Matrix ViewLookAt_RH(const Point& p_Position
 		, const Point& p_Target
@@ -108,6 +130,22 @@ namespace Mathematics
 			, Zero, Zero, Zero, Unity);
 	}
 
+	inline const Matrix PerspectiveProjection_RH(const scalar p_FieldOfView
+		, const scalar p_AspectRatio
+		, const scalar p_zFar
+		, const scalar p_zNear)
+	{
+		using namespace ConstantScalars;
+		const scalar yFOV = Inverse(std::tan(p_FieldOfView / 2.0f));
+		const scalar xFOV = yFOV / p_AspectRatio;
+		const scalar depthScale = p_zFar / (p_zNear - p_zFar);
+
+		return Matrix(xFOV, Zero, Zero, Zero
+			, Zero, yFOV, Zero, Zero
+			, Zero, Zero, depthScale, p_zNear*depthScale
+			, Zero, Zero, -Unity, Zero);
+	}
+
 	inline const Matrix PerspectiveProjection_LH(const scalar p_FieldOfView
 											   , const scalar p_AspectRatio
 											   , const scalar p_zFar
@@ -124,20 +162,15 @@ namespace Mathematics
 			, Zero, Zero, Unity, Zero);
 	}
 
-	inline const Matrix PerspectiveProjection_RH(const scalar p_FieldOfView
-		, const scalar p_AspectRatio
-		, const scalar p_zFar
-		, const scalar p_zNear)
+	inline const Matrix ScreenToNDC(const u32 p_Height, const u32 p_Width)
 	{
-		using namespace ConstantScalars;
-		const scalar yFOV = Inverse(std::tan(p_FieldOfView / 2.0f));
-		const scalar xFOV = yFOV / p_AspectRatio;
-		const scalar depthScale = p_zFar / (p_zNear - p_zFar);
+		const scalar w = static_cast<scalar>(p_Width);
+		const scalar h = static_cast<scalar>(p_Height);
 
-		return Matrix(xFOV, Zero, Zero, Zero
-			, Zero, yFOV, Zero, Zero
-			, Zero, Zero, depthScale, p_zNear*depthScale
-			, Zero, Zero, -Unity, Zero);
+		return Matrix(2.0f/w, 0.0f, 0.0f, 0.0f
+					, 0.0f, -2.0f/h, 0.0f, 0.0f
+					, 0.0f, 0.0f, 1.0f, 0.0f
+					, -1.0f, 1.0f,0.0f,1.0f);
 	}
 }
 

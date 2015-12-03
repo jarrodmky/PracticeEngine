@@ -27,4 +27,10 @@ typedef unsigned __int64	u64;
 typedef float				f32;
 typedef double				f64;
 
+
+//#include <dvec.h>
+//
+//typedef F32vec4             v4f32;
+//typedef F64vec2				v2f64;
+
 #endif //#ifndef IncludedCoreTypesH

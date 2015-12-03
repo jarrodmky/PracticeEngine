@@ -1,10 +1,10 @@
-#ifndef IncludedWindoweTEXTUREdAppH
-#define IncludedWindoweTEXTUREdAppH
+#ifndef IncludedGameH
+#define IncludedGameH
 
 //===========================================================================
-// Filename:	HelooTEXTWindowedApp.h
+// Filename:	Game.h
 // Author:		Jarrod MacKay
-// Description:	Provides a window to display visual application information.
+// Description:	Entry functions into the game loop.
 //===========================================================================
 
 //===========================================================================
@@ -12,53 +12,61 @@
 //===========================================================================
 
 #include <Core.h>
+#include <Abstracts.h>
 #include <Mathematics.h>
-#include <Visualization.h>
+#include <Algorithms.h>
 #include <Utilization.h>
+#include <Visualization.h>
+#include <Synchronization.h>
 
 //===========================================================================
 // Classes
 //===========================================================================
 
-class WindowedApp : public Core::Application 
+class Game : public Synchronization::WindowedApp
 {
 
 //Operators
 public:
 
-	WindowedApp();
+	Game();
 
-	virtual ~WindowedApp();
+	virtual ~Game();
 
 //Methods
 private:
 
-	virtual void OnInitialize(u32 p_Width, u32 p_Height);
+	virtual void OnInitialize();
 
 	virtual void OnTerminate();
 
-	virtual void OnUpdate();
+	virtual void OnUpdate(f32 p_DeltaTime);
 
-	static LRESULT WINAPI HandleMessages(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual void OnRender();
 
 //Attributes
-protected:
+private:
 
-	Core::Window m_Viewport;
-
-	Visualization::Camera m_Camera;
-
-	Visualization::System m_GraphicSystem;
-
-	Visualization::Solid m_Sphere;
+	//game
+	Utilization::System m_InputSystem;
 
 	Core::Timer m_Timer;
 
+	Utilization::InputState m_Controller;
+
+	//scene
+	Visualization::Camera m_Camera;
+
+	Visualization::Mesh<Visualization::ShadedVertex> m_Mesh;
+
+	Visualization::Solid m_Sphere;
+
 	Visualization::Light m_Light;
 
+	//material
 	Visualization::Texture m_Texture;
 
 	Visualization::Sampler m_Sampler;
 };
 
-#endif //#ifndef IncludedWindowedAppH
+#endif //#ifndef IncludedGameH

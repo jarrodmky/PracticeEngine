@@ -14,6 +14,7 @@
 #include "MathBase.h"
 #include "Algebra.h"
 #include "Geometry.h"
+#include "Frame.h"
 #include "Random.h"
 #include "Series.h"
 

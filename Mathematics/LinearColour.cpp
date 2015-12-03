@@ -9,6 +9,7 @@
 
 #include "Precompiled.h"
 #include "LinearColour.h"
+#include "MathBase.h"
 
 //===========================================================================
 // Class Definitions
@@ -23,7 +24,7 @@ namespace
 	}
 }
 
-namespace Visualization
+namespace Mathematics
 {
 	LinearColour::LinearColour(f32 p_Red, f32 p_Green, f32 p_Blue, f32 p_Alpha)
 		: R(p_Red)

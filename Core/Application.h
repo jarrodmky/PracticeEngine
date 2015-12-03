@@ -13,6 +13,7 @@
 
 #include "Common.h"
 #include "Types.h"
+#include "Timer.h"
 
 //===========================================================================
 // Classes
@@ -35,10 +36,6 @@ namespace Core
 
 		void Terminate();
 
-		void HookupWindow(HWND p_Hwnd);
-
-		void UnhookWindow();
-
 		void Update();
 
 		bool IsRunning() const {return m_Running; }
@@ -47,17 +44,15 @@ namespace Core
 
 		HINSTANCE GetInstance() const { return m_Instance; }
 
-		HWND GetWindow() const {return m_Window; }
-
 		LPCSTR GetAppName() const {return m_AppName; }
 
 	private:
 
-		virtual void OnInitialize(u32 p_Width, u32 p_Height) = 0;
+		virtual void OnApplicationInitialize(u32 p_Width, u32 p_Height) = 0;
 
-		virtual void OnTerminate() = 0;
+		virtual void OnApplicationTerminate() = 0;
 
-		virtual void OnUpdate() = 0;
+		virtual void OnApplicationUpdate() = 0;
 
 	//Attributes
 	protected:

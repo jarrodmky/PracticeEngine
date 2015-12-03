@@ -17,14 +17,15 @@ namespace Mathematics
 
 	Quaternion::Quaternion(const Vector& p_Axis, const scalar p_Angle)
 		: m_Real(std::cos(p_Angle * 0.5f))
-		, m_Imaginary(p_Axis.x, p_Axis.y, p_Axis.z)
-	{
-		if (m_Imaginary.LengthSquared() > ConstantScalars::Unity)
-		{
-			m_Imaginary.Normalize();
-		}
-		m_Imaginary *= std::sin(p_Angle * 0.5f);
-	}
+		, m_Imaginary(p_Axis.Direction() * std::sin(p_Angle * 0.5f))
+	{}
+
+	//---------------------------------------------------------------------------
+
+	Quaternion::Quaternion(const scalar p_Real, const Vector& p_Imaginary)
+		: m_Real(p_Real)
+		, m_Imaginary(p_Imaginary)
+	{}
 
 	//---------------------------------------------------------------------------
 
@@ -115,7 +116,7 @@ namespace Mathematics
 
 	Quaternion& Quaternion::operator /=(const Quaternion& p_Rhs)
 	{
-		return (*this) *= p_Rhs.Reciprocal();
+		return (*this) *= p_Rhs.Inverse();
 	}
 
 	//---------------------------------------------------------------------------
@@ -161,20 +162,44 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
+	inline const scalar Quaternion::Angle() const
+	{
+		return 2.0f * std::acos(m_Real);
+	}
+
+	//---------------------------------------------------------------------------
+
+	inline const Vector Quaternion::Axis() const
+	{
+		const scalar angle(Angle());
+		const scalar div(ConstantScalars::Unity / std::sqrt(ConstantScalars::Unity - (m_Real * m_Real)));
+
+		if (EquivalentToZero(div))
+		{
+			return m_Imaginary;
+		}
+		else
+		{
+			return m_Imaginary * div;
+		}
+	}
+
+	//---------------------------------------------------------------------------
+
 	//const bool Quaternion::RotationallyEqualTo(const Quaternion& p_Rhs) const;
 
 	//---------------------------------------------------------------------------
 
-	Quaternion& Quaternion::Reciprocate()
+	Quaternion& Quaternion::Invert()
 	{
 		return (this->Conjugate()) /= LengthSquared();
 	}
 
 	//---------------------------------------------------------------------------
 
-	const Quaternion Quaternion::Reciprocal() const
+	const Quaternion Quaternion::Inverse() const
 	{
-		return Quaternion(*this).Reciprocate();
+		return Quaternion(*this).Invert();
 	}
 
 	//---------------------------------------------------------------------------
@@ -220,6 +245,7 @@ namespace Mathematics
 	Quaternion& Quaternion::Normalize()
 	{
 		this->operator*=(InverseLength());
+		return *this;
 	}
 
 	//---------------------------------------------------------------------------
@@ -231,7 +257,7 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	const scalar Quaternion::ScalarPart()
+	const scalar Quaternion::ScalarPart() const
 	{
 		return m_Real;
 	}
@@ -289,13 +315,8 @@ namespace Mathematics
 
 	void Quaternion::RotateVector(Vector& p_Vector) const
 	{
-		p_Vector = ((*this) * Quaternion(0.0f, p_Vector) * this->Conjugate()).VectorPart();
+		scalar length = p_Vector.Length();
+		Vector direction = p_Vector.Direction();
+		p_Vector = (((*this) * Quaternion(0.0f, p_Vector) * this->Conjugate()).VectorPart().Direction()) * length;
 	}
-
-	//---------------------------------------------------------------------------
-
-	Quaternion::Quaternion(const scalar p_Real, const Vector& p_Imaginary)
-		: m_Real(p_Real)
-		, m_Imaginary(p_Imaginary)
-	{}
 }

@@ -12,6 +12,8 @@
 //===========================================================================
 
 #include <Core.h>
+#include <Abstracts.h>
+#include <Algorithms.h>
 #include <Mathematics.h>
 
 // TODO: reference additional headers your program requires here

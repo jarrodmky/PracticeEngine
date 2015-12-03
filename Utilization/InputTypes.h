@@ -10,6 +10,8 @@
 //====================================================================================================
 // Constants
 //====================================================================================================
+namespace Utilization
+{
 
 namespace Keys
 {
@@ -146,7 +148,8 @@ namespace Mouse
 
 //----------------------------------------------------------------------------------------------------
 
-namespace GamePad
+//modifuied by jarrod
+namespace GenericGamePad
 {
 	const u32 BUTTON1		= 0;
 	const u32 BUTTON2		= 1;
@@ -158,6 +161,25 @@ namespace GamePad
 	const u32 BUTTON8		= 7;
 	const u32 BUTTON9		= 8;
 	const u32 BUTTON10		= 9;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+//added by jarrod
+namespace Xbox 
+{
+	const u32 A = 0;
+	const u32 B = 1;
+	const u32 X = 2;
+	const u32 Y = 3;
+	const u32 LB = 4;
+	const u32 RB = 5;
+	const u32 LMAIN = 6;
+	const u32 RMAIN = 7;
+	const u32 LSTICK = 8;
+	const u32 RSTICK = 9;
+}
+
 }
 
 #endif // #ifndef INCLUDED_INPUT_INPUTTYPES_H

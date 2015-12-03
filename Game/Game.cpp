@@ -1,5 +1,5 @@
 //===========================================================================
-// Filename:	WindowedApp.cpp
+// Filename:	HelooTEXTUREWindowedApp.cpp
 // Author:		Jarrod MacKay
 //===========================================================================
 
@@ -7,15 +7,12 @@
 // Includes
 //===========================================================================
 
-#include "WindowedApp.h"
-#include <Abstracts.h>
-#include <Algorithms.h>
-#include <Visualization.h>
+#include "Game.h"
 
-using namespace Visualization;
-using namespace Mathematics;
 using namespace Abstracts;
+using namespace Mathematics;
 using namespace Algorithms;
+
 
 const scalar kTileSize = 0.65f;
 const Vector kOffset(kTileSize * 0.5f - 3.0f, kTileSize * 0.5f - 3.0f, 0.0f);
@@ -38,7 +35,7 @@ namespace
 	{
 		const Graph& graph = grid.GetGraph();
 		Assert(path.size() > 0, "No path set!");
-		for(u32 i = 0; i < path.size() - 1; ++i)
+		for (u32 i = 0; i < path.size() - 1; ++i)
 		{
 			const Graph::Node& startNode = graph.GetNode(path[i]);
 			const Graph::Node& endNode = graph.GetNode(path[i + 1]);
@@ -57,13 +54,13 @@ namespace
 	void ShowNeighbours()
 	{
 		const Graph& graph = grid.GetGraph();
-		for(u32 i = 0; i < graph.GetNumberOfNodes(); ++i)
+		for (u32 i = 0; i < graph.GetNumberOfNodes(); ++i)
 		{
 			const Graph::Node& node = graph.GetNode(i);
 			u32 x0 = grid.GetX(node.GetIndex());
 			u32 y0 = grid.GetY(node.GetIndex());
-			
-			for(u32 n = 0; n < node.GetNumberOfNeighbours(); ++n)
+
+			for (u32 n = 0; n < node.GetNumberOfNeighbours(); ++n)
 			{
 				const Graph::Node& neighbour = node.GetNeighbour(n);
 				u32 x1 = grid.GetX(neighbour.GetIndex());
@@ -80,7 +77,7 @@ namespace
 	void ShowClosedList()
 	{
 		const Graph& graph = grid.GetGraph();
-		for(u32 i = 0; i < context.ClosedList.size(); ++i)
+		for (u32 i = 0; i < context.ClosedList.size(); ++i)
 		{
 			const Graph::Node& startNode = graph.GetNode(context.ClosedList[i]);
 			u32 next = context.Parents[startNode.GetIndex()];
@@ -101,33 +98,24 @@ namespace
 		}
 	}
 }
-
-
-
 //===========================================================================
 // Class Definitions
 //===========================================================================
 
-WindowedApp::WindowedApp()
-: Core::Application()
-, m_Viewport()
+Game::Game()
+: Synchronization::WindowedApp()
 {}
 
 //---------------------------------------------------------------------------
 
-WindowedApp::~WindowedApp() {}
+Game::~Game() {}
 
 //---------------------------------------------------------------------------
 
-void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
+void Game::OnInitialize()
 {
-	m_Viewport.Initialize(GetInstance(), GetAppName(), p_Width, p_Height, &WindowedApp::HandleMessages);
 
-	HookupWindow(m_Viewport.GetWindowHandle());
-
-	//OpenGL
-	//Renderer::Initialize(m_Viewport.GetWindowHandle(), p_Height, p_Width);
-
+	Mathematics::Random::Initialize();
 
 	//AI
 	grid.Initialize(10, 10);
@@ -144,11 +132,11 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 
 	context.Initialize(numNodes, start, end);
 	context.GetH = [](u32 p_Index1, u32 p_Index2)->f32
-	{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f) 
-				  - Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
+	{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)
+	- Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
 	context.GetG = [](u32 p_Index1, u32 p_Index2)->f32
-	{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f) 
-				  - Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
+	{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)
+	- Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
 
 	GraphSearch<Dijkstra>::Run(graph, context);
 	GraphSearch<Dijkstra>::GetPath(context, path);
@@ -156,64 +144,23 @@ void WindowedApp::OnInitialize(u32 p_Width, u32 p_Height)
 
 //---------------------------------------------------------------------------
 
-void WindowedApp::OnTerminate()
+void Game::OnTerminate()
 {
 	grid.Free();
-
-	UnhookWindow();
-
-	m_Viewport.Terminate();
-
 }
 
 //---------------------------------------------------------------------------
 
-void WindowedApp::OnUpdate()
+void Game::OnUpdate(f32 p_DeltaTime)
 {
-	if(m_Viewport.CloseMessageReceived())
-	{
-		m_Running = false;
-	}
-	
-	//OpenGL
-	//Renderer::Canvas();
-	//Renderer::AddSphere(Sphere(0.0, 0.0, 0.0, 1.0), 0.0, 0.0, 0.0);
-	//Renderer::AddSphere(Sphere(3.0, 0.0, 0.0, 0.5), 1.0, 0.0, 0.0);
-	//Renderer::AddSphere(Sphere(0.0, 3.0, 0.0, 1.0), 0.0, 1.0, 0.0);
-	//Renderer::AddSphere(Sphere(0.0, 0.0, 3.0, 2.0), 0.0, 0.0, 1.0);
-	//Renderer::AddSphere(Sphere(0.0, -3.0, 0.0, 1.0), 1.0, 1.0, 0.0);
-	//Renderer::AddSphere(Sphere(-3.0, 0.0, 0.0, 0.5), 1.0, 0.0, 1.0);
-	//Renderer::AddSphere(Sphere(0.0, 0.0, -3.0, 2.0), 0.0, 1.0, 1.0);
+}
+
+//---------------------------------------------------------------------------
+
+void Game::OnRender()
+{
 
 	ShowPath();
 	ShowClosedList();
 	ShowNeighbours();
-
-	//Renderer::Paint();
-	//Renderer::SwapBuffer();
-}
-
-//---------------------------------------------------------------------------
-
-LRESULT CALLBACK WindowedApp::HandleMessages(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-	case WM_QUERYNEWPALETTE:
-	case WM_PALETTECHANGED:
-		//Renderer::UpdatePalette();
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-
-	case WM_CLOSE:
-		PostMessage(hwnd, msg, wParam, lParam);
-		break;
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
-	return 1;
 }

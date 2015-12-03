@@ -10,8 +10,7 @@
 cbuffer TransformBuffer : register( b0 )
 {
 	matrix world;
-	matrix view;
-	matrix projection;
+	matrix viewProjection;
 };
 
 cbuffer MaterialBuffer : register(b1)
@@ -60,8 +59,7 @@ VS_OUTPUT VS( VS_INPUT input )
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     float4 posWorld = mul( float4(input.position, 1.0f), world );
-    output.position = mul( posWorld, view );
-    output.position = mul( output.position, projection );
+	output.position = mul(posWorld, viewProjection);
 	
 	float3 normal = mul(float4(input.normal, 0.0f), world).xyz;
 	normal = normalize(normal);
@@ -83,20 +81,33 @@ VS_OUTPUT VS( VS_INPUT input )
 //--------------------------------------------------------------------------------------
 float4 PS( VS_OUTPUT input ) : SV_Target
 {
+	float intensity = 3.0f;
+
 	float3 normal = normalize(input.normal);
-	float3 dirToLight = normalize(input.dirToLight);
-	float3 dirToView = normalize(input.dirToView);
+	float3 dirLight = normalize(input.dirToLight);
+	float3 dirView = normalize(input.dirToView);
 
-	float4 ambient = lightAmbient * materialAmbient;
+	//ambience
+	float4 ambient = saturate(lightAmbient * materialAmbient);
 
-	float d = saturate(dot(dirToLight, normal));
-	float4 diffuse = d * lightDiffuse * materialDiffuse;
+	//diffusion
+	float d = saturate(dot(dirLight, normal));
+	float4 diffuse = d * saturate(lightDiffuse * materialDiffuse);
 
-	float3 r = reflect(-dirToLight, normal);
-	float s = saturate(dot(r, dirToView));
-	float4 specular = s * lightSpecular * materialSpecular;
-
+	//texturing
 	float4 diffuseColour = diffuseMap.Sample(mapState, input.texCoord) * (ambient + diffuse);
+
+	//specularity
+	float ldn = dot(dirLight, normal);
+	float3 reflected = 2.0f * (normal * ldn) - dirLight;
+	float s = saturate(dot(reflected, dirView));
+
+	float4 specular = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	[flatten] if(ldn > 0.0f)
+	{
+		specular = s * lightSpecular * materialSpecular;
+	}
 
 	return diffuseColour + specular;
 }

@@ -11,7 +11,7 @@
 // Namespace
 //====================================================================================================
 
-namespace Input
+namespace Utilization
 {
 
 //====================================================================================================
@@ -59,6 +59,11 @@ public:
 	f32 GetLeftAnalogY() const;
 	f32 GetRightAnalogX() const;
 	f32 GetRightAnalogY() const;
+
+	//Added by Jarrod
+	bool KeyboardIsConnected() const { return mpKeyboardDevice != nullptr; }
+	bool MouseIsConnected() const { return mpMouseDevice != nullptr; }
+	bool GamepadIsConnected() const { return mpGamePadDevice != nullptr; }
 
 private:
 	NonCopyable(System);

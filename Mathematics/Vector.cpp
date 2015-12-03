@@ -23,13 +23,6 @@ const scalar Vector::LengthAlong(const Vector& p_Rhs) const
 
 //---------------------------------------------------------------------------
 
-const scalar Vector::AngleBetween(const Vector& p_Rhs) const
-{
-	return std::acosf(Direction() | p_Rhs.Direction());
-}
-
-//---------------------------------------------------------------------------
-
 Vector& Vector::ProjectAlong(const Vector& p_Rhs)
 {
 	scalar invSquareLHS = p_Rhs.LengthSquared();

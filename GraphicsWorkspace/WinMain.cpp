@@ -1,36 +1,32 @@
-#ifndef IncludedMathRayH
-#define IncludedMathRayH
-
 //===========================================================================
-// Filename:	Ray.h
+// Filename:	WinMain.cpp
 // Author:		Jarrod MacKay
-// Description:	Defines a class that represents a 3 dimensional Ray
+// Description:	Game application launcher.
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
-#include "Vector.h"
-#include "Point.h"
+#include "Game.h"
 
 //===========================================================================
-// Classes
+// Main
 //===========================================================================
 
-namespace Mathematics
+int WINAPI WinMain( HINSTANCE hInstance
+				   ,  HINSTANCE hPrevInstance
+				   ,  LPSTR     lpCmdLine
+				   ,  int       nCmdShow)
 {
-	class Ray
+	Game myApplication;
+	myApplication.Initialize(hInstance, "JARROD", 1024, 768);
+
+	while(myApplication.IsRunning())
 	{
-		//Operators
-		Ray(const Point& p_Centre, const Vector& p_Direction);
+		myApplication.Update();
+	}
 
-		//Attributes
-		public:
-	
-			Point Centre;
-			Vector Direction;
-	};
-} // namespace Mathematics
-
-#endif //#ifndef IncludedMathRayH
+	myApplication.Terminate();
+	return 0;
+}

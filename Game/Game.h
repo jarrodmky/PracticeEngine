@@ -1,10 +1,10 @@
-#ifndef IncludedWindowedAppH
-#define IncludedWindowedAppH
+#ifndef IncludedGameH
+#define IncludedGameH
 
 //===========================================================================
-// Filename:	WindowedApp.h
+// Filename:	Game.h
 // Author:		Jarrod MacKay
-// Description:	Provides a window to display visual application information.
+// Description:	Entry functions into the game loop.
 //===========================================================================
 
 //===========================================================================
@@ -12,37 +12,41 @@
 //===========================================================================
 
 #include <Core.h>
+#include <Abstracts.h>
+#include <Mathematics.h>
+#include <Algorithms.h>
+#include <Utilization.h>
 #include <Visualization.h>
+#include <Synchronization.h>
 
 //===========================================================================
 // Classes
 //===========================================================================
 
-class WindowedApp : public Core::Application 
+class Game : public Synchronization::WindowedApp
 {
+
 //Operators
 public:
 
-	WindowedApp();
+	Game();
 
-	virtual ~WindowedApp();
+	virtual ~Game();
 
 //Methods
 private:
 
-	virtual void OnInitialize(u32 p_Width, u32 p_Height);
+	virtual void OnInitialize();
 
 	virtual void OnTerminate();
 
-	virtual void OnUpdate();
+	virtual void OnUpdate(f32 p_DeltaTime);
 
-	static LRESULT WINAPI HandleMessages(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual void OnRender();
 
 //Attributes
-protected:
-
-	Core::Window m_Viewport;
+private:
 
 };
 
-#endif //#ifndef IncludedWindowedAppH
+#endif //#ifndef IncludedGameH

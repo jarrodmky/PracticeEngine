@@ -8,8 +8,7 @@
 // Includes
 //===========================================================================
 
-#include "WindowedApp.h"
-#include <Mathematics.h>
+#include "Game.h"
 
 //===========================================================================
 // Main
@@ -20,8 +19,7 @@ int WINAPI WinMain( HINSTANCE hInstance
 				   ,  LPSTR     lpCmdLine
 				   ,  int       nCmdShow)
 {
-	Mathematics::Random::Initialize();
-	WindowedApp myApplication;
+	Game myApplication;
 	myApplication.Initialize(hInstance, "JARROD", 1024, 768);
 
 	while(myApplication.IsRunning())

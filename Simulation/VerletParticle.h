@@ -11,13 +11,13 @@
 // Includes
 //===========================================================================
 
-#include "MathBase.h"
+#include <Mathematics.h>
 
 //===========================================================================
 // Classes
 //===========================================================================
 
-namespace Mathematics
+namespace Simulation
 {
 	class VerletParticle
 	{
@@ -26,9 +26,13 @@ namespace Mathematics
 
 	//Operators
 	public:
+
+		void Integrate();
 		
 	//Methods
 	public:
+
+		Mathematics::Vector m_Position;
 		
 	};
 

@@ -1,5 +1,26 @@
+//===========================================================================
+// Filename:	Shaders.inl
+// Author:		Jarrod MacKay
+//===========================================================================
+
+namespace Visualization
+{
+
 template <typename t_VertexType>
-void Visualization::VertexShader<t_VertexType>::Compile(LPCWSTR p_FileName, ID3D11Device* p_Device)
+VertexShader<t_VertexType>::VertexShader(System& p_System)
+: m_System(p_System)
+, m_InputLayout(nullptr)
+, m_ShaderPointer(nullptr)
+{}
+
+template <typename t_VertexType>
+VertexShader<t_VertexType>::~VertexShader()
+{
+	Assert(nullptr == m_ShaderPointer && nullptr == m_InputLayout, "Not released!");
+}
+
+template <typename t_VertexType>
+void VertexShader<t_VertexType>::Compile(LPCWSTR p_FileName, LPCSTR p_EntryName, LPCSTR p_ShaderLevel)
 {
 	ID3DBlob* shaderBlob = nullptr;	
 	
@@ -9,8 +30,8 @@ void Visualization::VertexShader<t_VertexType>::Compile(LPCWSTR p_FileName, ID3D
 	( p_FileName
 	, nullptr
 	, nullptr
-	,  "VS"
-	, "vs_5_0"
+	, p_EntryName
+	, p_ShaderLevel
 	, shaderFlags
 	, 0
 	, &shaderBlob
@@ -19,16 +40,16 @@ void Visualization::VertexShader<t_VertexType>::Compile(LPCWSTR p_FileName, ID3D
 	Assert(SUCCEEDED(hr), "Could not compile vertex shader! %s", (char*)errorBlob->GetBufferPointer());
 	ProperlyRelease(errorBlob);
 
-	p_Device->CreateVertexShader
+	m_System.GetDevice()->CreateVertexShader
 	( shaderBlob->GetBufferPointer()
 	, shaderBlob->GetBufferSize()
 	, nullptr
 	, &m_ShaderPointer);
 
-	Visualization::MeshUtil::LayoutVector layout;
-	Visualization::MeshUtil::CreateVertexLayout(t_VertexType::Format, layout);
+	MeshUtil::LayoutVector layout;
+	MeshUtil::CreateVertexLayout(t_VertexType::Format, layout);
 
-	p_Device->CreateInputLayout
+	m_System.GetDevice()->CreateInputLayout
 		(&layout[0]
 		, layout.size()
 		, shaderBlob->GetBufferPointer()
@@ -39,15 +60,16 @@ void Visualization::VertexShader<t_VertexType>::Compile(LPCWSTR p_FileName, ID3D
 }
 
 template <typename t_VertexType>
-void Visualization::VertexShader<t_VertexType>::Release()
+void VertexShader<t_VertexType>::Release()
 {
 	ProperlyRelease(m_ShaderPointer);
 	ProperlyRelease(m_InputLayout);
 }
 
 template <typename t_VertexType>
-void Visualization::VertexShader<t_VertexType>::Bind(ID3D11DeviceContext* p_Context) const
+void VertexShader<t_VertexType>::Bind() const
 {
-	p_Context->IASetInputLayout(m_InputLayout);
-	p_Context->VSSetShader(m_ShaderPointer, nullptr, 0);
+	m_System.GetContext()->IASetInputLayout(m_InputLayout);
+	m_System.GetContext()->VSSetShader(m_ShaderPointer, nullptr, 0);
+}
 }

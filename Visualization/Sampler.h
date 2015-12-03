@@ -39,13 +39,14 @@ namespace Visualization
 		Mirror,
 		Wrap
 	};
-		//Operations
+
+	//Operations
 	public:
 		Sampler();
 		~Sampler();
 		
 
-		//Methods
+	//Methods
 	public:
 		
 		void Initialize(System& p_System, Filter p_Filter, AddressMode p_AddressMode);
@@ -55,7 +56,7 @@ namespace Visualization
 		void BindGeometryShader(System& p_System, u32 p_Index);
 		void BindPixelShader(System& p_System, u32 p_Index);
 
-		//Attributes
+	//Attributes
 	private:
 
 	ID3D11SamplerState* m_Sampler;

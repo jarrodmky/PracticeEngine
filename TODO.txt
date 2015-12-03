@@ -1,3 +1,41 @@
+Dec. 1, 2015
+
+-matrix stack
+-spore game dev, infinite zoom?
+
+Nov. 30, 2015
+
+-reflection for class system?
+
+Nov. 26, 2015
+
+-having a Game class that can be inherited from and contain only oninitialize, onterminate, onrender and onupdate methods
+
+-Morton array???
+
+Nov. 24, 2015
+
+-incorporate a version of DirectX::CommonState helper class.
+-make a shader for skybox that allows the rendering to be disabled.
+-OBJ importer
+
+-shadow matrix projection
+
+-get textures for different planets
+	-threex.js.planets
+	-planetpixelemporium
+
+-particle system
+
+-debug rendering
+
+-procedureal texture???
+
+-terrain / heightmap?
+
+-scene graph?
+
+
 Nove. 14, 2015
 
 -would be nice if the mesh builder could set the topolgy to give more methods of geomtric construction

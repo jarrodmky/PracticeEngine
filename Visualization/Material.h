@@ -28,26 +28,26 @@ namespace Visualization
 
 		Material()
 			: Reflectance(1.0f)
-			, Ambient(ConstantColours::White)
-			, Diffuse(ConstantColours::White)
-			, Specular(ConstantColours::White)
-			, Emission(ConstantColours::White)
+			, Ambient(Mathematics::ConstantColours::White)
+			, Diffuse(Mathematics::ConstantColours::White)
+			, Specular(Mathematics::ConstantColours::White)
+			, Emission(Mathematics::ConstantColours::White)
 		{}
 
-		Material(const LinearColour& p_Colour)
+		Material(const Mathematics::LinearColour& p_Colour)
 			: Reflectance(1.0f)
 			, Ambient(p_Colour)
 			, Diffuse(p_Colour)
 			, Specular(p_Colour)
-			, Emission(ConstantColours::Black)
+			, Emission(Mathematics::ConstantColours::Black)
 		{}
 
-		Material(const LinearColour& p_Ambient, const LinearColour& p_Diffuse, const LinearColour& p_Specular)
+		Material(const Mathematics::LinearColour& p_Ambient, const Mathematics::LinearColour& p_Diffuse, const Mathematics::LinearColour& p_Specular)
 			: Reflectance(1.0f)
 			, Ambient(p_Ambient)
 			, Diffuse(p_Diffuse)
 			, Specular(p_Specular)
-			, Emission(ConstantColours::Black)
+			, Emission(Mathematics::ConstantColours::Black)
 		{}
 
 	//Attributes
@@ -55,13 +55,13 @@ namespace Visualization
 
 		f32 Reflectance;
 
-		LinearColour Ambient;
+		Mathematics::LinearColour Ambient;
 
-		LinearColour Diffuse;
+		Mathematics::LinearColour Diffuse;
 
-		LinearColour Specular;
+		Mathematics::LinearColour Specular;
 
-		LinearColour Emission;
+		Mathematics::LinearColour Emission;
 	};
 } // namespace Visualization
 

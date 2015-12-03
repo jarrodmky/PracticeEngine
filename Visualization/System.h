@@ -8,7 +8,7 @@
 //====================================================================================================
 
 #include "Common.h"
-#include "LinearColour.h"
+#include <Mathematics.h>
 
 //====================================================================================================
 // Namespace
@@ -31,6 +31,30 @@ namespace Visualization
 		TriangleStrip
 	};
 
+	struct TransformBuffer
+	{
+		Mathematics::Matrix LocalToWorld;
+		Mathematics::Matrix WorldToViewToProjection;
+	};
+
+	struct MaterialBuffer
+	{
+		Mathematics::LinearColour MaterialAmbient;
+		Mathematics::LinearColour MaterialDiffuse;
+		Mathematics::LinearColour MaterialSpecular;
+	};
+
+	struct LightingBuffer
+	{
+		Mathematics::Vector ViewPosition;
+		f32 PAD0 = 0.0f;
+		Mathematics::Vector LightDirection;
+		f32 PAD1 = 0.0f;
+		Mathematics::LinearColour LightAmbient;
+		Mathematics::LinearColour LightDiffuse;
+		Mathematics::LinearColour LightSpecular;
+	};
+
 class System
 {
 public:
@@ -41,7 +65,7 @@ public:
 	void Initialize(HWND window, bool fullscreen);
 	void Terminate();
 
-	void BeginRender(Visualization::LinearColour p_ClearColour = Visualization::ConstantColours::Black);
+	void BeginRender(Mathematics::LinearColour p_ClearColour = Mathematics::ConstantColours::Black);
 	void EndRender();
 
 	void ToggleFullscreen();

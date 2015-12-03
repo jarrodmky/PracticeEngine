@@ -24,7 +24,7 @@ namespace UnitTests
 
 			Assert::AreEqual(getter, u32(128));
 
-			tester.Peek(0, getter);
+			tester.Peek(1, getter);
 			Assert::AreEqual(getter, u32(64));
 
 

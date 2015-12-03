@@ -15,5 +15,6 @@
 
 #include "InputTypes.h"
 #include "System.h"
+#include "InputState.h"
 
 #endif // #ifndef INCLUDED_INPUT_H

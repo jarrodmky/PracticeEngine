@@ -36,35 +36,21 @@ void Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width
 
 	CoInitialize(nullptr);
 
-	OnInitialize(p_Width, p_Height);
+	OnApplicationInitialize(p_Width, p_Height);
 }
 
 //---------------------------------------------------------------------------
 
 void Application::Terminate()
 {
-	OnTerminate();
+	OnApplicationTerminate();
 
 	CoUninitialize();
 }
 
 //---------------------------------------------------------------------------
 
-void Application::HookupWindow(HWND p_Hwnd)
-{
-	m_Window = p_Hwnd;
-}
-
-//---------------------------------------------------------------------------
-
-void Application::UnhookWindow()
-{
-	m_Window = nullptr;
-}
-
-//---------------------------------------------------------------------------
-
 void Application::Update()
 {
-	OnUpdate();
+	OnApplicationUpdate();
 }

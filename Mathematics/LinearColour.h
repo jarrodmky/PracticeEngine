@@ -17,7 +17,7 @@
 // Definitions
 //===========================================================================
 
-namespace Visualization
+namespace Mathematics
 {
 	class LinearColour
 	{

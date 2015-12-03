@@ -4,7 +4,17 @@
 
 using namespace Visualization;
 
-void PixelShader::Compile(LPCWSTR p_FileName, ID3D11Device* p_Device)
+PixelShader::PixelShader(System& p_System)
+: m_System(p_System)
+, m_ShaderPointer(nullptr)
+{}
+
+PixelShader::~PixelShader()
+{
+	Assert(nullptr == m_ShaderPointer, "Not released!");
+}
+
+void PixelShader::Compile(LPCWSTR p_FileName, LPCSTR p_EntryName, LPCSTR p_ShaderLevel)
 {
 	ID3DBlob* shaderBlob = nullptr;
 
@@ -14,8 +24,8 @@ void PixelShader::Compile(LPCWSTR p_FileName, ID3D11Device* p_Device)
 	( p_FileName
 	, nullptr
 	, nullptr
-	,  "PS"
-	, "ps_5_0"
+	, p_EntryName
+	, p_ShaderLevel
 	, shaderFlags
 	, 0
 	, &shaderBlob
@@ -24,7 +34,7 @@ void PixelShader::Compile(LPCWSTR p_FileName, ID3D11Device* p_Device)
 	Assert(SUCCEEDED(hr), "Could not compile pixel shader! %s", (char*)errorBlob->GetBufferPointer());
 	ProperlyRelease(errorBlob);
 
-	p_Device->CreatePixelShader
+	m_System.GetDevice()->CreatePixelShader
 	( shaderBlob->GetBufferPointer()
 	, shaderBlob->GetBufferSize()
 	, nullptr
@@ -38,7 +48,7 @@ void PixelShader::Release()
 	ProperlyRelease(m_ShaderPointer);
 }
 
-void PixelShader::Bind(ID3D11DeviceContext* p_Context) const
+void PixelShader::Bind() const
 {
-	p_Context->PSSetShader(m_ShaderPointer, nullptr, 0);
+	m_System.GetContext()->PSSetShader(m_ShaderPointer, nullptr, 0);
 }

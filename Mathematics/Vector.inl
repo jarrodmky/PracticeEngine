@@ -42,15 +42,15 @@ namespace Mathematics
 		x = -x;
 		y = -y;
 		z = -z;
+
+		return *this;
 	}
 
 	//---------------------------------------------------------------------------
 
 	const Vector Vector::operator -() const
 	{
-		Vector temp(*this);
-		temp.Negate();
-		return temp;
+		return Vector(-x, -y, -z);
 	}
 
 	//---------------------------------------------------------------------------
@@ -72,76 +72,73 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	Vector& Vector::operator -=(const Vector& p_Lhs)
+	Vector& Vector::operator -=(const Vector& p_Rhs)
 	{
-		x -= p_Lhs.x;
-		y -= p_Lhs.y;
-		z -= p_Lhs.z;
+		x -= p_Rhs.x;
+		y -= p_Rhs.y;
+		z -= p_Rhs.z;
 		return *this;
 	}
 
 	//---------------------------------------------------------------------------
 
-	const Vector Vector::operator -(const Vector& p_Lhs) const
+	const Vector Vector::operator -(const Vector& p_Rhs) const
 	{
-		Vector temp(*this);
-		temp -= p_Lhs;
-		return temp;
+		return Vector(x - p_Rhs.x, y - p_Rhs.y, z - p_Rhs.z);
 	}
 
 	//---------------------------------------------------------------------------
 
-	Vector& Vector::operator *=(const scalar& p_Lhs)
+	Vector& Vector::operator *=(const scalar& p_Rhs)
 	{
-		x *= p_Lhs;
-		y *= p_Lhs;
-		z *= p_Lhs;
+		x *= p_Rhs;
+		y *= p_Rhs;
+		z *= p_Rhs;
 		return *this;
 	}
 
 	//---------------------------------------------------------------------------
 
-	const Vector Vector::operator *(const scalar p_Lhs) const
+	const Vector Vector::operator *(const scalar p_Rhs) const
 	{
-		Vector temp(*this);
-		temp *= p_Lhs;
-		return temp;
+		return Vector(x * p_Rhs, y * p_Rhs, z * p_Rhs);
 	}
 
 	//---------------------------------------------------------------------------
 
-	Vector& Vector::operator /=(const scalar& p_Lhs)
+	Vector& Vector::operator /=(const scalar& p_Rhs)
 	{
-		Assert(!EquivalentToZero(p_Lhs), "Trying to divide by zero!");
-		x /= p_Lhs;
-		y /= p_Lhs;
-		z /= p_Lhs;
+		Assert(!EquivalentToZero(p_Rhs), "Trying to divide by zero!");
+		const scalar inv = 1.0f / p_Rhs;
+		x *= inv;
+		y *= inv;
+		z *= inv;
 		return *this;
 	}
 
 	//---------------------------------------------------------------------------
 
-	const Vector Vector::operator /(const scalar p_Lhs) const
+	const Vector Vector::operator /(const scalar p_Rhs) const
 	{
 		Vector temp(*this);
-		temp /= p_Lhs;
+		temp /= p_Rhs;
 		return temp;
 	}
 
 	//---------------------------------------------------------------------------
 
-	const scalar Vector::operator |(const Vector& p_Lhs) const
+	const scalar Vector::operator |(const Vector& p_Rhs) const
 	{
-		return x * p_Lhs.x + y * p_Lhs.y + z * p_Lhs.z;
+		return (x * p_Rhs.x) + (y * p_Rhs.y) + (z * p_Rhs.z);
 	}
 
 	//---------------------------------------------------------------------------
 
-	Vector& Vector::operator *=(const Vector& p_Lhs)
+	Vector& Vector::operator *=(const Vector& p_Rhs)
 	{
-		const scalar crossX = this->y * p_Lhs.z - this->z * p_Lhs.y;
-		const scalar crossY = this->z * p_Lhs.x - this->x * p_Lhs.z;
-		const scalar crossZ = this->x * p_Lhs.y - this->y * p_Lhs.x;
+		const scalar crossX = this->y * p_Rhs.z - this->z * p_Rhs.y;
+		const scalar crossY = this->z * p_Rhs.x - this->x * p_Rhs.z;
+		const scalar crossZ = this->x * p_Rhs.y - this->y * p_Rhs.x;
 
 		this->x = crossX;
 		this->y = crossY;
@@ -152,11 +149,9 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	const Vector Vector::operator *(const Vector& p_Lhs) const
+	const Vector Vector::operator *(const Vector& p_Rhs) const
 	{
-		Vector temp(*this);
-		temp *= p_Lhs;
-		return temp;
+		return Vector(*this) *= p_Rhs;
 	}
 
 	//---------------------------------------------------------------------------
@@ -170,15 +165,16 @@ namespace Mathematics
 
 	const scalar Vector::Length() const
 	{
-		return std::sqrtf(LengthSquared());
+		return std::sqrt(LengthSquared());
 	}
 
 	//---------------------------------------------------------------------------
 
 	const scalar Vector::InverseLength() const
 	{
-		Assert(!EquivalentToZero(LengthSquared()), "Trying to divide by zero!");
-		return ConstantScalars::Unity / Length();
+		const scalar len(Length());
+
+		return (!EquivalentToZero(len)) ? (ConstantScalars::Unity / len) : (ConstantScalars::Zero);
 	}
 
 	//---------------------------------------------------------------------------
@@ -200,9 +196,7 @@ namespace Mathematics
 
 	const Vector Vector::Direction() const
 	{
-		Vector temp(*this);
-		temp.Normalize();
-		return temp;
+		return Vector(*this).Normalize();
 	}
 
 	//---------------------------------------------------------------------------
