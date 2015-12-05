@@ -12,7 +12,7 @@
 //===========================================================================
 
 #include "Common.h"
-#include "LinearColour.h"
+
 #include "System.h"
 #include "Vertices.h"
 #include "Mesh.h"

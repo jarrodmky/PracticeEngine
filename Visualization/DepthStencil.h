@@ -1,18 +1,17 @@
-#ifndef IncludedVisuVeneerH
-#define IncludedVisuVeneerH
+#ifndef IncludedVisuDepthStencilH
+#define IncludedVisuDepthStencilH
 
 //===========================================================================
-// Filename:	Veneer.h
+// Filename:	DepthStencil.h
 // Author:		Jarrod MacKay
-// Description:	Hold phong shaded data with texture.
+// Description:	Allows control of depth testing.
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
-#include <Mathematics.h>
-#include "Pigment.h"
+#include "System.h"
 
 //===========================================================================
 // Classes
@@ -21,26 +20,38 @@
 namespace Visualization
 {
 
-	class Veneer
+
+	class DepthStencil
 	{
+	public:
+	enum class DepthTest
+	{
+		None,
+		Default,
+		Read
+	};
+
 	//Operations
 	public:
+		DepthStencil();
+		~DepthStencil();
+		
 
-		Veneer()
-			: Reflectance(1.0f)
-			, Pigment(Mathematics::ConstantColours::White)
-			, Emissive(Mathematics::ConstantColours::White)
-		{}
+	//Methods
+	public:
+		
+		void Initialize(System& p_System, DepthTest p_DepthTest);
+		void Terminate();
+		
+		void BindToOutput(System& p_System, u32 p_Index);
 
 	//Attributes
-	public:
+	private:
 
-		f32 Reflectance;
+	ID3D11DepthStencilState* m_DepthStencil;
 
-		Mathematics::LinearColour Emissive;
-
-		Pigment Pigment;
 	};
+
 } // namespace Visualization
 
-#endif //ifndef IncludedVisuVeneerH
+#endif //#ifndef IncludedVisuDepthStencilH

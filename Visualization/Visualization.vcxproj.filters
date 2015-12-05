@@ -15,10 +15,10 @@
       <Filter>Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Surface</Filter>
+      <Filter>Surfacing</Filter>
     </ClCompile>
     <ClCompile Include="Sampler.cpp">
-      <Filter>Surface</Filter>
+      <Filter>Surfacing</Filter>
     </ClCompile>
     <ClCompile Include="Draw.cpp">
       <Filter>Drawing</Filter>
@@ -26,6 +26,12 @@
     <ClCompile Include="D3DSystem.cpp" />
     <ClCompile Include="Shaders.cpp">
       <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthStencil.cpp">
+      <Filter>Surfacing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,10 +62,10 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Surface</Filter>
+      <Filter>Surfacing</Filter>
     </ClInclude>
     <ClInclude Include="Sampler.h">
-      <Filter>Surface</Filter>
+      <Filter>Surfacing</Filter>
     </ClInclude>
     <ClInclude Include="ConicColour.h">
       <Filter>Lighting</Filter>
@@ -69,7 +75,7 @@
       <Filter>Drawing</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Surface</Filter>
+      <Filter>Surfacing</Filter>
     </ClInclude>
     <ClInclude Include="System.h" />
     <ClInclude Include="Camera.h">
@@ -77,6 +83,15 @@
     </ClInclude>
     <ClInclude Include="Shaders.h">
       <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Pigment.h">
+      <Filter>Surfacing</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthStencil.h">
+      <Filter>Surfacing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,7 +107,7 @@
     <Filter Include="Drawing">
       <UniqueIdentifier>{68eb2b8f-76f9-4db6-aa71-0800349ea16e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Surface">
+    <Filter Include="Surfacing">
       <UniqueIdentifier>{1ba9477e-ff9a-41bd-9a6b-ccb73359edcc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -107,7 +122,7 @@
       <Filter>Components</Filter>
     </None>
     <None Include="Shaders.inl">
-      <Filter>Surface</Filter>
+      <Filter>Lighting</Filter>
     </None>
   </ItemGroup>
 </Project>

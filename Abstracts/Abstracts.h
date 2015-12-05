@@ -18,5 +18,6 @@
 #include "Stack.h"
 #include "Graph.h"
 #include "Grid.h"
+#include "Table.h"
 
 #endif //#ifndef IncludedAbstractsH

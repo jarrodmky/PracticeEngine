@@ -50,8 +50,6 @@ private:
 	//game
 	Utilization::System m_InputSystem;
 
-	Core::Timer m_Timer;
-
 	Utilization::InputState m_Controller;
 
 	//scene
@@ -61,9 +59,16 @@ private:
 
 	Visualization::Solid m_Sphere;
 
-	Visualization::Light m_Light;
+	Visualization::TypedConstantBuffer<Visualization::LightingBuffer> m_LightingBuffer;
+
+	//shader
+	Visualization::VertexShader<Visualization::ShadedVertex> m_VertexShader;
+
+	Visualization::PixelShader m_PixelShader;
 
 	//material
+	Visualization::TypedConstantBuffer<Visualization::MaterialBuffer> m_MaterialBuffer;
+
 	Visualization::Texture m_Texture;
 
 	Visualization::Sampler m_Sampler;

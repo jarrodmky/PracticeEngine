@@ -185,7 +185,7 @@ void DrawImplementation::Render(const Camera& p_Camera)
 	Matrix invScreenSpace(ScreenToNDC(m_System.GetHeight(), m_System.GetWidth()).Transposition());
 	
 	SimpleDrawBuffer d;
-	d.transform = (p_Camera.GetPerspectiveTransform(m_System) * p_Camera.GetWorldToViewTransform()).Transposition();
+	d.transform = (p_Camera.GetPerspectiveTransform() * p_Camera.GetWorldToViewTransform()).Transposition();
 	m_ConstantBuffer.Set(m_System, d);
 	m_ConstantBuffer.BindVS(m_System, 0);
 

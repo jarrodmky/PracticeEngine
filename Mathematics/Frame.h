@@ -98,12 +98,12 @@ namespace Mathematics
 			return Point(m_Origin);
 		}
 
-		const Matrix WorldToLocal() const
+		const Matrix LocalToWorld() const
 		{
 			return Translation(m_Origin) * Rotation();
 		}
 
-		const Matrix LocalToWorld() const
+		const Matrix WorldToLocal() const
 		{
 			return Rotation().Transposition() * Translation(-m_Origin);
 		}

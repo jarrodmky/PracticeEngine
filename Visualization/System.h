@@ -31,9 +31,15 @@ namespace Visualization
 		TriangleStrip
 	};
 
-	struct TransformBuffer
+	struct ObjectBuffer
 	{
 		Mathematics::Matrix LocalToWorld;
+	};
+
+	struct CameraBuffer
+	{
+		Mathematics::Vector ViewPosition;
+		f32 PadPoint = 1.0f;
 		Mathematics::Matrix WorldToViewToProjection;
 	};
 
@@ -46,10 +52,8 @@ namespace Visualization
 
 	struct LightingBuffer
 	{
-		Mathematics::Vector ViewPosition;
-		f32 PAD0 = 0.0f;
 		Mathematics::Vector LightDirection;
-		f32 PAD1 = 0.0f;
+		f32 PadVector = 0.0f;
 		Mathematics::LinearColour LightAmbient;
 		Mathematics::LinearColour LightDiffuse;
 		Mathematics::LinearColour LightSpecular;

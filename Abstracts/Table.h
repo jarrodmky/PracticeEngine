@@ -1,10 +1,10 @@
-#ifndef IncludedAbstListH
-#define IncludedAbstListH
+#ifndef IncludedAbstTableH
+#define IncludedAbstTableH
 
 //===========================================================================
-// Filename:	List.h
+// Filename:	Table.h
 // Author:		Jarrod MacKay
-// Description:	Defines a resizable array of unordered elements (think std::vector).
+// Description:	Defines a dynamic 2 dimensional array
 //===========================================================================
 
 //===========================================================================
@@ -12,6 +12,7 @@
 //===========================================================================
 
 #include <Core.h>
+#include "List.h"
 
 //===========================================================================
 // Templates
@@ -21,27 +22,27 @@ namespace Abstracts
 {
 
 	template<typename t_Type>
-	class List
+	class Table
 	{
-	//Attributes
+		//Attributes
 	private:
 
 		u32 m_NumberOfElements;
 
 		u32 m_Capacity;
 
-		std::unique_ptr<t_Type[]> m_Array;
+		List m_Array;
 
-	//Operators
+		//Operators
 	public:
 
-		List(const u32 p_Capacity = 4)
+		Table(const u32 p_Capacity = 4)
 			: m_NumberOfElements(0)
 			, m_Capacity(p_Capacity)
 			, m_Array(std::make_unique<t_Type[]>(p_Capacity))
 		{}
 
-		List(const u32 p_FillToSize, const t_Type& p_InitialValue)
+		Table(const u32 p_FillToSize, const t_Type& p_InitialValue)
 			: m_NumberOfElements(0)
 			, m_Capacity(p_FillToSize)
 			, m_Array(std::make_unique<t_Type[]>(p_FillToSize))
@@ -49,9 +50,9 @@ namespace Abstracts
 			Fill(p_InitialValue);
 		}
 
-		~List() {}
+		~Table() {}
 
-		List(const List& p_Other)
+		Table(const Table& p_Other)
 			: m_NumberOfElements(p_Other.m_NumberOfElements)
 			, m_Capacity(p_Other.m_Capacity)
 			, m_Array(std::make_unique<t_Type[]>(p_Other.m_Capacity))
@@ -59,7 +60,7 @@ namespace Abstracts
 			CopyFrom(p_Other);
 		}
 
-		List& operator = (const List& p_Lhs)
+		Table& operator = (const Table& p_Lhs)
 		{
 			m_Capacity = p_Lhs.m_Capacity;
 			m_NumberOfElements = p_Lhs.m_NumberOfElements;
@@ -83,14 +84,19 @@ namespace Abstracts
 			return m_Array[p_Index];
 		}
 
-	//Methods
+		//Methods
 	public:
 
-		//single value assignment
-		inline void Fill(const t_Type& p_Value = t_Type())
+		inline void Allocate(const t_Type& p_Value = t_Type())
 		{
 			std::fill(m_Array, (m_Array + m_Capacity), p_Value);
 			m_NumberOfElements = m_Capacity;
+		}
+
+		inline void Free()
+		{
+			m_Array.resset(nullptr);
+
 		}
 
 		inline void Clear()
@@ -98,48 +104,8 @@ namespace Abstracts
 			m_NumberOfElements = 0;
 		}
 
-		inline void Shrink()
-		{
-			Reserve(m_NumberOfElements);
-		}
-
-		inline void Add(const t_Type& p_Value)
-		{
-			if (IsFull())
-			{
-				DoubleCapacity();
-			}
-
-			m_Array[m_NumberOfElements] = p_Value;
-			++m_NumberOfElements;
-		}
-
-		inline bool Remove(t_Type& p_Value)
-		{
-			return Remove(m_NumberOfElements - 1, p_Value);
-		}
-
-		inline bool Peek(const u32 p_Index, t_Type& p_Value) const
-		{
-			Assert(p_Index < m_NumberOfElements, "Index out of bounds!");
-			if (IsEmpty())
-			{
-				return false;
-			}
-			p_Value = m_Array[p_Index];
-			return true;
-		}
-
 		void Reserve(const u32 p_NewCapacity)
 		{
-			//make new list and copy in values
-			Assert(p_NewCapacity >= m_NumberOfElements, "Not enough room!");
-			List newList(p_NewCapacity);
-			newList.CopyFrom(*this);
-
-			//swap internal pointers
-			m_Array.swap(newList.m_Array);
-			m_Capacity = newList.m_Capacity;
 		}
 
 		inline u32 GetNumberOfElements() const
@@ -147,40 +113,14 @@ namespace Abstracts
 			return m_NumberOfElements;
 		}
 
-		inline bool IsEmpty() const
-		{
-			return (m_NumberOfElements == 0);
-		}
-
-		inline bool IsFull() const
-		{
-			return (m_Capacity == m_NumberOfElements);
-		}
-
 	private:
 
-		inline bool Remove(const u32 p_Index, t_Type& p_Value)
+		void CopyFrom(const Table& p_Source)
 		{
-			if(!Peek(p_Index, p_Value))
-			{
-				return false;
-			}
-			--m_NumberOfElements;
-			m_Array[p_Index] = m_Array[m_NumberOfElements];
-			return true;
-		}
-
-		inline void DoubleCapacity()
-		{
-			Reserve((m_Capacity == 0) ? (1) : (m_Capacity << 1));
-		}
-
-		void CopyFrom(const List& p_Source)
-		{
-			Assert(m_Capacity >= p_Source.m_NumberOfElements 
-			    && m_NumberOfElements == p_Source.m_NumberOfElements, "No room!");
+			Assert(m_Capacity >= p_Source.m_NumberOfElements
+				&& m_NumberOfElements == p_Source.m_NumberOfElements, "No room!");
 			std::copy(p_Source.m_Array.get(), p_Source.m_Array.get() + m_NumberOfElements, m_Array);
 		}
 	};
 } // namespace Abstracts
-#endif // #ifndef IncludedAbstListH
+#endif // #ifndef IncludedAbstTableH

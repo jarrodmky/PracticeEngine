@@ -1,41 +1,23 @@
-#ifndef IncludedSimulVerletParticleH
-#define IncludedSimulVerletParticleH
-
 //===========================================================================
-// Filename:	VerletParticle.h
+// Filename:	Terrain.cpp
 // Author:		Jarrod MacKay
-// Description:	Defines a class that represents a 
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
-#include <Mathematics.h>
+#include "Precompiled.h"
+#include "Terrain.h"
+
+using namespace Visualization;
+using namespace Mathematics;
 
 //===========================================================================
-// Classes
+// Definitions
 //===========================================================================
 
-namespace Simulation
-{
-	class VerletParticle
-	{
-	//Attributes
-	public:
-
-	//Operators
-	public:
-
-		void Integrate();
-		
-	//Methods
-	public:
-
-		Mathematics::Vector m_Position;
-		
-	};
-
-} // namespace Mathematics
-
-#endif //#ifndef IncludedMathVerletParticleH
+Terrain::Terrain(System& p_System)
+	: m_System(p_System)
+	, m_Mesh(p_System)
+{}

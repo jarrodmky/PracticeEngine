@@ -7,26 +7,35 @@
 //--------------------------------------------------------------------------------------
 // Definitions
 //--------------------------------------------------------------------------------------
-cbuffer TransformBuffer : register( b0 )
+//VERTEX SHADER BUFFERS
+cbuffer ObjectBuffer : register( b0 )
 {
-	matrix world;
-	matrix viewProjection;
-};
+	matrix localToWorld;
+}; 
 
-cbuffer MaterialBuffer : register(b1)
-{
-	float4 materialAmbient;
-	float4 materialDiffuse;
-	float4 materialSpecular;
-};
-
-cbuffer LightingBuffer : register( b2 )
+cbuffer CameraBuffer : register(b1)
 {
 	float4 viewPosition;
+	matrix worldToProjection;
+};
+
+//VETEX AND PIXEL SHADER BUFFERS
+
+cbuffer LightingBuffer : register( b2)
+{
 	float4 lightDirection;
 	float4 lightAmbient;
 	float4 lightDiffuse;
 	float4 lightSpecular;
+};
+
+//PIXEL SHADER BUFFERS
+
+cbuffer MaterialBuffer : register(b3)
+{
+	float4 materialAmbient;
+	float4 materialDiffuse;
+	float4 materialSpecular;
 };
 
 Texture2D diffuseMap : register(t0);
@@ -58,10 +67,10 @@ struct VS_OUTPUT
 VS_OUTPUT VS( VS_INPUT input )
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
-    float4 posWorld = mul( float4(input.position, 1.0f), world );
-	output.position = mul(posWorld, viewProjection);
+	float4 posWorld = mul(float4(input.position, 1.0f), localToWorld);
+	output.position = mul(posWorld, worldToProjection);
 	
-	float3 normal = mul(float4(input.normal, 0.0f), world).xyz;
+	float3 normal = mul(float4(input.normal, 0.0f), localToWorld).xyz;
 	normal = normalize(normal);
 
 	float3 dirToLight = normalize(-lightDirection.xyz);

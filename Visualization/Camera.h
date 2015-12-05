@@ -24,11 +24,13 @@ namespace Visualization
 	//Operators
 	public:
 
-		Camera()
+		Camera(System& p_System)
 			: Transform()
 			, m_FieldOfViewAngle()
 			, m_NearPlane()
 			, m_FarPlane()
+			, m_System(p_System)
+			, m_TransformBuffer()
 		{}
 
 		NonCopyable(Camera);
@@ -46,24 +48,40 @@ namespace Visualization
 			m_FieldOfViewAngle = p_FOV;
 			m_NearPlane = p_NearZ;
 			m_FarPlane = p_FarZ;
+			m_TransformBuffer.Initialize(m_System);
 		}
 
 		void Update(const f32 p_DeltaTime);
 
-		Mathematics::Matrix GetViewToWorldTransform() const
+		void Render()
 		{
-			return Transform.WorldToLocal();
+			CameraBuffer data;
+			data.ViewPosition = Transform.GetPosition().PositionVector();
+			data.WorldToViewToProjection = (GetPerspectiveTransform() * GetWorldToViewTransform()).Transposition();
+
+			m_TransformBuffer.Set(m_System, data);
+			m_TransformBuffer.BindVS(m_System, 1);
 		}
 
-		Mathematics::Matrix GetWorldToViewTransform() const
+		void Terminate()
+		{
+			m_TransformBuffer.Terminate();
+		}
+
+		Mathematics::Matrix GetViewToWorldTransform() const
 		{
 			return Transform.LocalToWorld();
 		}
 
-		Mathematics::Matrix GetPerspectiveTransform(const System& p_System) const
+		Mathematics::Matrix GetWorldToViewTransform() const
 		{
-			f32 h = static_cast<f32>(p_System.GetHeight());
-			f32 w = static_cast<f32>(p_System.GetWidth());
+			return Transform.WorldToLocal();
+		}
+
+		Mathematics::Matrix GetPerspectiveTransform() const
+		{
+			f32 h = static_cast<f32>(m_System.GetHeight());
+			f32 w = static_cast<f32>(m_System.GetWidth());
 			return Mathematics::PerspectiveProjection_LH(m_FieldOfViewAngle, w/h, m_FarPlane, m_NearPlane);
 		}
 
@@ -80,7 +98,12 @@ namespace Visualization
 
 		f32 m_NearPlane;
 
-		f32 m_FarPlane;
+		f32 m_FarPlane; 
+		
+		//rendering
+		System& m_System;
+
+		TypedConstantBuffer<CameraBuffer> m_TransformBuffer;
 	};
 }
 

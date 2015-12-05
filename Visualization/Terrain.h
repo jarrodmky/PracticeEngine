@@ -1,8 +1,8 @@
-#ifndef IncludedVisuSolidH
-#define IncludedVisuSolidH
+#ifndef IncludedVisTerrainH
+#define IncludedVisTerrainH
 
 //===========================================================================
-// Filename:	Solid.h
+// Filename:	Terrain.h
 // Author:		Jarrod MacKay
 // Description:	Describes a mesh that is assumed to remain "stiff" but can
 //				still undergo linear transformations
@@ -13,13 +13,9 @@
 //===========================================================================
 
 #include <Mathematics.h>
+#include <Serialization.h>
 #include "System.h"
-#include "Vertices.h"
-#include "Buffers.h"
-#include "ConstantBuffer.h"
-#include "Shaders.h"
-#include "Mesh.h"
-#include "Material.h"
+#include "Solid.h"
 
 //===========================================================================
 // Classes
@@ -27,44 +23,35 @@
 
 namespace Visualization
 {
-	class Solid
+	class Terrain
 	{
 	//Attributes
-	public:
-
-		Mathematics::Frame Transform;
-
 	private:
 
 		System& m_System;
 
-		TypedConstantBuffer<ObjectBuffer> m_TransformBuffer;
+		Solid m_Mesh;
 
-		VertexBuffer<ShadedVertex> m_VertexBuffer;
-
-		IndexBuffer<u32> m_IndexBuffer;
-
-		u32 m_IndexCount;
+		//Lightmap
 
 	//Operators
 	public:
 
-		Solid(System& p_System);
+		Terrain(System& p_System);
 
-		~Solid();
+		~Terrain();
 
-		NonCopyable(Solid);
+		NonCopyable(Terrain);
 
 	//Functions
 	public:
 
-		void Initialize(const Mesh<ShadedVertex>& p_Mesh);
+		void Initialize(const Serialization::BMP::BmpFile& p_File, const Mathematics::coordinate& p_Location = Mathematics::coordinate());
 
 		void Terminate();
 
-		void Render() const;
-
+		void Render(const LightingBuffer* p_Lighting) const;
 	};
 }
 
-#endif // #ifndef IncludedVisuSolidH
+#endif // #ifndef IncludedVisuTerrainH

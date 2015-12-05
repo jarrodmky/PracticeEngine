@@ -76,6 +76,7 @@ namespace Mathematics
 
 		Point First;
 		Point Second;
+		Point Third;
 	};
 
 	//==========

@@ -15,5 +15,6 @@
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Table.h" />
   </ItemGroup>
 </Project>

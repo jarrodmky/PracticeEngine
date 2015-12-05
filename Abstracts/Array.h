@@ -65,6 +65,12 @@ namespace Abstracts
 	//Methods
 	public:
 
+		//raw array access
+		inline t_Type* GetPointer()
+		{
+			return &m_Array;
+		}
+
 		//single value assignment
 		inline void Fill(const t_Type& p_Value = t_Type())
 		{
@@ -108,7 +114,9 @@ namespace Abstracts
 	// Specializations
 	//===========================================================================
 
-	// 2-dimensional array
+	//==========
+	// 2D array
+	//==========
 
 	template<typename t_Type, u32 t_Rows, u32 t_Columns>
 	class Array<t_Type, t_Rows, t_Columns, 1>
@@ -156,6 +164,12 @@ namespace Abstracts
 		//Methods
 	public:
 
+		//raw array access
+		inline t_Type* GetPointer()
+		{
+			return &m_Array;
+		}
+
 		//single value assignment
 		inline void Fill(const t_Type& p_Value = t_Type())
 		{
@@ -192,6 +206,88 @@ namespace Abstracts
 			return (t_Rows)* p_Column + p_Row;
 		}
 
+	};
+
+	//==========
+	// 1D array
+	//==========
+
+	template<typename t_Type, u32 t_Rows>
+	class Array<t_Type, t_Rows, 1, 1>
+	{
+		//Attributes
+	private:
+
+		t_Type m_Array[t_Rows];
+
+		//Operations
+	public:
+
+		//ctor
+		inline Array(const t_Type p_Initial = t_Type())
+		{
+			Assert(0 < t_Rows, "Invalid number of rows!");
+
+			Fill(p_Initial);
+		}
+
+		//copy ctor
+		inline Array(const Array<t_Type, t_Rows>& p_Other)
+		{
+			std::copy_n(p_Other.m_Array, t_Rows, m_Array);
+		}
+
+		//copy assignment
+		inline Array<t_Type, t_Rows>& operator =(const Array<t_Type, t_Rows>& p_Other)
+		{
+			std::copy_n(p_Other.m_Array, t_Rows, m_Array);
+			return *this;
+		}
+
+		inline t_Type& operator ()(const u32 p_Row)
+		{
+			return m_Array[p_Row];
+		}
+
+		inline t_Type operator ()(const u32 p_Row) const
+		{
+			return m_Array[p_Row];
+		}
+
+		//Methods
+	public:
+
+		//raw array access
+		inline t_Type* GetPointer()
+		{
+			return &m_Array[0];
+		}
+
+		//single value assignment
+		inline void Fill(const t_Type& p_Value = t_Type())
+		{
+			std::fill(m_Array, (m_Array + t_Rows), p_Value);
+		}
+
+		//comparisons
+		inline const bool Equals(const Array<t_Type, t_Rows>& p_Other
+			, std::function<const bool(const t_Type&, const t_Type&)> p_Function) const
+		{
+			return std::equal(m_Array, m_Array + (t_Rows), p_Other.m_Array, p_Function);
+		}
+
+		//apply function methods
+		inline void ApplyFunction(std::function<const t_Type(const t_Type&)> p_Function)
+		{
+			std::transform(m_Array, m_Array + (t_Rows), m_Array, p_Function);
+		}
+
+		inline void ApplyFunction(
+			const Array<t_Type, t_Rows>& p_Other
+			, std::function<const t_Type(const t_Type&, const t_Type&)> p_Function)
+		{
+			std::transform(m_Array, m_Array + (t_Rows), p_Other.m_Array, m_Array, p_Function);
+		}
 	};
 
 }

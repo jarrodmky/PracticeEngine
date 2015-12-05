@@ -24,7 +24,7 @@ namespace Visualization
 	{
 	//Methods
 	public:
-		
+
 		template <typename t_MeshType>
 		static void CreatePoint(t_MeshType& p_Mesh);
 		
@@ -42,13 +42,19 @@ namespace Visualization
 		static void CreateQuad(t_MeshType& p_Mesh);
 		
 		template <typename t_MeshType>
-		static void CreateCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width);
+		static void CreateCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width);	
+		
+		template <typename t_MeshType>
+		static void CreateInvertedCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width);
 		
 		template <typename t_MeshType>
 		static void CreateSphere(t_MeshType& p_Mesh, const Mathematics::Sphere& p_Sphere);
 		
 		template <typename t_MeshType>
 		static void CreateCylinder(t_MeshType& p_Mesh);
+
+		template <typename t_MeshType>
+		static void CreateHeightMesh(t_MeshType& p_Mesh);
 	};
 }
 
