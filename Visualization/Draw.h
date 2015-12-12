@@ -32,11 +32,11 @@ namespace Visualization
 		void Terminate();
 
 		//world space rendering
-		void AddVector(const Mathematics::Vector& p_Vector
+		void AddVector(const Mathematics::Vector3& p_Vector
 					 , const Mathematics::LinearColour& p_Colour);
 
-		void AddVector(const Mathematics::Vector& p_Vector
-					 , const Mathematics::Point& p_Position
+		void AddVector(const Mathematics::Vector3& p_Vector
+			, const Mathematics::Vector3& p_Position
 					 , const Mathematics::LinearColour& p_Colour);
 
 		void AddSimplex(const Mathematics::Edge& p_Edge

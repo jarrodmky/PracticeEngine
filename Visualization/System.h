@@ -20,44 +20,6 @@ namespace Visualization
 //====================================================================================================
 // Class Declarations
 //====================================================================================================
-	
-
-	enum IndexTopology
-	{
-		PointList,
-		LineList,
-		LineStrip,
-		TriangleList,
-		TriangleStrip
-	};
-
-	struct ObjectBuffer
-	{
-		Mathematics::Matrix LocalToWorld;
-	};
-
-	struct CameraBuffer
-	{
-		Mathematics::Vector ViewPosition;
-		f32 PadPoint = 1.0f;
-		Mathematics::Matrix WorldToViewToProjection;
-	};
-
-	struct MaterialBuffer
-	{
-		Mathematics::LinearColour MaterialAmbient;
-		Mathematics::LinearColour MaterialDiffuse;
-		Mathematics::LinearColour MaterialSpecular;
-	};
-
-	struct LightingBuffer
-	{
-		Mathematics::Vector LightDirection;
-		f32 PadVector = 0.0f;
-		Mathematics::LinearColour LightAmbient;
-		Mathematics::LinearColour LightDiffuse;
-		Mathematics::LinearColour LightSpecular;
-	};
 
 class System
 {
@@ -69,7 +31,7 @@ public:
 	void Initialize(HWND window, bool fullscreen);
 	void Terminate();
 
-	void BeginRender(Mathematics::LinearColour p_ClearColour = Mathematics::ConstantColours::Black);
+	void BeginRender(Mathematics::LinearColour p_ClearColour = Mathematics::ColourPallet::Black);
 	void EndRender();
 
 	void ToggleFullscreen();

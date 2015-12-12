@@ -21,89 +21,106 @@
 
 namespace Mathematics
 {
+	template <u32 t_Rows, u32 t_Columns>
 	class Matrix
 	{
 	//Attributes
 	private:
 		
-		Abstracts::Array<scalar, 4, 4> m_Array;
+		Abstracts::Array<Vector<t_Rows>, t_Columns> m_Page;
 
 	//Operators
 	public:
 		
-		Matrix(const scalar p_Value = ConstantScalars::Zero);
-
-		Matrix(const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3
-			, const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3
-			, const scalar p_r3c1, const scalar p_r3c2, const scalar p_r3c3);
-
-		Matrix(const scalar p_r1c1, const scalar p_r1c2, const scalar p_r1c3, const scalar p_r1c4
-			 , const scalar p_r2c1, const scalar p_r2c2, const scalar p_r2c3, const scalar p_r2c4
-			 , const scalar p_r3c1, const scalar p_r3c2, const scalar p_r3c3, const scalar p_r3c4
-			 , const scalar p_r4c1, const scalar p_r4c2, const scalar p_r4c3, const scalar p_r4c4);
-
-		Matrix(const Vector p_Column1, const Vector p_Column2, const Vector p_Column3);
+		Matrix(const scalar p_Value = Zero);
 
 		//equality
-		inline const bool operator ==(const Matrix& p_Rhs) const;
-		inline const bool operator !=(const Matrix& p_Rhs) const;
+		inline const bool operator ==(const Matrix<t_Rows, t_Columns>& p_Rhs) const;
+		inline const bool operator !=(const Matrix<t_Rows, t_Columns>& p_Rhs) const;
 
 		//arithmetic
-		inline Matrix& Negate();
-		inline const Matrix operator -() const;
-		inline Matrix& operator +=(const Matrix& p_Rhs);
-		inline const Matrix operator +(const Matrix& p_Rhs) const;
-		inline Matrix& operator -=(const Matrix& p_Rhs);
-		inline const Matrix operator -(const Matrix& p_Rhs) const;
+		inline Matrix<t_Rows, t_Columns>& Negate();
+		inline const Matrix<t_Rows, t_Columns> operator -() const;
+		inline Matrix<t_Rows, t_Columns>& operator +=(const Matrix<t_Rows, t_Columns>& p_Rhs);
+		inline const Matrix<t_Rows, t_Columns> operator +(const Matrix<t_Rows, t_Columns>& p_Rhs) const;
+		inline Matrix<t_Rows, t_Columns>& operator -=(const Matrix<t_Rows, t_Columns>& p_Rhs);
+		inline const Matrix<t_Rows, t_Columns> operator -(const Matrix<t_Rows, t_Columns>& p_Rhs) const;
 
 		//scalar multiplication
-		inline Matrix& operator *=(const scalar& p_Rhs);
-		inline const Matrix operator *(const scalar p_Rhs) const;
-		inline Matrix& operator /=(const scalar& p_Rhs);
-		inline const Matrix operator /(const scalar p_Rhs) const;
-
-		//vector multiplication
-		const Vector operator *(const Vector& p_Rhs) const;
-
-		//product
-		const Matrix operator *(const Matrix& p_Rhs) const;
-		inline Matrix& operator *=(const Matrix& p_Rhs);
+		inline Matrix<t_Rows, t_Columns>& operator *=(const scalar& p_Rhs);
+		inline const Matrix<t_Rows, t_Columns> operator *(const scalar p_Rhs) const;
+		inline Matrix<t_Rows, t_Columns>& operator /=(const scalar& p_Rhs);
+		inline const Matrix<t_Rows, t_Columns> operator /(const scalar p_Rhs) const;
 
 		//access
 		inline scalar& operator ()(const u32 p_Row, const u32 p_Column);
 		inline const scalar operator ()(const u32 p_Row, const u32 p_Column) const;
-		const Vector Row(const u32 p_Row) const;
-		const Vector Column(const u32 p_Column) const;
+		const Vector<t_Columns> RowTransposed(const u32 p_Row) const;
+		const Vector<t_Rows> Column(const u32 p_Column) const;
 
 	//Methods
 	public:
 		
 		//metrics
 		const scalar Determinant() const;
+		const Vector<t_Rows> Diagonal() const;
 		const scalar Trace() const;
-		const Vector Diagonal() const;
 
 		//inverse
-		const Matrix Inverse() const;
-		inline Matrix& Invert();
+		const Matrix<t_Rows, t_Columns> Inverse() const;
+		inline Matrix<t_Rows, t_Columns>& Invert();
 
 		//Transpose
-		const Matrix Transposition() const;
-		inline Matrix& Transpose();
+		const Matrix<t_Columns, t_Rows> Transposition() const;
+		inline Matrix<t_Columns, t_Rows>& Transpose();
 
 		//Frobenius norm
 		const scalar Norm() const;
 
 		//Queries
+		bool IsSquare() const;
 		bool IsOthogonal() const;
 		inline bool IsSpecialOthogonal() const;
 	};
 
-	namespace ConstantMatrices
-	{
-		const Matrix Zero(ConstantScalars::Zero);
-		const Matrix Identity(ConstantVectors::I, ConstantVectors::J, ConstantVectors::K);
-	};
+	//==========
+	// Definitions
+	//==========
+
+	typedef Matrix<2, 2> Matrix22;
+	typedef Matrix<3, 3> Matrix33;
+	typedef Matrix<4, 4> Matrix44;
+
+	//==========
+	// Operators
+	//==========
+	
+	template <u32 t_Rows, u32 t_Columns>
+	inline const Matrix<t_Rows, t_Columns> operator *(const scalar p_Lhs, const Matrix<t_Rows, t_Columns>& p_Rhs);
+
+	template <u32 t_Rows, u32 t_Columns>
+	const Vector<t_Rows> operator *(const Matrix<t_Rows, t_Columns>& p_Lhs, const Vector<t_Columns>& p_Rhs);
+
+	template <u32 t_Rows, u32 t_Ins, u32 t_Columns>
+	const Matrix<t_Rows, t_Columns> operator *(const Matrix<t_Rows, t_Ins>& p_Lhs, const Matrix<t_Ins, t_Columns>& p_Rhs);
+	
+	template <u32 t_Rows, u32 t_Columns>
+	Matrix<t_Rows, t_Columns>& operator *=(const Matrix<t_Rows, t_Columns>& p_Lhs, const Matrix<t_Columns, t_Columns>& p_Rhs);
+
+	inline const Matrix33 operator ^(const Vector3& p_Lhs, const Vector3& p_Rhs);
+
+	//==========
+	// Constants
+	//==========
+
+	inline const Matrix22 Zero22();
+	inline const Matrix22 I2();
+
+	inline const Matrix33 Zero33();
+	inline const Matrix33 I3();
+
+	inline const Matrix44 Zero44();
+	inline const Matrix44 I4();
 
 } // namespace Mathematics
 

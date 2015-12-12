@@ -4,7 +4,7 @@
 //===========================================================================
 // Filename:	Pigment.h
 // Author:		Jarrod MacKay
-// Description:	Holds basic colouring info
+// Description:	Holds basic reflection constants
 //===========================================================================
 
 //===========================================================================
@@ -26,9 +26,9 @@ namespace Visualization
 	public:
 
 		Pigment()
-			: Ambient(Mathematics::ConstantColours::White)
-			, Diffuse(Mathematics::ConstantColours::White)
-			, Specular(Mathematics::ConstantColours::White)
+			: Ambient(Mathematics::ColourPallet::White)
+			, Diffuse(Mathematics::ColourPallet::White)
+			, Specular(Mathematics::ColourPallet::White)
 		{}
 
 		Pigment(const Mathematics::LinearColour& p_Colour)

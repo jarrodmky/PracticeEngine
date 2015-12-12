@@ -246,11 +246,13 @@ namespace Abstracts
 
 		inline t_Type& operator ()(const u32 p_Row)
 		{
+			Assert(p_Row < t_Rows, "Invalid row index!");
 			return m_Array[p_Row];
 		}
 
 		inline t_Type operator ()(const u32 p_Row) const
 		{
+			Assert(p_Row < t_Rows, "Invalid row index!");
 			return m_Array[p_Row];
 		}
 

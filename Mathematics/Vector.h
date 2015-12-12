@@ -4,13 +4,14 @@
 //===========================================================================
 // Filename:	Vector.h
 // Author:		Jarrod MacKay
-// Description:	Defines a class that represents a 3 dimensional vector
+// Description:	Defines a class that represents an N-dimensional vector
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
+#include "../Abstracts/Array.h"
 #include "MathBase.h"
 
 //===========================================================================
@@ -19,45 +20,43 @@
 
 namespace Mathematics
 {
+	template <u32 t_Rows>
 	class Vector
 	{
 	//Attributes
 	public:
 
-		scalar x;
-		scalar y;
-		scalar z;
+		Abstracts::Array<scalar, t_Rows> m_Column;
 
 	//Operators
 	public:
 		
-		inline Vector(const scalar p_Scalar = ConstantScalars::Zero);
-		inline Vector(const scalar p_X, const scalar p_Y, const scalar p_Z = ConstantScalars::Zero);
-
+		inline Vector(const scalar p_Scalar = Zero);
+		
 		//equality
 		inline const bool operator ==(const Vector& p_Rhs) const;
 		inline const bool operator !=(const Vector& p_Rhs) const;
 
 		//arithmetic
-		inline Vector& Negate();
-		inline const Vector operator -() const;
-		inline Vector& operator +=(const Vector& p_Rhs);
-		inline const Vector operator +(const Vector& p_Rhs) const;
-		inline Vector& operator -=(const Vector& p_Rhs);
-		inline const Vector operator -(const Vector& p_Rhs) const;
+		inline Vector<t_Rows>& Negate();
+		inline const  Vector<t_Rows> operator -() const;
+		inline  Vector<t_Rows>& operator +=(const  Vector<t_Rows>& p_Rhs);
+		inline const  Vector<t_Rows> operator +(const  Vector<t_Rows>& p_Rhs) const;
+		inline  Vector<t_Rows>& operator -=(const  Vector<t_Rows>& p_Rhs);
+		inline const  Vector<t_Rows> operator -(const  Vector<t_Rows>& p_Rhs) const;
 
 		//scalar multiplication
-		inline Vector& operator *=(const scalar& p_Rhs);
-		inline const Vector operator *(const scalar p_Rhs) const;
-		inline Vector& operator /=(const scalar& p_Rhs);
-		inline const Vector operator /(const scalar p_Rhs) const;
+		inline  Vector<t_Rows>& operator *=(const scalar& p_Rhs);
+		inline const  Vector<t_Rows> operator *(const scalar p_Rhs) const;
+		inline  Vector<t_Rows>& operator /=(const scalar& p_Rhs);
+		inline const  Vector<t_Rows> operator /(const scalar p_Rhs) const;
 
 		//inner (dot) product
-		inline const scalar operator |(const Vector& p_Rhs) const;
+		inline const scalar operator |(const  Vector<t_Rows>& p_Rhs) const;
 
-		//cross product
-		inline Vector& operator *=(const Vector& p_Rhs);
-		inline const Vector operator *(const Vector& p_Rhs) const;
+		//access
+		inline scalar& operator ()(const u32 p_Row);
+		inline const scalar operator ()(const u32 p_Row) const;
 
 
 	//Methods
@@ -71,15 +70,15 @@ namespace Mathematics
 		inline const scalar ManhattanLength() const;
 
 		//direction
-		inline Vector& Normalize();
-		inline const Vector Direction() const;
+		inline  Vector<t_Rows>& Normalize();
+		inline const  Vector<t_Rows> Direction() const;
 
 		//scalar projection
-		const scalar LengthAlong(const Vector& p_Rhs) const;
+		const scalar LengthAlong(const  Vector<t_Rows>& p_Rhs) const;
 
-		//vector projection
-		Vector& ProjectAlong(const Vector& p_Rhs);
-		const Vector ProjectedAlong(const Vector& p_Rhs) const;
+		// vector projection
+		 Vector<t_Rows>& ProjectAlong(const  Vector<t_Rows>& p_Rhs);
+		const  Vector<t_Rows> ProjectedAlong(const  Vector<t_Rows>& p_Rhs) const;
 
 		//boolean
 		inline bool IsNull() const;
@@ -88,14 +87,49 @@ namespace Mathematics
 		inline bool IsUnit() const;
 	};
 
-	namespace ConstantVectors
-	{
-		const Vector Zero(ConstantScalars::Zero);
-		const Vector I(ConstantScalars::Unity, ConstantScalars::Zero, ConstantScalars::Zero);
-		const Vector J(ConstantScalars::Zero, ConstantScalars::Unity, ConstantScalars::Zero);
-		const Vector K(ConstantScalars::Zero, ConstantScalars::Zero, ConstantScalars::Unity);
-	};
+	//==========
+	// Definitions
+	//==========
 
+	typedef Vector<2> Vector2;
+	typedef Vector<3> Vector3;
+	typedef Vector<4> Vector4;
+
+	//==========
+	// Operators
+	//==========
+
+	//vector scaling
+	template <u32 t_Rows>
+	inline const Vector<t_Rows> operator *(const scalar p_Lhs, const Vector<t_Rows>& p_Rhs);
+
+	//cross product
+	inline Vector3& operator *=(Vector3& p_Lhs, const Vector3& p_Rhs);
+	inline const Vector3 operator *(const Vector3& p_Lhs, const Vector3& p_Rhs);
+	inline Vector4& operator *=(Vector4& p_Lhs, const Vector4& p_Rhs);
+	inline const Vector4 operator *(const Vector4& p_Lhs, const Vector4& p_Rhs);
+
+	//==========
+	// Constants
+	//==========
+
+	inline const Vector2 Zero2();
+	inline const Vector2 Ones2();
+	inline const Vector2 U();
+	inline const Vector2 V();
+
+	inline const Vector3 Zero3();
+	inline const Vector3 Ones3();
+	inline const Vector3 I();
+	inline const Vector3 J();
+	inline const Vector3 K();
+
+	inline const Vector4 Zero4();
+	inline const Vector4 Ones4();
+	inline const Vector4 W();
+	inline const Vector4 X();
+	inline const Vector4 Y();
+	inline const Vector4 Z();
 } // namespace Mathematics
 
 #include "Vector.inl"

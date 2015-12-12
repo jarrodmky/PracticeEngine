@@ -49,26 +49,40 @@ namespace Abstracts
 			Fill(p_InitialValue);
 		}
 
-		~List() {}
+		//rule of 5
+		~List() 
+		{
+			Assert(IsDestroyed(), "List not destroyed!");
+		}
 
 		List(const List& p_Other)
 			: m_NumberOfElements(p_Other.m_NumberOfElements)
 			, m_Capacity(p_Other.m_Capacity)
-			, m_Array(std::make_unique<t_Type[]>(p_Other.m_Capacity))
-		{
-			CopyFrom(p_Other);
-		}
+			, m_Array(std::make_unique<t_Type[]>(*p_Other.m_Array))
+		{}
 
-		List& operator = (const List& p_Lhs)
+		List(const List&& p_Other)
+			: m_NumberOfElements(p_Other.m_NumberOfElements)
+			, m_Capacity(p_Other.m_Capacity)
+			, m_Array(std::move(p_Other.m_Array))
+		{}
+		
+		List& operator=(const List& p_Other)
 		{
 			m_Capacity = p_Lhs.m_Capacity;
 			m_NumberOfElements = p_Lhs.m_NumberOfElements;
 
-			m_Array.reset(std::make_unique<t_Type[]>(p_Other.m_Capacity));
+			m_Array.reset(std::make_unique<t_Type[]>(*p_Other.m_Array));
+			return *this,
+		}
 
-			CopyFrom(p_Lhs);
+		List& operator=(List&& p_Other)
+		{
+			m_Capacity = p_Lhs.m_Capacity;
+			m_NumberOfElements = p_Lhs.m_NumberOfElements;
 
-			return *this;
+			m_Array = std::move(p_Other.m_Array);
+			return *this,
 		}
 
 		inline const t_Type& operator()(const u32 p_Index) const
@@ -86,16 +100,29 @@ namespace Abstracts
 	//Methods
 	public:
 
+		//raw array access
+		inline t_Type* GetPointer()
+		{
+			return m_Array.get();
+		}
+
 		//single value assignment
 		inline void Fill(const t_Type& p_Value = t_Type())
 		{
-			std::fill(m_Array, (m_Array + m_Capacity), p_Value);
+			std::fill(m_Array.get(), (m_Array.get() + m_Capacity), p_Value);
 			m_NumberOfElements = m_Capacity;
 		}
 
 		inline void Clear()
 		{
 			m_NumberOfElements = 0;
+		}
+
+		inline void Destroy()
+		{
+			m_NumberOfElements = 0;
+			m_Capacity = 0;
+			m_Array.reset(nullptr);
 		}
 
 		inline void Shrink()
@@ -135,16 +162,31 @@ namespace Abstracts
 			//make new list and copy in values
 			Assert(p_NewCapacity >= m_NumberOfElements, "Not enough room!");
 			List newList(p_NewCapacity);
-			newList.CopyFrom(*this);
 
-			//swap internal pointers
+			m_Capacity = p_NewCapacity;
+
+			//move to new array
+			memcpy(newList.m_Array.get(), m_Array.get(), m_NumberOfElements);
+
 			m_Array.swap(newList.m_Array);
-			m_Capacity = newList.m_Capacity;
+
+			newList.Destroy();
+		}
+
+		void Resize(const u32 p_NewCapacity, const t_Type& p_Value = t_Type())
+		{
+			Reserve(p_NewCapacity);
+			Fill(p_Value);
 		}
 
 		inline u32 GetNumberOfElements() const
 		{
 			return m_NumberOfElements;
+		}
+
+		inline u32 GetCapacity() const
+		{
+			return m_Capacity;
 		}
 
 		inline bool IsEmpty() const
@@ -155,6 +197,11 @@ namespace Abstracts
 		inline bool IsFull() const
 		{
 			return (m_Capacity == m_NumberOfElements);
+		}
+
+		inline bool IsDestroyed() const
+		{
+			return (m_Capacity == 0 && m_Array == nullptr);
 		}
 
 	private:
@@ -173,13 +220,6 @@ namespace Abstracts
 		inline void DoubleCapacity()
 		{
 			Reserve((m_Capacity == 0) ? (1) : (m_Capacity << 1));
-		}
-
-		void CopyFrom(const List& p_Source)
-		{
-			Assert(m_Capacity >= p_Source.m_NumberOfElements 
-			    && m_NumberOfElements == p_Source.m_NumberOfElements, "No room!");
-			std::copy(p_Source.m_Array.get(), p_Source.m_Array.get() + m_NumberOfElements, m_Array);
 		}
 	};
 } // namespace Abstracts

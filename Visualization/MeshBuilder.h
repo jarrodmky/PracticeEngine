@@ -34,27 +34,33 @@ namespace Visualization
 		template <typename t_MeshType>
 		static void CreateTriangle
 			( t_MeshType& p_Mesh
-			, const Mathematics::Point& p_A
-			, const Mathematics::Point& p_B
-			, const Mathematics::Point& p_C);
+			, const Mathematics::Vector3& p_A
+			, const Mathematics::Vector3& p_B
+			, const Mathematics::Vector3& p_C);
 		
 		template <typename t_MeshType>
 		static void CreateQuad(t_MeshType& p_Mesh);
 		
 		template <typename t_MeshType>
-		static void CreateCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width);	
+		static void CreateCube(t_MeshType& p_Mesh, const Mathematics::Vector3& p_Centre, const Mathematics::scalar p_Width);
 		
 		template <typename t_MeshType>
-		static void CreateInvertedCube(t_MeshType& p_Mesh, const Mathematics::Point& p_Centre, const Mathematics::scalar p_Width);
+		static void CreateInvertedCube(t_MeshType& p_Mesh, const Mathematics::Vector3& p_Centre, const Mathematics::scalar p_Width);
 		
 		template <typename t_MeshType>
 		static void CreateSphere(t_MeshType& p_Mesh, const Mathematics::Sphere& p_Sphere);
+
+		template <typename t_MeshType>
+		static void CreateBumpedSphere(t_MeshType& p_Mesh, const Mathematics::Sphere& p_Sphere);
 		
 		template <typename t_MeshType>
 		static void CreateCylinder(t_MeshType& p_Mesh);
 
 		template <typename t_MeshType>
-		static void CreateHeightMesh(t_MeshType& p_Mesh);
+		static void CreateHeightMesh(t_MeshType& p_Mesh, const std::string& p_Filename);
+
+		template <typename t_MeshType>
+		static void CreateHeightMesh(t_MeshType& p_Mesh, const u32 p_Rows, const u32 p_Columns);
 	};
 }
 

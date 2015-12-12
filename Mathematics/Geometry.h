@@ -13,19 +13,12 @@
 
 #include "MathBase.h"
 #include "Algebra.h"
-#include "Point.h"
 #include "Simplices.h"
+#include "Frame.h"
+#include "MatrixStack.h"
 
 namespace Mathematics
 {
-//===========================================================================
-// Operators
-//===========================================================================
-
-	inline const Point operator *(const Matrix& p_Matrix, const Point& p_Point)
-	{
-		return Point(p_Matrix.Column(4)) + (p_Matrix * p_Point.PositionVector());
-	}
 
 //===========================================================================
 // Functions
@@ -34,24 +27,24 @@ namespace Mathematics
 //Distance Functions
 
 	//Minimum distance between a point and a line
-	const scalar Distance(const Line& p_Line, const Point& p_Point);
-	const scalar DistanceSquared(const Line& p_Line, const Point& p_Point);
+	const scalar Distance(const Line& p_Line, const Vector4& p_Point);
+	const scalar DistanceSquared(const Line& p_Line, const Vector4& p_Point);
 	
 	//Minimum distance between two lines
 	const scalar Distance(const Line& p_Line1, const Line& p_Line2);
 	const scalar DistanceSquared(const Line& p_Line1, const Line& p_Line2);
 	
 	//Minimum distance between a plane and a point
-	const scalar Distance(const Plane& p_Plane, const Point& p_Point);
-	const scalar DistanceSquared(const Plane& p_Plane, const Point& p_Point);
+	const scalar Distance(const Plane& p_Plane, const Vector4& p_Point);
+	const scalar DistanceSquared(const Plane& p_Plane, const Vector4& p_Point);
 
 //Intersection Functions
 
 	//True if a point is on a plane, false otherwise
-	const bool PointIsOnPlane(const Point& p_Point, const Plane& p_Plane);
+	const bool PointIsOnPlane(const Vector4& p_Point, const Plane& p_Plane);
 
 	//True if a line intersects a plane, false otherwise. Sets the point of intersection
-	const bool LineIntersectsPlane(const Line& p_Line, const Plane& p_Plane, Point& p_Point);
+	const bool LineIntersectsPlane(const Line& p_Line, const Plane& p_Plane, Vector4& p_Point);
 
 	//True if a plane intersects a plane, false otherwise. Sets the line of intersection
 	const bool PlaneIntersectsPlane(const Plane& p_Plane1, const Plane& p_Plane2, Line& p_Line);
@@ -59,118 +52,110 @@ namespace Mathematics
 
 //Coordinate Transforms
 
-	inline const Vector SphericalToCartesian(const Vector& p_RadPolarAxial)
+	inline const Vector3 SphericalToCartesian(const Vector3& p_RadPolarAxial)
 	{
-		const scalar st = sin(p_RadPolarAxial.z);
-		const scalar sp = sin(p_RadPolarAxial.y);
-		const scalar ct = cos(p_RadPolarAxial.z);
-		const scalar cp = cos(p_RadPolarAxial.y);
-		const scalar rad = p_RadPolarAxial.x;
+		const scalar st = sin(p_RadPolarAxial(3));
+		const scalar sp = sin(p_RadPolarAxial(2));
+		const scalar ct = cos(p_RadPolarAxial(3));
+		const scalar cp = cos(p_RadPolarAxial(2));
+		const scalar rad = p_RadPolarAxial(1);
 
-		return Vector(rad * ct * sp, rad * st * sp, rad * cp);
+		return MakeVector(rad * ct * sp, rad * st * sp, rad * cp);
 	}
 
 //Matrix transforms
 
-	inline const Matrix Transform_RH(const Vector& p_Right
-								   , const Vector& p_Up
-								   , const Vector& p_Forward
-								   , const Point& p_Origin)
+	inline const Matrix44 Transform_RH(const Vector4& p_Right
+									 , const Vector4& p_Forward
+									 , const Vector4& p_Up
+									 , const Vector4& p_Origin)
 	{
-		using namespace ConstantScalars;
-
-		return Matrix(p_Right.x, p_Up.x, p_Forward.x, p_Origin.x
-					, p_Right.y, p_Up.y, p_Forward.y, p_Origin.y
-					, p_Right.z, p_Up.z, p_Forward.z, p_Origin.z
+		return MakeMatrix(p_Right(1), p_Up(1), p_Forward(1), p_Origin(1)
+					, p_Right(2), p_Up(2), p_Forward(2), p_Origin(2)
+					, p_Right(3), p_Up(3), p_Forward(3), p_Origin(3)
 					, Zero, Zero, Zero, Unity);
 	}
 
-	inline const Matrix Transform_LH(const Vector& p_Left
-								   , const Vector& p_Up
-								   , const Vector& p_Forward
-								   , const Point& p_Origin)
+	inline const Matrix44 Transform_LH(const Vector3& p_Left
+								   , const Vector3& p_Up
+								   , const Vector3& p_Forward
+								   , const Vector3& p_Origin)
 	{
-		using namespace ConstantScalars;
-
-		return Matrix(p_Left.x, p_Up.x, p_Forward.x, p_Origin.x
-					, p_Left.y, p_Up.y, p_Forward.y, p_Origin.y
-					, p_Left.z, p_Up.z, p_Forward.z, p_Origin.z
+		return MakeMatrix(p_Left(1), p_Up(1), p_Forward(1), p_Origin(1)
+					, p_Left(2), p_Up(2), p_Forward(2), p_Origin(2)
+					, p_Left(3), p_Up(3), p_Forward(3), p_Origin(3)
 					, Zero, Zero, Zero, Unity);
 	}
 
-	inline const Matrix ViewLookAt_RH(const Point& p_Position
-		, const Point& p_Target
-		, const Vector& p_Up = ConstantVectors::J)
+	inline const Matrix44 ViewLookAt_RH(const Vector3& p_Position
+		, const Vector3& p_Target
+		, const Vector3& p_Up = J())
 	{
-		using namespace ConstantScalars;
-		const Vector zAxis((p_Position - p_Target).Direction());
-		const Vector xAxis((p_Up * zAxis).Direction());
-		const Vector yAxis( zAxis * xAxis);
-		const Vector eye(p_Position.PositionVector());
+		const Vector3 zAxis((p_Position - p_Target).Direction());
+		const Vector3 xAxis((p_Up * zAxis).Direction());
+		const Vector3 yAxis( zAxis * xAxis);
+		const Vector3 eye(p_Position);
 
-		return Matrix(xAxis.x, xAxis.y, xAxis.z, xAxis|eye
-					, yAxis.x, yAxis.y, yAxis.z, yAxis|eye
-					, zAxis.x, zAxis.y, zAxis.z, zAxis|eye
+		return MakeMatrix(xAxis(1), xAxis(2), xAxis(3), xAxis|eye
+					, yAxis(1), yAxis(2), yAxis(3), yAxis|eye
+					, zAxis(1), zAxis(2), zAxis(3), zAxis|eye
 					, Zero, Zero, Zero, Unity);
 	}
 
-	inline const Matrix ViewLookAt_LH(const Point& p_Position
-		, const Point& p_Target
-		, const Vector& p_Up = ConstantVectors::J)
+	inline const Matrix44 ViewLookAt_LH(const Vector3& p_Position
+		, const Vector3& p_Target
+		, const Vector3& p_Up = J())
 	{
-		using namespace ConstantScalars;
-		const Vector zAxis((p_Target - p_Position).Direction());
-		const Vector xAxis((p_Up * zAxis).Direction());
-		const Vector yAxis(zAxis * xAxis);
-		const Vector eye(p_Position.PositionVector());
+		const Vector3 zAxis((p_Target - p_Position).Direction());
+		const Vector3 xAxis((p_Up * zAxis).Direction());
+		const Vector3 yAxis(zAxis * xAxis);
+		const Vector3 eye(p_Position);
 
-		return Matrix(xAxis.x, xAxis.y, xAxis.z, -(xAxis | eye)
-			, yAxis.x, yAxis.y, yAxis.z, -(yAxis | eye)
-			, zAxis.x, zAxis.y, zAxis.z, -(zAxis | eye)
+		return MakeMatrix(xAxis(1), xAxis(2), xAxis(3), -(xAxis | eye)
+			, yAxis(1), yAxis(2), yAxis(3), -(yAxis | eye)
+			, zAxis(1), zAxis(2), zAxis(3), -(zAxis | eye)
 			, Zero, Zero, Zero, Unity);
 	}
 
-	inline const Matrix PerspectiveProjection_RH(const scalar p_FieldOfView
+	inline const Matrix44 PerspectiveProjection_RH(const scalar p_FieldOfView
 		, const scalar p_AspectRatio
 		, const scalar p_zFar
 		, const scalar p_zNear)
 	{
-		using namespace ConstantScalars;
 		const scalar yFOV = Inverse(std::tan(p_FieldOfView / 2.0f));
 		const scalar xFOV = yFOV / p_AspectRatio;
 		const scalar depthScale = p_zFar / (p_zNear - p_zFar);
 
-		return Matrix(xFOV, Zero, Zero, Zero
+		return MakeMatrix(xFOV, Zero, Zero, Zero
 			, Zero, yFOV, Zero, Zero
 			, Zero, Zero, depthScale, p_zNear*depthScale
 			, Zero, Zero, -Unity, Zero);
 	}
 
-	inline const Matrix PerspectiveProjection_LH(const scalar p_FieldOfView
+	inline const Matrix44 PerspectiveProjection_LH(const scalar p_FieldOfView
 											   , const scalar p_AspectRatio
 											   , const scalar p_zFar
 											   , const scalar p_zNear)
 	{
-		using namespace ConstantScalars;
 		const scalar yFOV = Inverse(std::tan(p_FieldOfView / 2.0f));
 		const scalar xFOV = yFOV / p_AspectRatio;
 		const scalar depthScale = p_zFar / (p_zFar - p_zNear);
 
-		return Matrix(xFOV, Zero, Zero, Zero
+		return MakeMatrix(xFOV, Zero, Zero, Zero
 			, Zero, yFOV, Zero, Zero
 			, Zero, Zero, depthScale, -p_zNear*depthScale
 			, Zero, Zero, Unity, Zero);
 	}
 
-	inline const Matrix ScreenToNDC(const u32 p_Height, const u32 p_Width)
+	inline const Matrix44 ScreenToNDC(const u32 p_Height, const u32 p_Width)
 	{
 		const scalar w = static_cast<scalar>(p_Width);
 		const scalar h = static_cast<scalar>(p_Height);
 
-		return Matrix(2.0f/w, 0.0f, 0.0f, 0.0f
-					, 0.0f, -2.0f/h, 0.0f, 0.0f
-					, 0.0f, 0.0f, 1.0f, 0.0f
-					, -1.0f, 1.0f,0.0f,1.0f);
+		return MakeMatrix(2.0f / w, Zero, Zero, Zero
+			, Zero, -2.0f / h, Zero, Zero
+			, Zero, Zero, Unity, Zero
+			, -Unity, Unity, Zero, Unity);
 	}
 }
 

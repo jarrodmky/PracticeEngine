@@ -55,6 +55,11 @@ namespace Abstracts
 			m_List.Clear();
 		}
 
+		inline void Destroy()
+		{
+			m_List.Destroy();
+		}
+
 		inline void Push(const t_Type& p_Value)
 		{
 			m_List.Add(p_Value);

@@ -15,7 +15,7 @@ using namespace Algorithms;
 
 
 const scalar kTileSize = 0.65f;
-const Vector kOffset(kTileSize * 0.5f - 3.0f, kTileSize * 0.5f - 3.0f, 0.0f);
+const Vector2 kOffset(MakeVector(kTileSize * 0.5f - 3.0f, kTileSize * 0.5f - 3.0f));
 Grid grid;
 SearchContext<Dijkstra> context;
 std::vector<u32> path;
@@ -44,8 +44,8 @@ namespace
 			u32 x1 = grid.GetX(endNode.GetIndex());
 			u32 y1 = grid.GetY(endNode.GetIndex());
 
-			Vector a(x0 * kTileSize, y0 * kTileSize);
-			Vector b(x1 * kTileSize, y1 * kTileSize);
+			Vector2 a(MakeVector(x0 * kTileSize, y0 * kTileSize));
+			Vector2 b(MakeVector(x1 * kTileSize, y1 * kTileSize));
 
 			//Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Green);
 		}
@@ -66,8 +66,8 @@ namespace
 				u32 x1 = grid.GetX(neighbour.GetIndex());
 				u32 y1 = grid.GetY(neighbour.GetIndex());
 
-				Vector a(x0 * kTileSize, y0 * kTileSize);
-				Vector b(x1 * kTileSize, y1 * kTileSize);
+				Vector2 a(MakeVector(x0 * kTileSize, y0 * kTileSize));
+				Vector2 b(MakeVector(x1 * kTileSize, y1 * kTileSize));
 
 				//Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Blue);
 			}
@@ -91,8 +91,8 @@ namespace
 			u32 x1 = grid.GetX(endNode.GetIndex());
 			u32 y1 = grid.GetY(endNode.GetIndex());
 
-			Vector a(x0 * kTileSize, y0 * kTileSize);
-			Vector b(x1 * kTileSize, y1 * kTileSize);
+			Vector2 a(MakeVector(x0 * kTileSize, y0 * kTileSize));
+			Vector2 b(MakeVector(x1 * kTileSize, y1 * kTileSize));
 
 			//Renderer::AddLineSegment(Point(a + kOffset), Point(b + kOffset), ConstantColours::Red);
 		}
@@ -130,13 +130,13 @@ void Game::OnInitialize()
 		end = Random::GetInteger(0, numNodes - 1);
 	} while (end == start);
 
-	context.Initialize(numNodes, start, end);
-	context.GetH = [](u32 p_Index1, u32 p_Index2)->f32
-	{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)
-	- Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
-	context.GetG = [](u32 p_Index1, u32 p_Index2)->f32
-	{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)
-	- Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
+	//context.Initialize(numNodes, start, end);
+	//context.GetH = [](u32 p_Index1, u32 p_Index2)->f32
+	//{ return Vector2(MakeVector(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)))
+	//- MakeVector(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)))).Length(); };
+	//context.GetG = [](u32 p_Index1, u32 p_Index2)->f32
+	//{ return Vector(Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)
+	//- Point(static_cast<scalar>(grid.GetX(p_Index1)), static_cast<scalar>(grid.GetY(p_Index1)), 0.0f)).Length(); };
 
 	GraphSearch<Dijkstra>::Run(graph, context);
 	GraphSearch<Dijkstra>::GetPath(context, path);

@@ -12,7 +12,7 @@
 //===========================================================================
 
 #include <Core.h>
-#include "List.h"
+#include "Table.h"
 
 //===========================================================================
 // Templates
@@ -24,102 +24,115 @@ namespace Abstracts
 	template<typename t_Type>
 	class Table
 	{
-		//Attributes
+	//Attributes
 	private:
 
-		u32 m_NumberOfElements;
+		u32 m_Rows;
 
-		u32 m_Capacity;
+		u32 m_Columns;
 
-		List m_Array;
+		List<t_Type> m_List;
 
-		//Operators
+	//Operators
 	public:
 
-		Table(const u32 p_Capacity = 4)
-			: m_NumberOfElements(0)
-			, m_Capacity(p_Capacity)
-			, m_Array(std::make_unique<t_Type[]>(p_Capacity))
+		Table(const u32 p_Rows = 0, const u32 p_Columns = 0, const t_Type& p_Value = t_Type())
+			: m_Rows(p_Rows)
+			, m_Columns(p_Columns)
+			, m_List(p_Rows* p_Columns, p_Value)
 		{}
 
-		Table(const u32 p_FillToSize, const t_Type& p_InitialValue)
-			: m_NumberOfElements(0)
-			, m_Capacity(p_FillToSize)
-			, m_Array(std::make_unique<t_Type[]>(p_FillToSize))
-		{
-			Fill(p_InitialValue);
-		}
-
-		~Table() {}
+		//rule of 5
+		~Table()
+		{}
 
 		Table(const Table& p_Other)
-			: m_NumberOfElements(p_Other.m_NumberOfElements)
-			, m_Capacity(p_Other.m_Capacity)
-			, m_Array(std::make_unique<t_Type[]>(p_Other.m_Capacity))
+			: m_Rows(p_Other.m_Rows)
+			, m_Columns(p_Other.m_Columns)
+			, m_List(p_Other.m_List)
+		{}
+
+		Table(const Table&& p_Other)
+			: m_Rows(p_Other.m_Rows)
+			, m_Columns(p_Other.m_Columns)
+			, m_List(p_Other.m_List)
+		{}
+
+		Table& operator=(const Table& p_Other)
 		{
-			CopyFrom(p_Other);
+			m_Rows = p_Other.m_Rows;
+			m_Columns = p_Other.m_Columns;
+			m_List = p_Other.m_List;
+			return *this,
 		}
 
-		Table& operator = (const Table& p_Lhs)
+		Table& operator=(Table&& p_Other)
 		{
-			m_Capacity = p_Lhs.m_Capacity;
-			m_NumberOfElements = p_Lhs.m_NumberOfElements;
+			m_Rows = p_Other.m_Rows;
+			m_Columns = p_Other.m_Columns;
+			m_List = p_Other.m_List;
+			return *this,
+		}
 
-			m_Array.reset(std::make_unique<t_Type[]>(p_Other.m_Capacity));
+		inline const t_Type& operator()(const u32 p_Row, const u32 p_Column) const
+		{
+			return m_List(GetIndex(p_Row, p_Column));
+		}
 
-			CopyFrom(p_Lhs);
-
-			return *this;
+		inline t_Type& operator()(const u32 p_Row, const u32 p_Column)
+		{
+			return m_List(GetIndex(p_Row, p_Column));
 		}
 
 		inline const t_Type& operator()(const u32 p_Index) const
 		{
-			Assert(0 <= p_Index && p_Index < m_NumberOfElements, "Index out of bounds!");
-			return m_Array[p_Index];
+			return m_List(p_Index);
 		}
 
 		inline t_Type& operator()(const u32 p_Index)
 		{
-			Assert(0 <= p_Index && p_Index < m_NumberOfElements, "Index out of bounds!");
-			return m_Array[p_Index];
+			return m_List(p_Index);
 		}
 
 		//Methods
 	public:
 
-		inline void Allocate(const t_Type& p_Value = t_Type())
+		inline void Resize(const u32 p_Rows, const u32 p_Columns)
 		{
-			std::fill(m_Array, (m_Array + m_Capacity), p_Value);
-			m_NumberOfElements = m_Capacity;
+			m_Rows = p_Rows;
+			m_Columns = p_Columns;
+			m_List.Reserve(p_Rows * p_Columns);
+			m_List.Fill();
 		}
 
-		inline void Free()
+		inline void Clear(const t_Type& p_Value = t_Type())
 		{
-			m_Array.resset(nullptr);
-
-		}
-
-		inline void Clear()
-		{
-			m_NumberOfElements = 0;
-		}
-
-		void Reserve(const u32 p_NewCapacity)
-		{
+			m_List.Fill(p_Value);
 		}
 
 		inline u32 GetNumberOfElements() const
 		{
-			return m_NumberOfElements;
+			return m_List.GetNumberOfElements();
+		}
+
+		inline u32 GetNumberOfRows() const
+		{
+			return m_Rows;
+		}
+
+		inline u32 GetNumberOfColumns() const
+		{
+			return m_Columns;
 		}
 
 	private:
 
-		void CopyFrom(const Table& p_Source)
+		inline u32 GetIndex(const u32 p_Row, const u32 p_Column) const
 		{
-			Assert(m_Capacity >= p_Source.m_NumberOfElements
-				&& m_NumberOfElements == p_Source.m_NumberOfElements, "No room!");
-			std::copy(p_Source.m_Array.get(), p_Source.m_Array.get() + m_NumberOfElements, m_Array);
+			Assert(p_Row < m_Rows, "Invalid row index!");
+			Assert(p_Column < m_Columns, "Invalid column index!");
+
+			return (m_Rows)* p_Column + p_Row;
 		}
 	};
 } // namespace Abstracts

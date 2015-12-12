@@ -16,22 +16,23 @@ A class which contain methods for reading files into buffers
 
 namespace Serialization
 {
-	typedef std::vector<Mathematics::Vector> VectorBuffer;
-
 	class Loader
 	{
 	//methods
 	public:
 
 		/*
-			Reads a .bmp file into a colour vector
+			Reads a .bmp file into a colour table
 		*/
-		static VectorBuffer& ReadBmpToColourBuffer(BMP::BmpFile& p_SourceFile, Abstracts::Table<Mathematics::Vector>& p_DestinationBuffer)
+		static bool ReadBmpToColourTable(const std::string& p_SourceFilename, BMP::ColourTable& p_DestinationBuffer)
 		{
-			p_SourceFile.ReadInBinary();
-			p_SourceFile.GetVectorBuffer(p_DestinationBuffer);
-
-			return p_DestinationBuffer;
+			BMP::BmpFile source(p_SourceFilename);
+			if (source.ReadInBinary())
+			{
+				source.GetColourTable(p_DestinationBuffer);
+				return true;
+			}
+			return false;
 		}
 	};
 }

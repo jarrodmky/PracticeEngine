@@ -12,7 +12,6 @@
 //===========================================================================
 
 #include "Vector.h"
-#include "Point.h"
 
 //===========================================================================
 // Classes
@@ -35,13 +34,13 @@ namespace Mathematics
 	//Operators
 	public:
 
-		Edge(const Point& p_First, const Point& p_Second);
+		Edge(const Vector3& p_First, const Vector3& p_Second);
 
 	//Attributes
 	public:
 
-		Point First;
-		Point Second;
+		Vector3 First;
+		Vector3 Second;
 	};
 
 	//==========
@@ -52,13 +51,13 @@ namespace Mathematics
 		//Operators
 	public:
 
-		Ray(const Point& p_Position, const Vector& p_Direction);
+		Ray(const Vector3& p_Position, const Vector3& p_Direction);
 
 		//Attributes
 	public:
 
-		Point Position;
-		Vector Direction;
+		Vector3 Position;
+		Vector3 Direction;
 	};
 
 	//==========
@@ -69,14 +68,14 @@ namespace Mathematics
 	//Operators
 	public:
 
-		Trigon(const Point& p_First, const Point& p_Second, const Point& p_Third);
+		Trigon(const Vector3& p_First, const Vector3& p_Second, const Vector3& p_Third);
 
 	//Attributes
 	public:
 
-		Point First;
-		Point Second;
-		Point Third;
+		Vector3 First;
+		Vector3 Second;
+		Vector3 Third;
 	};
 
 	//==========
@@ -87,7 +86,7 @@ namespace Mathematics
 	//Operators
 	public:
 
-		inline Plane(const Vector& p_Orientation);
+		inline Plane(const Vector3& p_Orientation);
 
 		inline Plane(const Ray& p_Ray);
 
@@ -96,7 +95,7 @@ namespace Mathematics
 	//Attributes
 	public:
 
-		Vector Normal;
+		Vector3 Normal;
 		scalar Constant;
 	};
 
@@ -112,11 +111,11 @@ namespace Mathematics
 			, const scalar& p_Y
 			, const scalar& p_Z
 			, const scalar& p_Radius)
-			: Centre(Point(p_X, p_Y, p_Z))
+			: Centre(MakeVector(p_X, p_Y, p_Z))
 			, Radius(p_Radius)
 		{}
 
-		Sphere::Sphere(const Point& p_Centre, const scalar& p_Radius)
+		Sphere::Sphere(const Vector3& p_Centre, const scalar& p_Radius)
 			: Centre(p_Centre)
 			, Radius(p_Radius)
 		{}
@@ -124,7 +123,7 @@ namespace Mathematics
 	//Attributes
 	public:
 
-		Point Centre;
+		Vector3 Centre;
 		scalar Radius;
 	};
 
@@ -136,17 +135,15 @@ namespace Mathematics
 	//Operators
 	public:
 	
-		Line(const Point& p_Centre, const Vector& p_Direction);
-
-		Line(const Point& p_Centre, const Point& p_Offset);
+		Line(const Vector3& p_A, const Vector3& p_B);
 
 		Line(const Ray& p_Ray);
 
 	//Attributes
 	public:
 	
-		Point Centre;
-		Vector Direction;
+		Vector3 Centre;
+		Vector3 Direction;
 	};
 
 	namespace ConstantGeometries

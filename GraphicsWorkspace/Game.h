@@ -52,26 +52,43 @@ private:
 
 	Utilization::InputState m_Controller;
 
+	///////
 	//scene
+	///////
 	Visualization::Camera m_Camera;
+	Visualization::ConstantBuffer<Visualization::LightingBuffer> m_LightingBuffer;
+	Mathematics::MatrixStack m_Matrix;
 
-	Visualization::Mesh<Visualization::ShadedVertex> m_Mesh;
+	//skybox
+	Visualization::DepthStencil m_DepthTestDisable;
+	Visualization::DepthStencil m_DepthTestEnable;
+	Visualization::Solid m_Skyshape;
+	Visualization::Material m_SkyshapeMat;
 
-	Visualization::Solid m_Sphere;
+	//terrain
+	Visualization::Solid m_Terrain;
+	Visualization::Material m_TerrainMat;
 
-	Visualization::TypedConstantBuffer<Visualization::LightingBuffer> m_LightingBuffer;
+	//moon
+	Visualization::BumpedSolid m_moon;
+	Visualization::Material m_moonMat;
+	Visualization::Texture m_moonBump;
+
+	//earth
+	Visualization::BumpedSolid m_earth;
+	Visualization::Material m_earthMat;
+	Visualization::Texture m_earthBump;
+
+	//mars
+	Visualization::BumpedSolid m_mars;
+	Visualization::Material m_marsMat;
+	Visualization::Texture m_marsBump;
 
 	//shader
-	Visualization::VertexShader<Visualization::ShadedVertex> m_VertexShader;
-
-	Visualization::PixelShader m_PixelShader;
-
-	//material
-	Visualization::TypedConstantBuffer<Visualization::MaterialBuffer> m_MaterialBuffer;
-
-	Visualization::Texture m_Texture;
-
-	Visualization::Sampler m_Sampler;
+	Visualization::VertexShader<Visualization::ShadedVertex> m_shadedVS;
+	Visualization::PixelShader m_shadedPS;
+	Visualization::VertexShader<Visualization::BumpedVertex> m_bumpedVS;
+	Visualization::PixelShader m_bumpedPS;
 };
 
 #endif //#ifndef IncludedGameH

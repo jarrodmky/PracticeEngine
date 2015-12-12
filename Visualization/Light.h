@@ -27,16 +27,16 @@ namespace Visualization
 	public:
 
 		Light()
-			: Position(Mathematics::ConstantVectors::Zero)
-			, Ambient(Mathematics::ConstantColours::White)
-			, Diffuse(Mathematics::ConstantColours::White)
-			, Specular(Mathematics::ConstantColours::White)
+			: Position(Mathematics::Zero4())
+			, Ambient(Mathematics::ColourPallet::White)
+			, Diffuse(Mathematics::ColourPallet::White)
+			, Specular(Mathematics::ColourPallet::White)
 		{}
 
 	//Attributes
 	public:
 
-		Mathematics::Vector Position;
+		Mathematics::Vector4 Position;
 
 		Mathematics::LinearColour Ambient;
 

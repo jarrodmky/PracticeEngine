@@ -13,6 +13,8 @@
 
 #if defined(_DEBUG)
 
+	#define DebugTest(...) do { __VA_ARGS__; } while (0)
+
 	//TODO: should do a memcopy to truncate inputs to fit buffer
 	#define Log(format, ...)\
 	{\
@@ -36,15 +38,12 @@
 
 	#define Verify(condition, format, ...)\
 	{\
-		if(!(condition))\
-		{\
-			Log(format, __VA_ARGS__)\
-			DebugBreak();\
-		}\
+		Assert(condition, format, __VA_ARGS__);\
 	}
 
 #else
 
+	#define DebugTest(...)
 	#define Log(format, ...)
 	#define Assert(condition, format, ...)
 	#define Verify(condition, format, ...) condition

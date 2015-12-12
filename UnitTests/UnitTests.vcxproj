@@ -40,9 +40,13 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
+    <Import Project="..\Engine.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
+    <Import Project="..\Engine.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -116,6 +120,18 @@
     </ProjectReference>
     <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
       <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Simulation\Simulation.vcxproj">
+      <Project>{a0839ec9-803b-46c2-a033-ae420b626d63}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Synchronization\Synchronization.vcxproj">
+      <Project>{1c5bc2e8-b2ad-4c09-a4e0-665305290baf}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilization\Utilization.vcxproj">
+      <Project>{c5b59784-5095-48c8-8868-4cd8ab06ed1a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Visualization\Visualization.vcxproj">
+      <Project>{42f4e3e6-7d3c-4c8f-858a-fe3b9f3a36f1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

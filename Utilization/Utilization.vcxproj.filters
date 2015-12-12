@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="InputTypes.h" />
-    <ClInclude Include="Precompiled.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Utilization.h" />
     <ClInclude Include="InputState.h" />

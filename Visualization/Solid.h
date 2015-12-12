@@ -15,8 +15,8 @@
 #include <Mathematics.h>
 #include "System.h"
 #include "Vertices.h"
+#include "DataStructures.h"
 #include "Buffers.h"
-#include "ConstantBuffer.h"
 #include "Shaders.h"
 #include "Mesh.h"
 #include "Material.h"
@@ -38,7 +38,7 @@ namespace Visualization
 
 		System& m_System;
 
-		TypedConstantBuffer<ObjectBuffer> m_TransformBuffer;
+		ConstantBuffer<ObjectBuffer> m_TransformBuffer;
 
 		VertexBuffer<ShadedVertex> m_VertexBuffer;
 
@@ -62,7 +62,7 @@ namespace Visualization
 
 		void Terminate();
 
-		void Render() const;
+		void Render();
 
 	};
 }

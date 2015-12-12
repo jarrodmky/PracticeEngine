@@ -28,12 +28,9 @@
     <ProjectReference Include="..\Dependencies\DirectXTK\DirectXTK_Desktop_2013.vcxproj">
       <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
-      <Project>{781fdb4a-c3d4-4c9c-b417-3d0a479f5677}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="BumpedSolid.cpp" />
     <ClCompile Include="DepthStencil.cpp" />
     <ClCompile Include="MeshUtil.cpp" />
     <ClCompile Include="Precompiled.cpp">
@@ -42,18 +39,20 @@
     </ClCompile>
     <ClCompile Include="D3DSystem.cpp" />
     <ClCompile Include="Sampler.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Solid.cpp" />
-    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vertices.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Utilization\Precompiled.h" />
     <ClInclude Include="Buffers.h" />
+    <ClInclude Include="BumpedSolid.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConicColour.h" />
-    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="DataStructures.h" />
     <ClInclude Include="DepthStencil.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Common.h" />
@@ -61,14 +60,15 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshBuilder.h" />
     <ClInclude Include="MeshUtil.h" />
+    <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Pigment.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Sampler.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="System.h" />
-    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vertices.h" />
     <ClInclude Include="Visualization.h" />
@@ -109,10 +109,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
+    <Import Project="..\Precompiled.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
+    <Import Project="..\Precompiled.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -122,7 +124,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Serialization;../Algorithms;../Abstracts;../Mathematics;../Core;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Algorithms;../Abstracts;../Mathematics;../Core;../Serialization;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>

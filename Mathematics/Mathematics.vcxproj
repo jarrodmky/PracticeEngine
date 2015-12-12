@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Algebra.h" />
     <ClInclude Include="LinearColour.h" />
+    <ClInclude Include="MatrixStack.h" />
     <ClInclude Include="Series.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Geometry.h" />
@@ -28,7 +29,6 @@
     <ClInclude Include="MathBase.h" />
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Point.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Random.h" />
@@ -38,16 +38,14 @@
   <ItemGroup>
     <None Include="Interval.inl" />
     <None Include="Matrix.inl" />
-    <None Include="Point.inl" />
     <None Include="Quaternion.inl" />
     <None Include="Vector.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LinearColour.cpp" />
-    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Random.cpp" />
-    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D7CD47EF-70F5-44CD-959D-A45E5A44FBD7}</ProjectGuid>

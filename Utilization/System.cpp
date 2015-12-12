@@ -8,7 +8,6 @@
 //====================================================================================================
 
 #include "Precompiled.h"
-
 #include "System.h"
 
 using namespace Utilization;
@@ -389,14 +388,24 @@ float System::GetLeftAnalogY() const
 
 float System::GetRightAnalogX() const
 {
-	return (mCurrGamePadState.lZ / 32767.5f) - 1.0f;
+	return (mCurrGamePadState.lRx / 32767.5f) - 1.0f;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 float System::GetRightAnalogY() const
 {
-	return -(mCurrGamePadState.lRz / 32767.5f) + 1.0f;
+	return -(mCurrGamePadState.lRy / 32767.5f) + 1.0f;
+}
+
+f32 System::GetLeftTrigger() const
+{
+	return (mCurrGamePadState.lZ / 32767.5f) - 1.0f;
+}
+
+f32 System::GetRightTrigger() const
+{
+	return (mCurrGamePadState.lZ / 32767.5f) - 1.0f;
 }
 
 //----------------------------------------------------------------------------------------------------

@@ -19,9 +19,6 @@
     <ClInclude Include="Geometry.h">
       <Filter>Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Algebra</Filter>
     </ClInclude>
@@ -40,6 +37,9 @@
     <ClInclude Include="LinearColour.h">
       <Filter>Algebra</Filter>
     </ClInclude>
+    <ClInclude Include="MatrixStack.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Interval.inl">
@@ -51,26 +51,20 @@
     <None Include="Quaternion.inl">
       <Filter>Algebra</Filter>
     </None>
-    <None Include="Point.inl">
-      <Filter>Geometry</Filter>
-    </None>
     <None Include="Vector.inl">
       <Filter>Algebra</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp" />
-    <ClCompile Include="Matrix.cpp">
-      <Filter>Algebra</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Algebra</Filter>
-    </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Generators</Filter>
     </ClCompile>
     <ClCompile Include="LinearColour.cpp">
       <Filter>Algebra</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixStack.cpp">
+      <Filter>Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

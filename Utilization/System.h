@@ -7,6 +7,8 @@
 // Description:	Class for the input system with support for keyboard, mouse, and gamepad devices.
 //====================================================================================================
 
+#include <Mathematics.h>
+
 //====================================================================================================
 // Namespace
 //====================================================================================================
@@ -59,6 +61,9 @@ public:
 	f32 GetLeftAnalogY() const;
 	f32 GetRightAnalogX() const;
 	f32 GetRightAnalogY() const;
+
+	f32 GetLeftTrigger() const;
+	f32 GetRightTrigger() const;
 
 	//Added by Jarrod
 	bool KeyboardIsConnected() const { return mpKeyboardDevice != nullptr; }

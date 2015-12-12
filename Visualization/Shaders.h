@@ -53,7 +53,34 @@ namespace Visualization
 		void Bind() const;
 	};
 
+	class GeometryShader
+	{
+	//Attributes
+	private:
 
+		System& m_System;
+		ID3D11GeometryShader* m_ShaderPointer;
+
+	//Operations
+	public:
+
+		GeometryShader(System& p_System);
+
+		~GeometryShader();
+
+	private:
+
+		NonCopyable(GeometryShader);
+
+	//Methods
+	public:
+
+		void Compile(LPCWSTR p_FileName, LPCSTR p_EntryName, LPCSTR p_ShaderLevel);
+
+		void Release();
+
+		void Bind() const;
+	};
 	
 	class PixelShader
 	{

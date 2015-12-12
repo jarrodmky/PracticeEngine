@@ -5,9 +5,6 @@
     <ClCompile Include="Vertices.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="MeshUtil.cpp">
       <Filter>Meshes</Filter>
     </ClCompile>
@@ -24,23 +21,23 @@
       <Filter>Drawing</Filter>
     </ClCompile>
     <ClCompile Include="D3DSystem.cpp" />
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Meshes</Filter>
-    </ClCompile>
     <ClCompile Include="DepthStencil.cpp">
       <Filter>Surfacing</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="BumpedSolid.cpp">
+      <Filter>Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Vertices.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="MeshBuilder.h">
@@ -81,17 +78,29 @@
     <ClInclude Include="Camera.h">
       <Filter>Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders.h">
-      <Filter>Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>Meshes</Filter>
-    </ClInclude>
     <ClInclude Include="Pigment.h">
       <Filter>Surfacing</Filter>
     </ClInclude>
     <ClInclude Include="DepthStencil.h">
       <Filter>Surfacing</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructures.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BumpedSolid.h">
+      <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEffect.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilization\Precompiled.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +119,12 @@
     <Filter Include="Surfacing">
       <UniqueIdentifier>{1ba9477e-ff9a-41bd-9a6b-ccb73359edcc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{47110898-ef49-4d24-abe1-6f135fce7844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particles">
+      <UniqueIdentifier>{4309b9be-e091-4342-b0c6-41409164026f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Mesh.inl">
@@ -122,7 +137,7 @@
       <Filter>Components</Filter>
     </None>
     <None Include="Shaders.inl">
-      <Filter>Lighting</Filter>
+      <Filter>Components</Filter>
     </None>
   </ItemGroup>
 </Project>

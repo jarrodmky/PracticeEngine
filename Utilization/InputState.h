@@ -27,12 +27,16 @@ private:
 
 	System* m_System;
 
-	Mathematics::coordinate m_LeftDisc;
-	Mathematics::coordinate m_RightDisc;
+	Mathematics::Vector2 m_LeftDisc;
+	Mathematics::Vector2 m_RightDisc;
+
+	Mathematics::Vector2 m_LeftDiscCentre;
+	Mathematics::Vector2 m_RightDiscCentre;
 
 	bool m_ActionPressed;
 	bool m_ConfirmPressed;
 	bool m_DenyPressed;
+	bool m_FullscreenPressed;
 
 //Operators
 public:
@@ -44,11 +48,14 @@ public:
 //Methods
 public:
 
+
+	void Calibrate();
 	void Update();
 
 	bool Actioned() const;
 	bool Confirmed() const;
 	bool Denied() const;
+	bool Fullscreen() const;
 	f32 GetLeftVerticalAxis() const;
 	f32 GetRightVerticalAxis() const;
 	f32 GetLeftHorizontalAxis() const;

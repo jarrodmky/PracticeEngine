@@ -19,19 +19,7 @@
 
 namespace Mathematics
 {
-	typedef f32	scalar;
-
-	struct coordinate
-	{
-		coordinate(const scalar p_U = 0.0f, const scalar p_V = 0.0f)
-		: u(p_U)
-		, v(p_V)
-		{}
-
-		scalar u;
-		scalar v;
-	};
-	
+	typedef f32	scalar;	
 	
 	typedef std::complex<scalar> complex;
 	
@@ -43,40 +31,38 @@ namespace Mathematics
 	#ifdef min
 	#undef min
 	#endif
+
+	//===========================================================================
+	// Constants
+	//===========================================================================
+
+	const scalar Zero				= 0.0f;
+	const scalar Unity				= 1.0f;
+	const scalar Epsilon			= std::numeric_limits<scalar>::epsilon();
+	const scalar Infinity			= std::numeric_limits<scalar>::infinity();
+	const scalar NegativeInfinity	= -Infinity;
+	const scalar NotANumber			= std::numeric_limits<scalar>::signaling_NaN();
+	const scalar Maximum			= std::numeric_limits<scalar>::max();
+	const scalar Minimum			= std::numeric_limits<scalar>::min();
+	const scalar PiOverTwo			= 1.570796326794896619231321691639f;
+	const scalar Pi					= 3.141592653589793238462643383279f;
+	const scalar TwoPi				= 6.28318530717958647692528676656f;
+	const scalar PiSquared			= 9.869604401089358618834f;
+	const scalar OneOverPi			= 0.3183098861837906715378f;
+	const scalar OneOverTwoPi		= 0.1591549430918953357689f;
+	const scalar DegsPerRad			= 57.2957795130823208768f;
+	const scalar RadsPerDeg			= 0.01745329251994329576924f;
+	const scalar RootTwo			= 1.41421356237309f;
+	const scalar RootThree			= 1.73205080756887f;
 	
-	namespace ConstantScalars
-	{
-		const scalar Zero				= 0.0f;
-		const scalar Unity				= 1.0f;
-		const scalar Epsilon			= std::numeric_limits<scalar>::epsilon();
-		const scalar Infinity			= std::numeric_limits<scalar>::infinity();
-		const scalar NegativeInfinity	= -Infinity;
-		const scalar NotANumber			= std::numeric_limits<scalar>::signaling_NaN();
-		const scalar Maximum			= std::numeric_limits<scalar>::max();
-		const scalar Minimum			= std::numeric_limits<scalar>::min();
-		const scalar PiOverTwo			= 1.570796326794896619231321691639f;
-		const scalar Pi					= 3.141592653589793238462643383279f;
-		const scalar TwoPi				= 6.28318530717958647692528676656f;
-		const scalar PiSquared			= 9.869604401089358618834f;
-		const scalar OneOverPi			= 0.3183098861837906715378f;
-		const scalar OneOverTwoPi		= 0.1591549430918953357689f;
-		const scalar DegsPerRad			= 57.2957795130823208768f;
-		const scalar RadsPerDeg			= 0.01745329251994329576924f;
-		const scalar RootTwo			= 1.41421356237309f;
-		const scalar RootThree			= 1.73205080756887f;
-	}
-	
-	namespace ConstantIntegers
-	{
-		const static u8 MaxU8					= 0xffui8;
-		const static u16 MaxU16					= 0xffffui16;
-		const static u32 MaxU32					= 0xffffffffui32;
-		const static u64 MaxU64					= 0xffffffffffffffffui64;
-	}
+	const static u8 MaxU8					= 0xffui8;
+	const static u16 MaxU16					= 0xffffui16;
+	const static u32 MaxU32					= 0xffffffffui32;
+	const static u64 MaxU64					= 0xffffffffffffffffui64;
 
 	inline const scalar AbsoluteValue(const scalar p_Scalar)
 	{
-		return (p_Scalar > ConstantScalars::Zero) ? (p_Scalar) : (-p_Scalar);
+		return (p_Scalar > Zero) ? (p_Scalar) : (-p_Scalar);
 	}
 
 	inline bool ApproximateToEachOther(const scalar p_LHS, const scalar p_RHS, const scalar p_Tolerance)
@@ -86,18 +72,18 @@ namespace Mathematics
 
 	inline bool EquivalentToEachOther(const scalar p_LHS, const scalar p_RHS)
 	{
-		return ApproximateToEachOther(p_LHS, p_RHS, ConstantScalars::Epsilon);
+		return ApproximateToEachOther(p_LHS, p_RHS, Epsilon);
 	}
 
 	inline bool EquivalentToZero(const scalar p_Scalar)
 	{
-		return (AbsoluteValue(p_Scalar) < ConstantScalars::Epsilon);
+		return (AbsoluteValue(p_Scalar) < Epsilon);
 	}
 
 	inline bool IsFinite(const scalar p_Scalar)
 	{
-		return !EquivalentToEachOther(ConstantScalars::Infinity, p_Scalar) 
-			&& !EquivalentToEachOther(ConstantScalars::NegativeInfinity, p_Scalar);
+		return !EquivalentToEachOther(Infinity, p_Scalar) 
+			&& !EquivalentToEachOther(NegativeInfinity, p_Scalar);
 	}
 
 	inline bool IsInfinite(const scalar p_Scalar)
@@ -107,13 +93,13 @@ namespace Mathematics
 	
 	inline bool IsANumber(const scalar p_Scalar)
 	{
-		return (ConstantScalars::NotANumber != p_Scalar);
+		return (NotANumber != p_Scalar);
 	}
 	
 	inline void Invert(scalar& p_Scalar)
 	{
 		Assert(!EquivalentToZero(p_Scalar), "Tried a division by zero!");
-		p_Scalar = ConstantScalars::Unity / p_Scalar;
+		p_Scalar = Unity / p_Scalar;
 	}
 
 	inline const scalar Inverse(const scalar p_Scalar)

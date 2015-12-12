@@ -13,7 +13,6 @@
 
 using namespace Mathematics;
 using namespace Utilization;
-using namespace ConstantVectors;
 
 InputState::InputState(System& p_System)
 : m_System(&p_System)
@@ -26,6 +25,15 @@ InputState::InputState(System& p_System)
 
 InputState::~InputState() 
 {}
+
+void InputState::Calibrate()
+{
+	m_System->Update();
+	m_LeftDiscCentre(1) = m_System->GetLeftAnalogX();
+	m_RightDiscCentre(1) = m_System->GetRightAnalogX();
+	m_LeftDiscCentre(2) = m_System->GetLeftAnalogY();
+	m_RightDiscCentre(2) = m_System->GetRightAnalogY();
+}
 
 void InputState::Update()
 {
@@ -49,74 +57,76 @@ void InputState::Update()
 		m_DenyPressed = true;
 	}
 
-
+	if(m_System->IsKeyDown(Keys::F1))
+	{
+		m_FullscreenPressed = true;
+	}
+	
 	//axes or discs
 
-	Vector leftRaw;
-	Vector rightRaw;
+	Vector2 leftRaw;
+	Vector2 rightRaw;
 
 	if (m_System->GamepadIsConnected())
 	{
-		leftRaw.x = m_System->GetLeftAnalogX();
-		leftRaw.y = m_System->GetLeftAnalogY();
-		rightRaw.x = m_System->GetRightAnalogX();
-		rightRaw.y = m_System->GetRightAnalogY();
+		leftRaw(1) = -m_System->GetLeftAnalogX();
+		leftRaw(2) = m_System->GetLeftAnalogY();
+		rightRaw(1) = m_System->GetRightAnalogX();
+		rightRaw(2) = m_System->GetRightAnalogY();
 
-		m_LeftDisc = coordinate(leftRaw.x, leftRaw.y);
-		m_RightDisc = coordinate(rightRaw.x, rightRaw.y);
+		m_LeftDisc = leftRaw - m_LeftDiscCentre;
+		m_RightDisc = rightRaw - m_LeftDiscCentre;
 	}
 	else
 	{
 		if (m_System->IsKeyDown(Keys::A))
 		{
-			leftRaw += -I;
+			leftRaw += U();
 		}
 
 		if (m_System->IsKeyDown(Keys::D))
 		{
-			leftRaw += I;
+			leftRaw += -U();
 		}
 
 		if (m_System->IsKeyDown(Keys::W))
 		{
-			leftRaw += J;
+			leftRaw += V();
 		}
 
 		if (m_System->IsKeyDown(Keys::S))
 		{
-			leftRaw += -J;
+			leftRaw += -V();
 		}
 
 		if (m_System->IsKeyDown(Keys::LEFT))
 		{
-			rightRaw += -I;
+			rightRaw += -U();
 		}
 
 		if (m_System->IsKeyDown(Keys::RIGHT))
 		{
-			rightRaw += I;
+			rightRaw += U();
 		}
 
 		if (m_System->IsKeyDown(Keys::UP))
 		{
-			rightRaw += J;
+			rightRaw += V();
 		}
 
 		if (m_System->IsKeyDown(Keys::DOWN))
 		{
-			rightRaw += -J;
+			rightRaw += -V();
 		}
 
 		if (!EquivalentToZero(leftRaw.LengthSquared()))
 		{
-			leftRaw.Normalize();
-			m_LeftDisc = coordinate(leftRaw.x, leftRaw.y);
+			m_LeftDisc = leftRaw.Direction();
 		}
 
 		if (!EquivalentToZero(rightRaw.LengthSquared()))
 		{
-			rightRaw.Normalize();
-			m_RightDisc = coordinate(rightRaw.x, rightRaw.y);
+			m_RightDisc = rightRaw.Direction();
 		}
 	}
 }
@@ -126,9 +136,10 @@ void InputState::Reset()
 	m_ActionPressed = false;
 	m_ConfirmPressed = false;
 	m_DenyPressed = false;
+	m_FullscreenPressed = false;
 
-	m_LeftDisc = coordinate();
-	m_RightDisc = coordinate();
+	m_LeftDisc = Zero2();
+	m_RightDisc = Zero2();
 }
 
 bool InputState::Actioned() const
@@ -146,22 +157,27 @@ bool InputState::Denied() const
 	return m_DenyPressed;
 }
 
+bool InputState::Fullscreen() const
+{
+	return m_FullscreenPressed;
+}
+
 f32 InputState::GetLeftVerticalAxis() const
 {
-	return m_LeftDisc.v;
+	return m_LeftDisc(2);
 }
 
 f32 InputState::GetRightVerticalAxis() const
 {
-	return m_RightDisc.v;
+	return m_RightDisc(2);
 }
 
 f32 InputState::GetLeftHorizontalAxis() const
 {
-	return m_LeftDisc.u;
+	return m_LeftDisc(1);
 }
 
 f32 InputState::GetRightHorizontalAxis() const
 {
-	return m_RightDisc.u;
+	return m_RightDisc(1);
 }

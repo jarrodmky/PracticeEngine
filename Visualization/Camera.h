@@ -12,6 +12,8 @@
 //===========================================================================
 
 #include <Mathematics.h>
+#include "Buffers.h"
+#include "DataStructures.h"
 
 //===========================================================================
 // Classes
@@ -30,7 +32,7 @@ namespace Visualization
 			, m_NearPlane()
 			, m_FarPlane()
 			, m_System(p_System)
-			, m_TransformBuffer()
+			, m_TransformBuffer(p_System)
 		{}
 
 		NonCopyable(Camera);
@@ -38,17 +40,18 @@ namespace Visualization
 	//Methods
 	public:
 
-		void Initialize(const Mathematics::Point& p_Position
-						, const Mathematics::Point& p_Interest
+		void Initialize(const Mathematics::Vector3& p_Position
+			, const Mathematics::Vector3& p_Interest
 						, const f32 p_FOV
 						, const f32 p_FarZ
 						, const f32 p_NearZ)
 		{
-			Transform.Set(p_Position, p_Interest - p_Position);
+			Transform.Set(Mathematics::J(), p_Interest - p_Position, p_Position);
 			m_FieldOfViewAngle = p_FOV;
 			m_NearPlane = p_NearZ;
 			m_FarPlane = p_FarZ;
-			m_TransformBuffer.Initialize(m_System);
+
+			m_TransformBuffer.Allocate();
 		}
 
 		void Update(const f32 p_DeltaTime);
@@ -56,29 +59,34 @@ namespace Visualization
 		void Render()
 		{
 			CameraBuffer data;
-			data.ViewPosition = Transform.GetPosition().PositionVector();
-			data.WorldToViewToProjection = (GetPerspectiveTransform() * GetWorldToViewTransform()).Transposition();
+			data.ViewPosition = MakePoint(Transform.GetPosition());
+			data.WorldToViewToProjection = GetWorldToProjectionTransform().Transposition();
 
-			m_TransformBuffer.Set(m_System, data);
-			m_TransformBuffer.BindVS(m_System, 1);
+			m_TransformBuffer.Set(&data);
+			m_TransformBuffer.BindToVertexShader(1);
 		}
 
 		void Terminate()
 		{
-			m_TransformBuffer.Terminate();
+			m_TransformBuffer.Free();
 		}
 
-		Mathematics::Matrix GetViewToWorldTransform() const
+		Mathematics::Matrix44 GetViewToWorldTransform() const
 		{
-			return Transform.LocalToWorld();
+			return Transform.GetLocalToWorld();
 		}
 
-		Mathematics::Matrix GetWorldToViewTransform() const
+		Mathematics::Matrix44 GetWorldToViewTransform() const
 		{
-			return Transform.WorldToLocal();
+			return Transform.GetWorldToLocal();
 		}
 
-		Mathematics::Matrix GetPerspectiveTransform() const
+		Mathematics::Matrix44 GetWorldToProjectionTransform() const
+		{
+			return GetPerspectiveTransform() * GetWorldToViewTransform();
+		}
+
+		Mathematics::Matrix44 GetPerspectiveTransform() const
 		{
 			f32 h = static_cast<f32>(m_System.GetHeight());
 			f32 w = static_cast<f32>(m_System.GetWidth());
@@ -103,7 +111,7 @@ namespace Visualization
 		//rendering
 		System& m_System;
 
-		TypedConstantBuffer<CameraBuffer> m_TransformBuffer;
+		Visualization::ConstantBuffer<CameraBuffer> m_TransformBuffer;
 	};
 }
 

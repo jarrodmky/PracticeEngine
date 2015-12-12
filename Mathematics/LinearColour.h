@@ -1,5 +1,5 @@
-#ifndef IncludedVisuLinearColourH
-#define IncludedVisuLinearColourH
+#ifndef IncludedMathLinearColourH
+#define IncludedMathLinearColourH
 
 //===========================================================================
 // Filename:	LinearColour.h
@@ -53,7 +53,7 @@ namespace Mathematics
 		void LinearColour::Clamp();
 	};
 
-	namespace ConstantColours
+	namespace ColourPallet
 	{
 		const LinearColour AliceBlue(0xF0F8FF);
 		const LinearColour AntiqueWhite(0xFAEBD7);
@@ -199,4 +199,4 @@ namespace Mathematics
 	}
 } // namespace Visualization
 
-#endif // #ifdef IncludedVisuLinearColourH
+#endif // #ifdef IncludedMathLinearColourH

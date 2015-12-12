@@ -26,14 +26,14 @@ namespace Mathematics
 	private:
 
 		scalar m_Real;
-		Vector m_Imaginary;
+		Vector3 m_Imaginary;
 
 	//Operators
 	public:
 
-		inline Quaternion(const scalar p_Value = ConstantScalars::Zero);
-		inline Quaternion(const Vector& p_Axis, const scalar p_Angle = ConstantScalars::Zero);
-		inline Quaternion(const scalar p_Real, const Vector& p_Imaginary);
+		inline Quaternion(const scalar p_Value = Zero);
+		inline Quaternion(const Vector3& p_Axis, const scalar p_Angle = Zero);
+		inline Quaternion(const scalar p_Real, const Vector3& p_Imaginary);
 
 		//equality
 		inline const bool operator ==(const Quaternion& p_Rhs) const;
@@ -62,7 +62,7 @@ namespace Mathematics
 
 		//Access
 		inline const scalar Angle() const;
-		inline const Vector Axis() const;
+		inline const Vector3 Axis() const;
 
 		//rotational eqaulity
 		inline const bool RotationallyEqualTo(const Quaternion& p_Rhs) const;
@@ -84,7 +84,7 @@ namespace Mathematics
 
 		//decomposition
 		inline const scalar ScalarPart() const;
-		inline const Vector VectorPart() const;
+		inline const Vector3 VectorPart() const;
 
 		//boolean
 		inline bool IsAtOrigin() const;
@@ -95,14 +95,15 @@ namespace Mathematics
 		inline bool IsUnit() const;
 
 		//vector functions
-		inline void RotateVector(Vector& p_Vector) const;
+		inline void RotateVector(Vector3& p_Vector) const;
 	};
 
-	namespace ConstantQuaternions
-	{
-		const Quaternion Zero(ConstantVectors::Zero, ConstantScalars::Zero);
-		const Quaternion Identity(ConstantVectors::Zero, ConstantScalars::Unity);
-	}
+	//==========
+	// Constants
+	//==========
+
+	inline const Quaternion Origin();
+	inline const Quaternion Identity();
 
 } // namespace Mathematics
 

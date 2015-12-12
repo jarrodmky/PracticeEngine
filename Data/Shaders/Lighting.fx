@@ -8,15 +8,15 @@
 // Definitions
 //--------------------------------------------------------------------------------------
 //VERTEX SHADER BUFFERS
-cbuffer ObjectBuffer : register( b0 )
+cbuffer ObjectBuffer : register( b3 )
 {
-	matrix localToWorld;
+	float4x4 localToWorld;
 }; 
 
 cbuffer CameraBuffer : register(b1)
 {
 	float4 viewPosition;
-	matrix worldToProjection;
+	float4x4 worldToProjection;
 };
 
 //VETEX AND PIXEL SHADER BUFFERS
@@ -31,11 +31,13 @@ cbuffer LightingBuffer : register( b2)
 
 //PIXEL SHADER BUFFERS
 
-cbuffer MaterialBuffer : register(b3)
+cbuffer MaterialBuffer : register(b0)
 {
+	float4 materialEmissive;
 	float4 materialAmbient;
 	float4 materialDiffuse;
 	float4 materialSpecular;
+	float materialReflectance;
 };
 
 Texture2D diffuseMap : register(t0);
@@ -45,8 +47,8 @@ SamplerState mapState : register(s0);
 
 struct VS_INPUT
 {
-    float3 position : POSITION;
-	float3 normal : NORMAL;
+    float4 position : POSITION;
+	float4 normal : NORMAL;
     float2 texCoord : TEXCOORD;
 };
 
@@ -67,16 +69,16 @@ struct VS_OUTPUT
 VS_OUTPUT VS( VS_INPUT input )
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
-	float4 posWorld = mul(float4(input.position, 1.0f), localToWorld);
+	float4 posWorld = mul(input.position, localToWorld);
 	output.position = mul(posWorld, worldToProjection);
 	
-	float3 normal = mul(float4(input.normal, 0.0f), localToWorld).xyz;
+	float4 normal = mul(input.normal, localToWorld);
 	normal = normalize(normal);
 
 	float3 dirToLight = normalize(-lightDirection.xyz);
 	float3 dirToView = normalize(viewPosition.xyz - posWorld.xyz);
 
-	output.normal = normal;
+	output.normal = normal.xyz;
 	output.dirToLight = dirToLight;
 	output.dirToView = dirToView;
 	output.texCoord = input.texCoord;
@@ -90,33 +92,26 @@ VS_OUTPUT VS( VS_INPUT input )
 //--------------------------------------------------------------------------------------
 float4 PS( VS_OUTPUT input ) : SV_Target
 {
-	float intensity = 3.0f;
-
 	float3 normal = normalize(input.normal);
 	float3 dirLight = normalize(input.dirToLight);
 	float3 dirView = normalize(input.dirToView);
+	float3 reflected = reflect(-dirLight, normal);
 
 	//ambience
-	float4 ambient = saturate(lightAmbient * materialAmbient);
+	float4 ambient = lightAmbient * materialAmbient;
 
 	//diffusion
 	float d = saturate(dot(dirLight, normal));
-	float4 diffuse = d * saturate(lightDiffuse * materialDiffuse);
+	float4 diffuse = d * lightDiffuse * materialDiffuse;
 
 	//texturing
-	float4 diffuseColour = diffuseMap.Sample(mapState, input.texCoord) * (ambient + diffuse);
+	float4 diffuseColour = diffuseMap.Sample(mapState, input.texCoord) * saturate(ambient + diffuse);
 
 	//specularity
-	float ldn = dot(dirLight, normal);
-	float3 reflected = 2.0f * (normal * ldn) - dirLight;
-	float s = saturate(dot(reflected, dirView));
+	float s = (d > 0.0f) 
+		? pow(saturate(dot(reflected, dirView)), materialReflectance) 
+		: 0.0f;
+	float4 specular = s * lightSpecular * materialSpecular;
 
-	float4 specular = float4(0.0f, 0.0f, 0.0f, 1.0f);
-
-	[flatten] if(ldn > 0.0f)
-	{
-		specular = s * lightSpecular * materialSpecular;
-	}
-
-	return diffuseColour + specular;
+	return saturate(diffuseColour + specular);
 }
