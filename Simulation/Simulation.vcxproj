@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Integrator.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="Simulation.h" />
   </ItemGroup>

@@ -12,6 +12,6 @@
 //===========================================================================
 
 #include "Particles.h"
-#include "Integrator.h"
+#include "ParticleSystem.h"
 
 #endif //#ifndef IncludedSimulationH

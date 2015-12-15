@@ -55,6 +55,11 @@ void GeometryShader::Bind() const
 	m_System.GetContext()->GSSetShader(m_ShaderPointer, nullptr, 0);
 }
 
+void GeometryShader::Unbind() const
+{
+	m_System.GetContext()->GSSetShader(nullptr, nullptr, 0);
+}
+
 //Pixel Shader
 
 PixelShader::PixelShader(System& p_System)

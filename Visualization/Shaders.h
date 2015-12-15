@@ -80,6 +80,8 @@ namespace Visualization
 		void Release();
 
 		void Bind() const;
+
+		void Unbind() const;
 	};
 	
 	class PixelShader

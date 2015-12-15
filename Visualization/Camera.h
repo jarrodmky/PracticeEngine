@@ -60,7 +60,7 @@ namespace Visualization
 		{
 			CameraBuffer data;
 			data.ViewPosition = MakePoint(Transform.GetPosition());
-			data.WorldToViewToProjection = GetWorldToProjectionTransform().Transposition();
+			data.WorldToViewToProjection = GetWorldToProjectionTransformTR().Transposition();
 
 			m_TransformBuffer.Set(&data);
 			m_TransformBuffer.BindToVertexShader(1);
@@ -71,19 +71,34 @@ namespace Visualization
 			m_TransformBuffer.Free();
 		}
 
-		Mathematics::Matrix44 GetViewToWorldTransform() const
+		Mathematics::Matrix44 GetViewToWorldTransformTR() const
 		{
-			return Transform.GetLocalToWorld();
+			return Transform.GetLocalToWorldTR();
 		}
 
-		Mathematics::Matrix44 GetWorldToViewTransform() const
+		Mathematics::Matrix44 GetWorldToViewTransformTR() const
 		{
-			return Transform.GetWorldToLocal();
+			return Transform.GetWorldToLocalTR();
 		}
 
-		Mathematics::Matrix44 GetWorldToProjectionTransform() const
+		Mathematics::Matrix44 GetViewToWorldTransformT() const
 		{
-			return GetPerspectiveTransform() * GetWorldToViewTransform();
+			return Transform.GetLocalToWorldT();
+		}
+
+		Mathematics::Matrix44 GetWorldToViewTransformT() const
+		{
+			return Transform.GetWorldToLocalT();
+		}
+
+		Mathematics::Matrix44 GetWorldToProjectionTransformTR() const
+		{
+			return GetPerspectiveTransform() * GetWorldToViewTransformTR();
+		}
+
+		Mathematics::Matrix44 GetWorldToProjectionTransformT() const
+		{
+			return GetPerspectiveTransform() * GetWorldToViewTransformT();
 		}
 
 		Mathematics::Matrix44 GetPerspectiveTransform() const

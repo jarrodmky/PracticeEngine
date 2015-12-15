@@ -51,10 +51,10 @@ void Solid::Terminate()
 	m_TransformBuffer.Free();
 }
 
-void Solid::Render()
+void Solid::Render(const Matrix44& p_ScalelessTransform)
 {
 	ObjectBuffer data;
-	data.LocalToWorld = Transform.GetLocalToWorld().Transposition();
+	data.LocalToWorld = (p_ScalelessTransform * Transform.GetScaling()).Transposition();
 
 	m_TransformBuffer.Set(&data);
 	m_TransformBuffer.BindToVertexShader(3);

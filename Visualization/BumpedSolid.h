@@ -62,7 +62,7 @@ namespace Visualization
 
 		void Terminate();
 
-		void Render(const Mathematics::Matrix44& p_Transform);
+		void Render(const Mathematics::Matrix44& p_Transform = Mathematics::I4());
 
 	};
 }

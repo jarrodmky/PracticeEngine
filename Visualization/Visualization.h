@@ -29,5 +29,6 @@
 #include "Camera.h"
 #include "Draw.h"
 #include "DepthStencil.h"
+#include "ParticleEffect.h"
 
 #endif //#ifndef IncludedVisualizationH

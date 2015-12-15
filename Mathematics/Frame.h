@@ -97,14 +97,34 @@ namespace Mathematics
 			return m_Origin;
 		}
 
-		const Matrix44 GetLocalToWorld() const
+		const Matrix44 GetLocalToWorldTRS() const
 		{
 			return Translation(m_Origin) * GetRotation() * GetScaling();
 		}
 
-		const Matrix44 GetWorldToLocal() const
+		const Matrix44 GetWorldToLocalTRS() const
 		{
 			return MakeMatrix(ScalingInverse(m_Scale)) * GetRotation().Transposition() * Translation(-m_Origin);
+		}
+
+		const Matrix44 GetLocalToWorldTR() const
+		{
+			return Translation(m_Origin) * GetRotation();
+		}
+
+		const Matrix44 GetWorldToLocalTR() const
+		{
+			return GetRotation().Transposition() * Translation(-m_Origin);
+		}
+
+		const Matrix44 GetLocalToWorldT() const
+		{
+			return Translation(m_Origin);
+		}
+
+		const Matrix44 GetWorldToLocalT() const
+		{
+			return Translation(-m_Origin);
 		}
 
 		const Matrix44 GetRotation() const

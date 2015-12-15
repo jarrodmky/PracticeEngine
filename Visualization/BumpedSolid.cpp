@@ -51,10 +51,10 @@ void BumpedSolid::Terminate()
 	m_TransformBuffer.Free();
 }
 
-void BumpedSolid::Render(const Matrix44& p_Transform)
+void BumpedSolid::Render(const Matrix44& p_ScalelessTransform)
 {
 	ObjectBuffer data;
-	data.LocalToWorld = p_Transform.Transposition();
+	data.LocalToWorld = (p_ScalelessTransform * Transform.GetScaling()).Transposition();
 
 	m_TransformBuffer.Set(&data);
 	m_TransformBuffer.BindToVertexShader(3);

@@ -64,7 +64,7 @@ namespace Mathematics
 	//==========
 
 	//vector
-	inline Vector2 MakeVector(const scalar p_X, const scalar p_Y)
+	inline const Vector2 MakeVector(const scalar p_X, const scalar p_Y)
 	{
 		Vector2 temp;
 		temp(1) = p_X;
@@ -74,7 +74,7 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	inline Vector3 MakeVector(const scalar p_X, const scalar p_Y, const scalar p_Z)
+	inline const Vector3 MakeVector(const scalar p_X, const scalar p_Y, const scalar p_Z)
 	{
 		Vector3 temp;
 		temp(1) = p_X;
@@ -85,7 +85,7 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	inline Vector4 MakeVector(const scalar p_X, const scalar p_Y, const scalar p_Z, const scalar p_W)
+	inline const Vector4 MakeVector(const scalar p_X, const scalar p_Y, const scalar p_Z, const scalar p_W)
 	{
 		Vector4 temp;
 		temp(1) = p_X;
@@ -97,35 +97,35 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	inline Vector4 MakeVector(const Vector3& p_Vector)
+	inline const Vector4 MakeVector(const Vector3& p_Vector)
 	{
 		return MakeVector(p_Vector(1), p_Vector(2), p_Vector(3), Zero);
 	}
 
 	//---------------------------------------------------------------------------
 
-	inline Vector3 MakeVector(const Vector4& p_Vector)
+	inline const Vector3 MakeVector(const Vector4& p_Vector)
 	{
 		return MakeVector(p_Vector(1), p_Vector(2), p_Vector(3));
 	}
 
 	//---------------------------------------------------------------------------
 
-	inline Vector4 MakePoint(const scalar p_X, const scalar p_Y, const scalar p_Z)
+	inline const Vector4 MakePoint(const scalar p_X, const scalar p_Y, const scalar p_Z)
 	{
 		return MakeVector(p_X, p_Y, p_Z, Unity);
 	}
 
 	//---------------------------------------------------------------------------
 
-	inline Vector4 MakePoint(const Vector3& p_Vector)
+	inline const Vector4 MakePoint(const Vector3& p_Vector)
 	{
 		return MakePoint(p_Vector(1), p_Vector(2), p_Vector(3));
 	}
 
 	//---------------------------------------------------------------------------
 
-	inline Vector4 MakePoint(const Vector4& p_Vector)
+	inline const Vector4 MakePoint(const Vector4& p_Vector)
 	{
 		const scalar projScale((EquivalentToEachOther(p_Vector(4), 0.0f)) ? (1.0f) : (p_Vector(4)));
 		Vector4 temp(p_Vector);

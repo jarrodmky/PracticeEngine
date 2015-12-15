@@ -25,12 +25,9 @@ namespace Simulation
 	public:
 
 		Mathematics::Vector3 Position;
-
-	protected:
-
-		static Mathematics::scalar m_Mass;
-		static Mathematics::scalar m_InvMass;
-
+		Mathematics::scalar m_Mass = 1.0f;
+		Mathematics::scalar m_InvMass = 1.0f;
+		
 	//Operators
 	public:
 
@@ -42,11 +39,11 @@ namespace Simulation
 
 		virtual void Integrate(const Mathematics::scalar p_DeltaTime, const Mathematics::Vector3& p_Force) = 0;
 		
-		static void SetMass(const Mathematics::scalar p_Mass);
-		static const Mathematics::scalar GetMass();
+		void SetMass(const Mathematics::scalar p_Mass);
+		const Mathematics::scalar GetMass();
 
 		virtual const Mathematics::Vector3 GetVelocity(const Mathematics::scalar p_InvDeltaTime) const = 0;
-		inline static const Mathematics::Vector3 GetAcceleration(const Mathematics::Vector3 p_Force);
+		inline const Mathematics::Vector3 GetAcceleration(const Mathematics::Vector3 p_Force);
 	};
 
 	class StaticParticle : public Simulation::Particle

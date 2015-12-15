@@ -25,8 +25,8 @@ namespace Visualization
 	{
 		Position	= 0x1 << 0,
 		Colour		= 0x1 << 1,
-		Normal		= 0x1 << 2,
-		Textured	= 0x1 << 3,
+		Textured	= 0x1 << 2,
+		Normal		= 0x1 << 3,
 		Tangent     = 0x1 << 4,
 		Binormal    = 0x1 << 5
 	};
@@ -35,6 +35,19 @@ namespace Visualization
 // Classes
 //===========================================================================
 
+
+	struct EmptyVertex
+	{
+		//Attributes
+		const static u32 Format = Position;
+
+		Mathematics::Vector4 Position;
+
+		//Operators
+		EmptyVertex();
+
+		EmptyVertex(const Mathematics::Vector3& p_Position);
+	};
 
 	struct FlatVertex
 	{

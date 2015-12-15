@@ -12,6 +12,11 @@
 using namespace Visualization;
 using namespace Mathematics;
 
+namespace
+{
+	Frame moonOffset;
+}
+
 //===========================================================================
 // Class Definitions
 //===========================================================================
@@ -27,6 +32,7 @@ Game::Game()
 , m_DepthTestEnable()
 , m_Skyshape(GetGraphicsSystem())
 , m_SkyshapeMat(GetGraphicsSystem())
+, m_Effect(GetGraphicsSystem())
 , m_Terrain(GetGraphicsSystem())
 , m_TerrainMat(GetGraphicsSystem())
 , m_moon(GetGraphicsSystem())
@@ -92,6 +98,8 @@ void Game::OnInitialize()
 	m_SkyshapeMat.Initialize(GetGraphicsSystem(), matData, L"../Data/Images/space.jpg");
 	m_Skyshape.Initialize(shadedMeshData);
 	shadedMeshData.Destroy();
+
+	m_Effect.Create(10);
 
 	//planet mesh and material
 	matData.MaterialReflectance = 2.5f;
@@ -175,6 +183,8 @@ void Game::OnTerminate()
 	m_Terrain.Terminate();
 	m_TerrainMat.Terminate();
 
+	m_Effect.Destroy();
+
 	m_DepthTestDisable.Terminate();
 	m_DepthTestEnable.Terminate();
 	m_Skyshape.Terminate();
@@ -238,10 +248,13 @@ void Game::OnUpdate(f32 p_DeltaTime)
 
 	//scene
 	//m_Camera.Update(p_DeltaTime);
+	m_Effect.Update(p_DeltaTime);
+	m_Effect.Transform.MoveUp(2.0f * p_DeltaTime);
 
 	//sphere
 	m_moon.Transform.Roll(-0.3f * p_DeltaTime);
-	m_earth.Transform.Roll(0.5f * p_DeltaTime);
+	moonOffset.Roll(-0.2f * p_DeltaTime);
+	m_earth.Transform.Roll(0.6f * p_DeltaTime);
 	m_mars.Transform.Roll(-0.3f * p_DeltaTime);
 }
 
@@ -267,10 +280,13 @@ void Game::OnRender()
 	m_Skyshape.Render();
 	m_DepthTestEnable.BindToOutput(GetGraphicsSystem(), 0);
 
+
 	//render terrain
 	m_TerrainMat.Bind(GetGraphicsSystem(), 0);
 	m_Terrain.Render();
-	
+
+	m_Effect.Render(m_Camera);
+
 	////
 	//render bump shading
 	////
@@ -278,22 +294,25 @@ void Game::OnRender()
 	m_bumpedPS.Bind();
 
 	//render earth
-	m_Matrix.Push(m_earth.Transform.GetLocalToWorld());
+	m_Matrix.Push(m_earth.Transform.GetLocalToWorldTR());
 	m_earthBump.BindPixelShader(GetGraphicsSystem(), 1);
 	m_earthMat.Bind(GetGraphicsSystem(), 0);
 	m_earth.Render(m_Matrix.GetResult());
-	
+
+	m_Matrix.Push(moonOffset.GetLocalToWorldTR());
 	//render moon
-	m_Matrix.Push(m_moon.Transform.GetLocalToWorld());
+	m_Matrix.Push(m_moon.Transform.GetLocalToWorldTR());
 	m_moonBump.BindPixelShader(GetGraphicsSystem(), 1);
 	m_moonMat.Bind(GetGraphicsSystem(), 0);
 	m_moon.Render(m_Matrix.GetResult());
 	m_Matrix.Pop();
-	
+
+	m_Matrix.Pop();
+
 	m_Matrix.Pop();
 
 	//render mars
-	m_Matrix.Push(m_mars.Transform.GetLocalToWorld());
+	m_Matrix.Push(m_mars.Transform.GetLocalToWorldTR());
 	m_marsBump.BindPixelShader(GetGraphicsSystem(), 1);
 	m_marsMat.Bind(GetGraphicsSystem(), 0);
 	m_mars.Render(m_Matrix.GetResult());
@@ -301,6 +320,7 @@ void Game::OnRender()
 
 	//debug draw
 	DebugTest(
+	Visualization::Draw::AddFrame(m_Effect.Transform, 2.0f);
 	Visualization::Draw::AddFrame(m_Terrain.Transform, 2.0f);
 	Visualization::Draw::AddFrame(m_moon.Transform, 2.0f);
 	Visualization::Draw::AddFrame(m_mars.Transform, 2.0f);

@@ -16,7 +16,7 @@ cbuffer ObjectBuffer : register( b3 )
 cbuffer CameraBuffer : register(b1)
 {
 	float4 viewPosition;
-	float4x4 worldToProjection;
+	float4x4 worldToProjectionRotationless;
 };
 
 //GEOMETRY AND PIXEL SHADER
@@ -58,16 +58,18 @@ VS_OUTPUT VS(in VS_INPUT input )
 {
 	//change to perspective space
     VS_OUTPUT output = (VS_OUTPUT)0;
-	output.position = mul(mul(input.position, localToWorld), worldToProjection);
+	//output.position = mul(mul(input.position, localToWorld), worldToProjection);
+	output.position = mul(input.position, worldToProjectionRotationless);
     return output;
 }
 
 //--------------------------------------------------------------------------------------
 // Geometry Shader
 //--------------------------------------------------------------------------------------
-void GS(point VS_OUTPUT input, inout TriangleStream<GS_OUTPUT> outputStream)
+[maxvertexcount(6)]
+void GS(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> outputStream)
 {
-	const float4 p = input.position;
+	const float4 p = input[0].position;
 	const float h = textureHeight * 0.5f;
 	const float w = textureWidth * 0.5f;
 
@@ -85,17 +87,17 @@ void GS(point VS_OUTPUT input, inout TriangleStream<GS_OUTPUT> outputStream)
 	v[3].position = p + float4(w, -h, 0.0f, 0.0f);
 	v[3].texCoord = float2(1.0f, 1.0f);
 
-	output.Append(v[0]);
-	output.Append(v[1]);
-	output.Append(v[2]);
+	outputStream.Append(v[0]);
+	outputStream.Append(v[1]);
+	outputStream.Append(v[2]);
 
-	output.RestartStrip();
+	//outputStream.RestartStrip();
 
-	output.Append(v[0]);
-	output.Append(v[2]);
-	output.Append(v[3]);
+	outputStream.Append(v[2]);
+	outputStream.Append(v[3]);
+	outputStream.Append(v[1]);
 
-	output.RestartStrip();
+	outputStream.RestartStrip();
 }
 
 

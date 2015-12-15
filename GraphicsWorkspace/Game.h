@@ -65,6 +65,9 @@ private:
 	Visualization::Solid m_Skyshape;
 	Visualization::Material m_SkyshapeMat;
 
+	//particle effects
+	Visualization::ParticleEffect m_Effect;
+
 	//terrain
 	Visualization::Solid m_Terrain;
 	Visualization::Material m_TerrainMat;

@@ -18,6 +18,14 @@ using namespace ColourPallet;
 // Class Definitions
 //===========================================================================
 
+EmptyVertex::EmptyVertex()
+	: Position(Zero)
+{}
+
+EmptyVertex::EmptyVertex(const Mathematics::Vector3& p_Position)
+	: Position(MakePoint(p_Position))
+{}
+
 FlatVertex::FlatVertex()
 : Position(Zero)
 , Colour(White)

@@ -47,9 +47,8 @@ namespace Visualization
 
 	struct TextureBuffer
 	{
-		u32 TextureHeight;
-		u32 TextureWidth;
-		Mathematics::LinearColour TextureAlpha;
+		f32 TextureHeight;
+		f32 TextureWidth;
 	};
 
 	struct MaterialBuffer

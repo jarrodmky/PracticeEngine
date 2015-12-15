@@ -39,8 +39,8 @@ const Mathematics::scalar Particle::GetMass()
 
 void Particle::SetMass(const Mathematics::scalar p_Mass)
 {
-	m_Mass = p_Mass;
-	m_InvMass = Mathematics::EquivalentToZero(p_Mass) ? (0.0f) : (1.0f / p_Mass);
+	//m_Mass = p_Mass;
+	//m_InvMass = Mathematics::EquivalentToZero(p_Mass) ? (0.0f) : (1.0f / p_Mass);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -119,6 +119,7 @@ void VerletParticle::Integrate(const Mathematics::scalar p_DeltaTime, const Math
 	using namespace Mathematics;
 	const Vector3 currentPosition(Position);
 	Position += Position - LastPosition + GetAcceleration(p_Force) * p_DeltaTime * p_DeltaTime;
+	LastPosition = currentPosition;
 }
 
 //----------------------------------------------------------------------------------------------------
