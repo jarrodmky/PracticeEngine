@@ -5,13 +5,13 @@ using namespace Visualization;
 
 namespace
 {
-	void MakeDepthStencil(System& p_System, ID3D11DepthStencilState*& p_DepthStencil, bool p_TestForDepth, bool p_WriteToDepthBuffer)
+	void DepthTesting(System& p_System, ID3D11DepthStencilState*& p_DepthStencil, bool p_TestForDepth)
 	{
 		D3D11_DEPTH_STENCIL_DESC desc;
 		ZeroMemory(&desc, sizeof(desc));
 
 		desc.DepthEnable = p_TestForDepth;
-		desc.DepthWriteMask = p_WriteToDepthBuffer ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+		desc.DepthWriteMask = p_TestForDepth ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
 		desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 
 		desc.StencilEnable = false;
@@ -23,6 +23,30 @@ namespace
 		desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 		desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
 
+		desc.BackFace = desc.FrontFace;
+
+		HRESULT hr = p_System.GetDevice()->CreateDepthStencilState(&desc, &p_DepthStencil);
+		Assert(SUCCEEDED(hr), "Failed to create depth stencil!");
+	}
+
+	void Blending(System& p_System, ID3D11DepthStencilState*& p_DepthStencil)
+	{
+		D3D11_DEPTH_STENCIL_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+
+		desc.DepthEnable = true;
+		desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		desc.DepthFunc = D3D11_COMPARISON_LESS;
+
+		desc.StencilEnable = true;
+		desc.StencilReadMask = 0xff;
+		desc.StencilWriteMask = 0xff;
+
+		desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
+		desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		
 		desc.BackFace = desc.FrontFace;
 
 		HRESULT hr = p_System.GetDevice()->CreateDepthStencilState(&desc, &p_DepthStencil);
@@ -55,13 +79,13 @@ void DepthStencil::Initialize(System& p_System, DepthTest p_DepthTest)
 	switch (p_DepthTest)
 	{
 	case Visualization::DepthStencil::DepthTest::None:
-		MakeDepthStencil(p_System, m_DepthStencil, false, false);
+		DepthTesting(p_System, m_DepthStencil, false);
 		break;
 	case Visualization::DepthStencil::DepthTest::Default:
-		MakeDepthStencil(p_System, m_DepthStencil, true, true);
+		DepthTesting(p_System, m_DepthStencil, true);
 		break;
-	case Visualization::DepthStencil::DepthTest::Read:
-		MakeDepthStencil(p_System, m_DepthStencil, true, false);
+	case Visualization::DepthStencil::DepthTest::AdditiveBlend:
+		Blending(p_System, m_DepthStencil);
 		break;
 	default:
 		Assert(false, "Invalid stencil!!");

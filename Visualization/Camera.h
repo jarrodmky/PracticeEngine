@@ -60,7 +60,7 @@ namespace Visualization
 		{
 			CameraBuffer data;
 			data.ViewPosition = MakePoint(Transform.GetPosition());
-			data.WorldToViewToProjection = GetWorldToProjectionTransformTR().Transposition();
+			data.WorldToProjection = GetWorldToProjectionTransform().Transposition();
 
 			m_TransformBuffer.Set(&data);
 			m_TransformBuffer.BindToVertexShader(1);
@@ -71,34 +71,19 @@ namespace Visualization
 			m_TransformBuffer.Free();
 		}
 
-		Mathematics::Matrix44 GetViewToWorldTransformTR() const
+		Mathematics::Matrix44 GetViewToWorldTransform() const
 		{
-			return Transform.GetLocalToWorldTR();
+			return Transform.GetLocalToWorldNS();
 		}
 
-		Mathematics::Matrix44 GetWorldToViewTransformTR() const
+		Mathematics::Matrix44 GetWorldToViewTransform() const
 		{
-			return Transform.GetWorldToLocalTR();
+			return Transform.GetWorldToLocalNS();
 		}
 
-		Mathematics::Matrix44 GetViewToWorldTransformT() const
+		Mathematics::Matrix44 GetWorldToProjectionTransform() const
 		{
-			return Transform.GetLocalToWorldT();
-		}
-
-		Mathematics::Matrix44 GetWorldToViewTransformT() const
-		{
-			return Transform.GetWorldToLocalT();
-		}
-
-		Mathematics::Matrix44 GetWorldToProjectionTransformTR() const
-		{
-			return GetPerspectiveTransform() * GetWorldToViewTransformTR();
-		}
-
-		Mathematics::Matrix44 GetWorldToProjectionTransformT() const
-		{
-			return GetPerspectiveTransform() * GetWorldToViewTransformT();
+			return GetPerspectiveTransform() * GetWorldToViewTransform();
 		}
 
 		Mathematics::Matrix44 GetPerspectiveTransform() const
@@ -106,6 +91,16 @@ namespace Visualization
 			f32 h = static_cast<f32>(m_System.GetHeight());
 			f32 w = static_cast<f32>(m_System.GetWidth());
 			return Mathematics::PerspectiveProjection_LH(m_FieldOfViewAngle, w/h, m_FarPlane, m_NearPlane);
+		}
+
+		Mathematics::Vector3 GetUp() const
+		{
+			return Transform.GetUp();
+		}
+
+		Mathematics::Vector3 GetForward() const
+		{
+			return Transform.GetForward();
 		}
 
 	//Attributes

@@ -15,6 +15,6 @@
 #include <Abstracts.h>
 #include <Mathematics.h>
 #include <Algorithms.h>
-#include <../Serialization/Serialization.h>
+#include <Serialization.h>
 
 #endif //#ifndef IncludedVisuPrecompiledH

@@ -42,11 +42,13 @@ namespace Visualization
 	struct CameraBuffer
 	{
 		Mathematics::Vector4 ViewPosition;
-		Mathematics::Matrix44 WorldToViewToProjection;
+		Mathematics::Matrix44 WorldToProjection;
 	};
 
 	struct TextureBuffer
 	{
+		Mathematics::Vector4 TextureUp;
+		Mathematics::LinearColour DiffuseColour;
 		f32 TextureHeight;
 		f32 TextureWidth;
 	};

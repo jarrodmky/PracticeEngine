@@ -1,18 +1,19 @@
-#ifndef IncludedSimulationH
-#define IncludedSimulationH
+#ifndef IncludedSimulPrecompiledH
+#define IncludedSimulPrecompiledH
 
 //===========================================================================
-// Filename:	Simulation.h
+// Filename:	Precompiled.h
 // Author:		Jarrod MacKay
-// Description:	Main entry point to the physics library.
+// Description:	Contains the common math headers used.
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
-#include "Particles.h"
-#include "Body.h"
-#include "BodySystem.h"
+#include <Core.h>
+#include <Mathematics.h>
+#include <Abstracts.h>
+#include <Algorithms.h>
 
-#endif //#ifndef IncludedSimulationH
+#endif //#ifndef IncludedSimulPrecompiledH

@@ -16,12 +16,14 @@ cbuffer ObjectBuffer : register( b3 )
 cbuffer CameraBuffer : register(b1)
 {
 	float4 viewPosition;
-	float4x4 worldToProjectionRotationless;
+	float4x4 worldToProjection;
 };
 
 //GEOMETRY AND PIXEL SHADER
 cbuffer BillboardBuffer
 {
+	float4 upVector;
+	float4 diffuseColour;
 	float textureHeight;
 	float textureWidth;
 };
@@ -41,6 +43,7 @@ struct VS_INPUT
 struct VS_OUTPUT
 {
 	float4 position : POSITION;
+	float4 up : TEXCOORD;
 };
 
 //--------------------------------------------------------------------------------------
@@ -59,7 +62,7 @@ VS_OUTPUT VS(in VS_INPUT input )
 	//change to perspective space
     VS_OUTPUT output = (VS_OUTPUT)0;
 	//output.position = mul(mul(input.position, localToWorld), worldToProjection);
-	output.position = mul(input.position, worldToProjectionRotationless);
+	output.position = mul(mul(input.position, localToWorld), worldToProjection);
     return output;
 }
 
@@ -106,5 +109,5 @@ void GS(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> outputStream)
 //--------------------------------------------------------------------------------------
 float4 PS(in GS_OUTPUT input ) : SV_Target
 {	
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);//bbMap.Sample(mapState, input.texCoord);
+	return diffuseColour;//bbMap.Sample(mapState, input.texCoord);
 }

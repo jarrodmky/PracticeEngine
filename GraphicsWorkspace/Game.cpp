@@ -71,7 +71,7 @@ void Game::OnInitialize()
 	m_Controller.Calibrate();
 
 	//scene
-	m_Camera.Initialize(MakeVector(-8.0f, Unity, Zero), MakeVector(-1.0f, 10.0f, -15.0f), 0.75f * PiOverTwo, 1000.0f, 0.01f);
+	m_Camera.Initialize(MakeVector(-8.0f, Unity, Zero), MakeVector(-1.0f, 10.0f, -15.0f), 0.9f * PiOverTwo, 1000.0f, 0.01f);
 
 	LightingBuffer lights;
 	lights.LightDirection = MakeVector(-3.0f, 0.0f, 0.0f, Zero);
@@ -99,7 +99,7 @@ void Game::OnInitialize()
 	m_Skyshape.Initialize(shadedMeshData);
 	shadedMeshData.Destroy();
 
-	m_Effect.Create(10);
+	m_Effect.Create(1000, MakeVector(0.0f, -20.0f, 0.0f));
 
 	//planet mesh and material
 	matData.MaterialReflectance = 2.5f;
@@ -139,11 +139,11 @@ void Game::OnInitialize()
 
 	m_Terrain.Transform.Pitch(Pi);
 
-	m_earth.Transform.Pitch(Pi / 4.0f);
+	m_earth.Transform.Pitch(Pi * 0.25f);
 	m_earth.Transform.Translate(MakeVector(-4.0f, 40.0f, -60.0f));
 	m_earth.Transform.Scale(3.0f);
 
-	m_mars.Transform.Pitch(Pi / 2.0f);
+	m_mars.Transform.Pitch(Pi * 0.5f);
 	m_mars.Transform.Translate(MakeVector(-2.0f, 10.0f, -10.0f));
 	m_mars.Transform.Scale(2.0f);
 
@@ -153,10 +153,10 @@ void Game::OnInitialize()
 	//m_Sphere.Transform.Pitch(ConstantScalars::PiOverTwo);
 
 	//shading
-	m_shadedVS.Compile(L"../Data/Shaders/Lighting.fx", "VS", "vs_4_0");
-	m_shadedPS.Compile(L"../Data/Shaders/Lighting.fx", "PS", "ps_4_0");
-	m_bumpedVS.Compile(L"../Data/Shaders/LightBump.fx", "VS", "vs_4_0");
-	m_bumpedPS.Compile(L"../Data/Shaders/LightBump.fx", "PS", "ps_4_0");
+	m_shadedVS.Compile(L"../Data/Shaders/Lighting.fx", "VS", "vs_5_0");
+	m_shadedPS.Compile(L"../Data/Shaders/Lighting.fx", "PS", "ps_5_0");
+	m_bumpedVS.Compile(L"../Data/Shaders/LightBump.fx", "VS", "vs_5_0");
+	m_bumpedPS.Compile(L"../Data/Shaders/LightBump.fx", "PS", "ps_5_0");
 }
 
 //---------------------------------------------------------------------------
@@ -249,7 +249,8 @@ void Game::OnUpdate(f32 p_DeltaTime)
 	//scene
 	//m_Camera.Update(p_DeltaTime);
 	m_Effect.Update(p_DeltaTime);
-	m_Effect.Transform.MoveUp(2.0f * p_DeltaTime);
+	m_Effect.Transform.Yaw(0.4f * p_DeltaTime);
+	m_Effect.Transform.Roll(0.2f * p_DeltaTime);
 
 	//sphere
 	m_moon.Transform.Roll(-0.3f * p_DeltaTime);
@@ -277,13 +278,13 @@ void Game::OnRender()
 	//skybox
 	m_SkyshapeMat.Bind(GetGraphicsSystem(), 0);
 	m_DepthTestDisable.BindToOutput(GetGraphicsSystem(), 0);
-	m_Skyshape.Render();
+	m_Skyshape.Render(m_Skyshape.Transform.GetLocalToWorldNS());
 	m_DepthTestEnable.BindToOutput(GetGraphicsSystem(), 0);
 
 
 	//render terrain
 	m_TerrainMat.Bind(GetGraphicsSystem(), 0);
-	m_Terrain.Render();
+	m_Terrain.Render(m_Terrain.Transform.GetLocalToWorldNS());
 
 	m_Effect.Render(m_Camera);
 
@@ -294,14 +295,15 @@ void Game::OnRender()
 	m_bumpedPS.Bind();
 
 	//render earth
-	m_Matrix.Push(m_earth.Transform.GetLocalToWorldTR());
+	m_Matrix.Push(m_earth.Transform.GetLocalToWorldNS());
 	m_earthBump.BindPixelShader(GetGraphicsSystem(), 1);
 	m_earthMat.Bind(GetGraphicsSystem(), 0);
 	m_earth.Render(m_Matrix.GetResult());
 
-	m_Matrix.Push(moonOffset.GetLocalToWorldTR());
+	m_Matrix.Push(moonOffset.GetLocalToWorldNS());
+
 	//render moon
-	m_Matrix.Push(m_moon.Transform.GetLocalToWorldTR());
+	m_Matrix.Push(m_moon.Transform.GetLocalToWorldNS());
 	m_moonBump.BindPixelShader(GetGraphicsSystem(), 1);
 	m_moonMat.Bind(GetGraphicsSystem(), 0);
 	m_moon.Render(m_Matrix.GetResult());
@@ -312,7 +314,7 @@ void Game::OnRender()
 	m_Matrix.Pop();
 
 	//render mars
-	m_Matrix.Push(m_mars.Transform.GetLocalToWorldTR());
+	m_Matrix.Push(m_mars.Transform.GetLocalToWorldNS());
 	m_marsBump.BindPixelShader(GetGraphicsSystem(), 1);
 	m_marsMat.Bind(GetGraphicsSystem(), 0);
 	m_mars.Render(m_Matrix.GetResult());

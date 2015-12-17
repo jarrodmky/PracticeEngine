@@ -25,25 +25,28 @@ namespace Simulation
 	public:
 
 		Mathematics::Vector3 Position;
-		Mathematics::scalar m_Mass = 1.0f;
-		Mathematics::scalar m_InvMass = 1.0f;
+
+	private:
+
+		static Mathematics::scalar m_Mass;
+		static Mathematics::scalar m_InvMass;
 		
 	//Operators
 	public:
 
-		Particle(const Mathematics::Vector3& p_Location = Mathematics::Zero3());
+		Particle();
 		virtual ~Particle();
 		
 	//Methods
 	public:
 
 		virtual void Integrate(const Mathematics::scalar p_DeltaTime, const Mathematics::Vector3& p_Force) = 0;
-		
-		void SetMass(const Mathematics::scalar p_Mass);
-		const Mathematics::scalar GetMass();
-
 		virtual const Mathematics::Vector3 GetVelocity(const Mathematics::scalar p_InvDeltaTime) const = 0;
+
 		inline const Mathematics::Vector3 GetAcceleration(const Mathematics::Vector3 p_Force);
+		
+		static void SetMass(const Mathematics::scalar p_Mass);
+		static const Mathematics::scalar GetMass();
 	};
 
 	class StaticParticle : public Simulation::Particle
@@ -51,7 +54,7 @@ namespace Simulation
 	//Operators
 	public:
 
-		StaticParticle(const Mathematics::Vector3& p_Location = Mathematics::Zero3());
+		StaticParticle();
 		virtual ~StaticParticle();
 
 	//Methods
@@ -73,7 +76,7 @@ namespace Simulation
 	//Operators
 	public:
 
-		EulerParticle(const Mathematics::Vector3& p_Location = Mathematics::Zero3());
+		EulerParticle();
 		virtual ~EulerParticle();
 
 	//Methods
@@ -95,7 +98,7 @@ namespace Simulation
 	//Operators
 	public:
 
-		VerletParticle(const Mathematics::Vector3& p_Location = Mathematics::Zero3());
+		VerletParticle();
 		virtual ~VerletParticle();
 
 	//Methods

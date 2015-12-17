@@ -19,7 +19,11 @@ using namespace Simulation;
 
 //Particle
 
-Particle::Particle(const Mathematics::Vector3& p_Location)
+
+		Mathematics::scalar Particle::m_Mass = 1.0f;
+		Mathematics::scalar Particle::m_InvMass = 1.0f;
+
+Particle::Particle()
 	: Position()
 {}
 
@@ -39,8 +43,8 @@ const Mathematics::scalar Particle::GetMass()
 
 void Particle::SetMass(const Mathematics::scalar p_Mass)
 {
-	//m_Mass = p_Mass;
-	//m_InvMass = Mathematics::EquivalentToZero(p_Mass) ? (0.0f) : (1.0f / p_Mass);
+	m_Mass = p_Mass;
+	m_InvMass = Mathematics::EquivalentToZero(p_Mass) ? (0.0f) : (1.0f / p_Mass);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -52,8 +56,8 @@ const Mathematics::Vector3 Particle::GetAcceleration(const Mathematics::Vector3 
 
 //Static Particle
 
-StaticParticle::StaticParticle(const Mathematics::Vector3& p_Location)
-	: Particle(p_Location)
+StaticParticle::StaticParticle()
+	: Particle()
 {}
 
 //----------------------------------------------------------------------------------------------------
@@ -77,8 +81,9 @@ const Mathematics::Vector3 StaticParticle::GetVelocity(const Mathematics::scalar
 
 //Euler Particle
 
-EulerParticle::EulerParticle(const Mathematics::Vector3& p_Location)
-	: Particle(p_Location)
+EulerParticle::EulerParticle()
+	: Particle()
+	, Velocity()
 {}
 
 //----------------------------------------------------------------------------------------------------
@@ -103,8 +108,8 @@ const Mathematics::Vector3 EulerParticle::GetVelocity(const Mathematics::scalar 
 
 //VerletParticle
 
-VerletParticle::VerletParticle(const Mathematics::Vector3& p_Location)
-	: Particle(p_Location)
+VerletParticle::VerletParticle()
+	: Particle()
 {}
 
 //----------------------------------------------------------------------------------------------------

@@ -3,9 +3,12 @@
   <ItemGroup>
     <ClInclude Include="Particles.h" />
     <ClInclude Include="Simulation.h" />
-    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Body.h" />
+    <ClInclude Include="BodySystem.h" />
+    <ClInclude Include="Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="Precompiled.cpp" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
-#ifndef IncludedVisuDepthStencilH
-#define IncludedVisuDepthStencilH
+#ifndef IncludedVisuBlendH
+#define IncludedVisuBlendH
 
 //===========================================================================
-// Filename:	DepthStencil.h
+// Filename:	Blend.h
 // Author:		Jarrod MacKay
-// Description:	Allows control of depth testing.
+// Description:	Allows control of blending between render targets.
 //===========================================================================
 
 //===========================================================================
@@ -21,26 +21,25 @@ namespace Visualization
 {
 
 
-	class DepthStencil
+	class Blend
 	{
 	public:
-	enum class DepthTest
+	enum class BlendMethod
 	{
-		None,
 		Default,
-		AdditiveBlend
+		Additive
 	};
 
 	//Operations
 	public:
-		DepthStencil();
-		~DepthStencil();
+		Blend();
+		~Blend();
 		
 
 	//Methods
 	public:
 		
-		void Initialize(System& p_System, DepthTest p_DepthTest);
+		void Initialize(System& p_System, BlendMethod p_BlendMethod);
 		void Terminate();
 		
 		void BindToOutput(System& p_System, u32 p_Index);
@@ -48,10 +47,9 @@ namespace Visualization
 	//Attributes
 	private:
 
-	ID3D11DepthStencilState* m_DepthStencil;
-
+		ID3D11BlendState* m_Blend;
 	};
 
 } // namespace Visualization
 
-#endif //#ifndef IncludedVisuDepthStencilH
+#endif //#ifndef IncludedVisuBlendH
