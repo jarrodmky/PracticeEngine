@@ -12,10 +12,11 @@
 //===========================================================================
 
 #include "MathBase.h"
-#include "Algebra.h"
-#include "Geometry.h"
-#include "Frame.h"
-#include "Random.h"
 #include "Series.h"
+#include "Random.h"
+#include "LinearAlgebra.h"
+#include "Calculus.h"
+#include "Geometry.h"
+#include "Topology.h"
 
 #endif //#ifndef IncludedMathematicsH

@@ -11,9 +11,7 @@
 // Includes
 //===========================================================================
 
-#include <Mathematics.h>
-#include "Buffers.h"
-#include "DataStructures.h"
+#include "Buffer.h"
 
 //===========================================================================
 // Classes
@@ -23,87 +21,56 @@ namespace Visualization
 {
 	class Camera
 	{
-	//Operators
+		//Operators
 	public:
 
-		Camera(System& p_System)
-			: Transform()
-			, m_FieldOfViewAngle()
-			, m_NearPlane()
-			, m_FarPlane()
-			, m_System(p_System)
-			, m_TransformBuffer(p_System)
-		{}
+		Camera();
 
-		NonCopyable(Camera);
+	static const Meta::Class* StaticGetMetaClass();
+	virtual const Meta::Class* GetMetaClass() const { return StaticGetMetaClass(); }
 
-	//Methods
+		//MetaClassDeclare
+
+		//Methods
 	public:
 
-		void Initialize(const Mathematics::Vector3& p_Position
-			, const Mathematics::Vector3& p_Interest
-						, const f32 p_FOV
-						, const f32 p_FarZ
-						, const f32 p_NearZ)
-		{
-			Transform.Set(Mathematics::J(), p_Interest - p_Position, p_Position);
-			m_FieldOfViewAngle = p_FOV;
-			m_NearPlane = p_NearZ;
-			m_FarPlane = p_FarZ;
+		void Calibrate(const Mathematics::Vector3& p_Position
+					   , const Mathematics::Vector3& p_Interest
+					   , const f32 p_FarZ
+					   , const f32 p_FOV = 45.0f * Mathematics::RadsPerDeg
+					   , bool p_ManuallySetNear = false
+					   , const f32 p_NearZ = 0.0f);
 
-			m_TransformBuffer.Allocate();
-		}
+		//manipulation
+		void SetInterest(const Mathematics::Vector3& p_Interest);
 
-		void Update(const f32 p_DeltaTime);
+		void SetFocus(const f32 p_FocalLength);
 
-		void Render()
-		{
-			CameraBuffer data;
-			data.ViewPosition = MakePoint(Transform.GetPosition());
-			data.WorldToProjection = GetWorldToProjectionTransform().Transposition();
+		//Transforms
+		Mathematics::Matrix44 GetViewToWorldTransform() const;
 
-			m_TransformBuffer.Set(&data);
-			m_TransformBuffer.BindToVertexShader(1);
-		}
+		Mathematics::Matrix44 GetWorldToViewTransform() const;
 
-		void Terminate()
-		{
-			m_TransformBuffer.Free();
-		}
+		Mathematics::Matrix44 GetViewToPerspectiveTransform(const f32 p_AspectRatio) const;
 
-		Mathematics::Matrix44 GetViewToWorldTransform() const
-		{
-			return Transform.GetLocalToWorldNS();
-		}
+		Mathematics::Matrix44 GetViewToOrthogonalTransform(const u32 p_ScreenWidth, const u32 p_ScreenHeight) const;
 
-		Mathematics::Matrix44 GetWorldToViewTransform() const
-		{
-			return Transform.GetWorldToLocalNS();
-		}
+		Mathematics::Matrix44 GetWorldToPerspectiveTransform(const f32 p_AspectRatio) const;
 
-		Mathematics::Matrix44 GetWorldToProjectionTransform() const
-		{
-			return GetPerspectiveTransform() * GetWorldToViewTransform();
-		}
+		Mathematics::Matrix44 GetWorldToOrthogonalTransform(const u32 p_ScreenWidth, const u32 p_ScreenHeight) const;
 
-		Mathematics::Matrix44 GetPerspectiveTransform() const
-		{
-			f32 h = static_cast<f32>(m_System.GetHeight());
-			f32 w = static_cast<f32>(m_System.GetWidth());
-			return Mathematics::PerspectiveProjection_LH(m_FieldOfViewAngle, w/h, m_FarPlane, m_NearPlane);
-		}
+		//camera
+		inline Mathematics::scalar GetFocalLength() const;
 
-		Mathematics::Vector3 GetUp() const
-		{
-			return Transform.GetUp();
-		}
+		inline Mathematics::scalar GetAspectRatio() const;
 
-		Mathematics::Vector3 GetForward() const
-		{
-			return Transform.GetForward();
-		}
+		inline Mathematics::scalar GetHorizontalFOV() const;
 
-	//Attributes
+		//ray cast
+		inline Mathematics::Ray3 ScreenPointToRay(const Mathematics::IntVector2& p_ScreenCoords
+												  , const Mathematics::UintVector2& p_ScreenLimits);
+
+		//Attributes
 	public:
 
 		//extrinsic properties
@@ -112,16 +79,11 @@ namespace Visualization
 	private:
 
 		//intrinsic properties
-		f32 m_FieldOfViewAngle;
+		f32 m_HorizontalFOV;
 
 		f32 m_NearPlane;
 
-		f32 m_FarPlane; 
-		
-		//rendering
-		System& m_System;
-
-		Visualization::ConstantBuffer<CameraBuffer> m_TransformBuffer;
+		f32 m_FarPlane;
 	};
 }
 

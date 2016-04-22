@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "Sampler.h"
+#include "System.h"
 
 using namespace Visualization;
 
@@ -16,7 +17,7 @@ namespace
 		case Visualization::Sampler::Filter::Anisotropic:
 		return D3D11_FILTER_ANISOTROPIC;
 		default:
-		Assert(false, "Invalid filter!!");
+		Halt("Invalid filter!!");
 		}
 
 		return D3D11_FILTER::D3D11_FILTER_MAXIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT;
@@ -36,7 +37,7 @@ namespace
 		case Sampler::AddressMode::Wrap:
 		return D3D11_TEXTURE_ADDRESS_MIRROR;
 		default:
-		Assert(false, "Invalid address mode!!");
+		Halt("Invalid address mode!!");
 		}
 
 		return D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;

@@ -11,11 +11,13 @@
 // Includes
 //===========================================================================
 
-//Engine headers
-#include "Application.h"
 #include "Common.h"
+
+//Engine headers
 #include "Debug.h"
+#include "Application.h"
 #include "Timer.h"
+#include "ScopeTimer.h"
 #include "Types.h"
 #include "Window.h"
 

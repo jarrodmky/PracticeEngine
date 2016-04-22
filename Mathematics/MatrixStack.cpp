@@ -31,14 +31,13 @@ void MatrixStack::Push(const Matrix44& p_Matrix)
 	MatrixPush lastPush;
 	m_Matrices.Peek(lastPush);
 	thisPush.Pushed = p_Matrix;
-	thisPush.Result = lastPush.Result * p_Matrix;
+	thisPush.Result = p_Matrix * lastPush.Result;
 	m_Matrices.Push(thisPush);
 }
 
 void MatrixStack::Pop()
 {
-	MatrixPush thisPop;
-	m_Matrices.Pop(thisPop);
+	m_Matrices.Pull();
 }
 
 void MatrixStack::Reset()

@@ -1,0 +1,50 @@
+
+Thu Apr 21 19:21:01 2016
+[System] Initializing...
+Thu Apr 21 19:21:01 2016
+[System] No game pad attached.
+Thu Apr 21 19:21:01 2016
+[System] System initialized.
+Thu Apr 21 19:21:02 2016
+Class TransformComponent is not registered!
+Thu Apr 21 19:21:02 2016
+Class ColliderComponent is not registered!
+Thu Apr 21 19:21:02 2016
+Class TransformComponent is not registered!
+Thu Apr 21 19:21:02 2016
+Class ColliderComponent is not registered!
+Thu Apr 21 19:21:02 2016
+Class TransformComponent is not registered!
+Thu Apr 21 19:21:02 2016
+Class ColliderComponent is not registered!
+Thu Apr 21 19:21:21 2016
+[System] Terminating...
+Thu Apr 21 19:21:21 2016
+
+Thu Apr 21 19:21:21 2016
+OnUpdate took about 0.0024825496353497
+Thu Apr 21 19:21:21 2016
+TotalLoop took about 0.0182064626455152
+Thu Apr 21 19:21:21 2016
+SimpleDrawRender took about 0.0019987743550339
+Thu Apr 21 19:21:21 2016
+RenderTwinSpheres took about 0.0015975254050656
+Thu Apr 21 19:21:21 2016
+RenderingLoop took about 0.0148675506027038
+Thu Apr 21 19:21:21 2016
+SetRasterization took about 0.0000222857925110
+Thu Apr 21 19:21:21 2016
+RenderParticles took about 0.0089072942191879
+Thu Apr 21 19:21:21 2016
+GameRender took about 0.0142593218152788
+Thu Apr 21 19:21:21 2016
+FrameVertexStartRenderingPersp took about 0.0014698568419720
+Thu Apr 21 19:21:21 2016
+ControllerUpdate took about 0.0008078396959241
+Thu Apr 21 19:21:21 2016
+OnApplicationUpdate took about 0.0182016371290610
+Thu Apr 21 19:21:21 2016
+SetDepthTest took about 0.0000038611952360
+Thu Apr 21 19:21:21 2016
+SpriteRender took about 0.0003538880975906
+Thu Apr 21 19:21:21 2016

@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectFactory.h" />
+    <ClInclude Include="Gameplay.h" />
+    <ClInclude Include="GameSystems.h" />
+    <ClInclude Include="MetaRegistration.h" />
+    <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="ColliderComponent.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectFactory.cpp" />
+    <ClCompile Include="GameSystems.cpp" />
+    <ClCompile Include="MetaRegistration.cpp" />
+    <ClCompile Include="Precompiled.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
+      <Project>{e8eaa466-1c84-4356-a157-49f11ae03eb3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Algorithms\Algorithms.vcxproj">
+      <Project>{5eefb04e-ca82-4eee-8a2d-00098e0b182b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\TinyXML\TinyXML.vcxproj">
+      <Project>{f0cfff50-94c6-418b-9109-8c0ee4c87270}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
+      <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Meta\Meta.vcxproj">
+      <Project>{0388d1b4-25d4-49c4-9533-2506f4b8be01}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
+      <Project>{9aded94d-2d67-413b-848c-cb47c75bd863}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Simulation\Simulation.vcxproj">
+      <Project>{a0839ec9-803b-46c2-a033-ae420b626d63}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Synchronization\Synchronization.vcxproj">
+      <Project>{1c5bc2e8-b2ad-4c09-a4e0-665305290baf}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilization\Utilization.vcxproj">
+      <Project>{c5b59784-5095-48c8-8868-4cd8ab06ed1a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Visualization\Visualization.vcxproj">
+      <Project>{42f4e3e6-7d3c-4c8f-858a-fe3b9f3a36f1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6839848D-8325-4CB5-8E0E-4425CD0A34D7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Gameplay</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Warnings.props" />
+    <Import Project="..\Precompiled.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Warnings.props" />
+    <Import Project="..\Precompiled.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>
+      </WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Serialization;../Visualization;../Utilization;../Synchronization;../Dependencies/TinyXML/Inc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>
+      </WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Serialization;../Visualization;../Utilization;../Synchronization;../Dependencies/TinyXML/Inc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

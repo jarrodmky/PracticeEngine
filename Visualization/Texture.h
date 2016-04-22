@@ -2,17 +2,10 @@
 #define IncludedVisuTextureH
 
 //===========================================================================
-// Filename:	Solid.h
+// Filename:	Texture.h
 // Author:		Jarrod MacKay
-// Description:	Describes a mesh that is assumed to remain "stiff" but can
-//				still undergo linear transformations
+// Description:	API texture
 //===========================================================================
-
-//===========================================================================
-// Includes
-//===========================================================================
-
-#include "System.h"
 
 //===========================================================================
 // Classes
@@ -20,28 +13,35 @@
 
 namespace Visualization
 {
+	class System;
 
+	class Spriter;
 	class Texture
 	{
 		//Operations
 	public:
+
 		Texture();
 		~Texture();
-		
 
-		//Methodsqq
+		//Methods
 	public:
-		
+
 		void Initialize(System& p_System, const wchar_t* p_Filename);
 		void Terminate();
-		
-		void BindVertexShader(System& p_System, u32 p_Index);
-		void BindPixelShader(System& p_System, u32 p_Index);
+
+		void BindVertexShader(System& p_System, u32 p_Index) const;
+		void BindPixelShader(System& p_System, u32 p_Index) const;
+
+		void UnbindVertexShader(System& p_System, u32 p_Index) const;
+		void UnbindPixelShader(System& p_System, u32 p_Index) const;
 
 		//Attributes
 	private:
 
-	ID3D11ShaderResourceView* m_Texture;
+		friend Spriter;
+
+		ID3D11ShaderResourceView* m_Texture;
 
 	};
 

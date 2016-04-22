@@ -2,134 +2,178 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp" />
-    <ClCompile Include="Vertices.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshUtil.cpp">
-      <Filter>Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Solid.cpp">
-      <Filter>Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Surfacing</Filter>
-    </ClCompile>
-    <ClCompile Include="Sampler.cpp">
-      <Filter>Surfacing</Filter>
-    </ClCompile>
     <ClCompile Include="Draw.cpp">
       <Filter>Drawing</Filter>
     </ClCompile>
     <ClCompile Include="D3DSystem.cpp" />
-    <ClCompile Include="DepthStencil.cpp">
-      <Filter>Surfacing</Filter>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>Textures</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scene</Filter>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Textures</Filter>
     </ClCompile>
-    <ClCompile Include="BumpedSolid.cpp">
-      <Filter>Meshes</Filter>
+    <ClCompile Include="DepthMap.cpp">
+      <Filter>Textures</Filter>
     </ClCompile>
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Components</Filter>
+    <ClCompile Include="Spriter.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Textures</Filter>
     </ClCompile>
     <ClCompile Include="Blend.cpp">
-      <Filter>Surfacing</Filter>
+      <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="Rasterizer.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Tester.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Dashboard.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="SomeSingleton.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>GraphicBasic</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GraphicBasic\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>GraphicBasic\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>GraphicBasic</Filter>
+    </ClCompile>
+    <ClCompile Include="FlatRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PaintedRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="FramedRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="LitRenderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MetaRegistration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Precompiled.h" />
-    <ClInclude Include="Vertices.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MeshBuilder.h">
       <Filter>Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Meshes</Filter>
     </ClInclude>
-    <ClInclude Include="MeshUtil.h">
-      <Filter>Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Solid.h">
-      <Filter>Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Buffers.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Surfacing</Filter>
-    </ClInclude>
-    <ClInclude Include="Sampler.h">
-      <Filter>Surfacing</Filter>
-    </ClInclude>
-    <ClInclude Include="ConicColour.h">
-      <Filter>Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="Visualization.h" />
     <ClInclude Include="Draw.h">
       <Filter>Drawing</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Surfacing</Filter>
-    </ClInclude>
     <ClInclude Include="System.h" />
-    <ClInclude Include="Camera.h">
-      <Filter>Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Pigment.h">
-      <Filter>Surfacing</Filter>
-    </ClInclude>
-    <ClInclude Include="DepthStencil.h">
-      <Filter>Surfacing</Filter>
-    </ClInclude>
-    <ClInclude Include="DataStructures.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="BumpedSolid.h">
+    <ClInclude Include="Model.h">
       <Filter>Meshes</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEffect.h">
-      <Filter>Particles</Filter>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Textures</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders.h">
-      <Filter>Components</Filter>
+    <ClInclude Include="Texture.h">
+      <Filter>Textures</Filter>
     </ClInclude>
-    <ClInclude Include="..\Utilization\Precompiled.h">
-      <Filter>Components</Filter>
+    <ClInclude Include="DepthMap.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Spriter.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Textures</Filter>
     </ClInclude>
     <ClInclude Include="Blend.h">
-      <Filter>Surfacing</Filter>
+      <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="Rasterizer.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Tester.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Dashboard.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="SomeSingleton.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Materials.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>GraphicBasic</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>GraphicBasic\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>GraphicBasic\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>GraphicBasic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicBasic.h">
+      <Filter>GraphicBasic</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GraphicBasic\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>GraphicBasic\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="ConicColour.h">
+      <Filter>GraphicBasic\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaRegistration.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Components">
-      <UniqueIdentifier>{0343f11e-fff8-44e6-acf4-2fcb84488a44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Meshes">
       <UniqueIdentifier>{1b901987-4925-4108-a411-3098c308d253}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lighting">
-      <UniqueIdentifier>{cad7dbb6-ade3-4663-ae4b-30aad73e8e80}</UniqueIdentifier>
     </Filter>
     <Filter Include="Drawing">
       <UniqueIdentifier>{68eb2b8f-76f9-4db6-aa71-0800349ea16e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Surfacing">
-      <UniqueIdentifier>{1ba9477e-ff9a-41bd-9a6b-ccb73359edcc}</UniqueIdentifier>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{04136c85-db96-4c0c-979b-cd74876a5e73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{47110898-ef49-4d24-abe1-6f135fce7844}</UniqueIdentifier>
+    <Filter Include="Textures">
+      <UniqueIdentifier>{2c007f28-c9a8-4b37-8a2f-00668a851793}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Particles">
-      <UniqueIdentifier>{4309b9be-e091-4342-b0c6-41409164026f}</UniqueIdentifier>
+    <Filter Include="States">
+      <UniqueIdentifier>{9839cfd5-8e56-4939-b4d9-a1d98f6d0fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicBasic">
+      <UniqueIdentifier>{1fc3a91d-c409-47ae-8478-430ad1bd643a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicBasic\Shading">
+      <UniqueIdentifier>{48cf6881-2612-4cc4-af4b-6163ecf473e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicBasic\Lighting">
+      <UniqueIdentifier>{0c6b4b19-0b9e-4f23-a9f5-befa61f837b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,11 +183,20 @@
     <None Include="MeshBuilder.inl">
       <Filter>Meshes</Filter>
     </None>
-    <None Include="Buffers.inl">
-      <Filter>Components</Filter>
+    <None Include="Shader.inl">
+      <Filter>GraphicBasic\Shading</Filter>
     </None>
-    <None Include="Shaders.inl">
-      <Filter>Components</Filter>
+    <None Include="ShaderBuffers.inl">
+      <Filter>GraphicBasic\Shading</Filter>
+    </None>
+    <None Include="Buffer.inl">
+      <Filter>GraphicBasic\Shading</Filter>
+    </None>
+    <None Include="SpecificShader.inl">
+      <Filter>GraphicBasic\Shading</Filter>
+    </None>
+    <None Include="Model.inl">
+      <Filter>Meshes</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -10,19 +10,12 @@
 #include "Precompiled.h"
 #include "Draw.h"
 #include "System.h"
-#include "Vertices.h"
-#include "Shaders.h"
-#include "Camera.h"
+#include "GraphicBasic.h"
+#include "Renderer.h"
 
 using namespace Mathematics;
 using namespace Visualization;
 using namespace Draw;
-
-
-struct SimpleDrawBuffer
-{
-	Matrix44 transform;
-};
 
 //===========================================================================
 // Implementation Declarations
@@ -30,6 +23,9 @@ struct SimpleDrawBuffer
 
 namespace
 {
+
+const u32 gridGraduations = 30;
+
 
 class DrawImplementation
 {
@@ -42,13 +38,21 @@ public:
 
 //Functions
 public:
-	void Initialize(u32 p_MaxVertices = 10000);
+	void Initialize(u32 p_MaxVertices = 100000);
 	void Terminate();
 
 	//world space rendering
-	void AddLineBetweenPoints(const Mathematics::Vector3& p_FirstPosition
+	void AddEdge(const Mathematics::Vector3& p_FirstPosition
 						   , const Mathematics::Vector3& p_SecondPosition
 						   , const Mathematics::LinearColour& p_Colour);
+
+	void AddLine(const Mathematics::Vector3& p_Direction
+		, const Mathematics::LinearColour& p_Colour);
+
+	void AddCube(const Mathematics::Vector3& p_Centre
+		, const Mathematics::Quaternion& p_Rotation
+		, const Mathematics::scalar p_Width
+		, const Mathematics::LinearColour& p_Colour);
 
 	void Render(const Camera& p_Camera);
 
@@ -56,25 +60,9 @@ private:
 
 	::System& m_System;
 
-	VertexShader<FlatVertex> m_VertexShader;
-
-	PixelShader m_PixelShader;
-
-	ConstantBuffer<SimpleDrawBuffer> m_ConstantBuffer;
-
-	//ID3D11Buffer* m_VertexBuffer3D;
-
-	//ID3D11Buffer* m_VertexBuffer2D;
-
-	//FlatVertex* m_Vertices3D;
-
-	//FlatVertex* m_Vertices2D;
+	FlatVertexRenderer m_Renderer3D;
 
 	u32 m_MaxVertices;
-
-	//u32 m_NumVertices3D;
-
-	//u32 m_NumVertices2D;
 
 	DynamicVertexBuffer<FlatVertex> m_VertexBuffer3D;
 
@@ -91,9 +79,7 @@ std::unique_ptr<DrawImplementation> m_Implementation;
 
 DrawImplementation::DrawImplementation(::System& p_System)
 	: m_System(p_System)
-	, m_VertexShader(p_System)
-	, m_PixelShader(p_System)
-	, m_ConstantBuffer(p_System)
+	, m_Renderer3D(p_System)
 	, m_VertexBuffer3D(p_System)
 	, m_VertexBuffer2D(p_System)
 	, m_MaxVertices(0)
@@ -101,21 +87,17 @@ DrawImplementation::DrawImplementation(::System& p_System)
 {}
 
 DrawImplementation::~DrawImplementation()
-{
-	Assert(m_VertexBuffer3D.GetCapacity() == 0 && m_VertexBuffer2D.GetCapacity() == 0, "Simple drawing not terminated!");
-}
+{}
 
 void DrawImplementation::Initialize(u32 p_MaxVertices)
 {
 	Assert(!m_Initialized, "Already initialized!");
 
-	m_VertexShader.Compile(L"../Data/Shaders/Draw.fx", "VS", "vs_4_0");
-	m_PixelShader.Compile(L"../Data/Shaders/Draw.fx", "PS", "ps_4_0");
-	m_ConstantBuffer.Allocate();
+	m_Renderer3D.Initialize();
 
 	//create line buffers
-	m_VertexBuffer3D.Allocate(p_MaxVertices);
-	m_VertexBuffer2D.Allocate(p_MaxVertices);
+	m_VertexBuffer3D.Allocate(nullptr, p_MaxVertices);
+	m_VertexBuffer2D.Allocate(nullptr, p_MaxVertices);
 
 	m_MaxVertices = p_MaxVertices;
 
@@ -129,49 +111,96 @@ void DrawImplementation::Terminate()
 	m_VertexBuffer2D.Free();
 	m_VertexBuffer3D.Free();
 
-	m_ConstantBuffer.Free();
-	m_PixelShader.Release();
-	m_VertexShader.Release();
+	m_Renderer3D.Terminate();
 
 	m_Initialized = false;
 }
 
-void DrawImplementation::AddLineBetweenPoints(const Mathematics::Vector3& p_FirstPosition
-					   , const Mathematics::Vector3& p_SecondPosition
-					   , const Mathematics::LinearColour& p_Colour)
+void DrawImplementation::AddEdge(const Mathematics::Vector3& p_FirstPosition
+	, const Mathematics::Vector3& p_SecondPosition
+	, const Mathematics::LinearColour& p_Colour)
 {
-	Assert(m_VertexBuffer3D.GetNumberOfVertices() + 2 < m_MaxVertices, "No room for vertices!");
+	m_VertexBuffer3D.Add(FlatVertex(p_FirstPosition, p_Colour));
+	m_VertexBuffer3D.Add(FlatVertex(p_SecondPosition, p_Colour));
+}
 
-	if(m_VertexBuffer3D.GetNumberOfVertices() + 2 < m_MaxVertices)
-	{
-		m_VertexBuffer3D.Add(FlatVertex(p_FirstPosition, p_Colour));
-		m_VertexBuffer3D.Add(FlatVertex(p_SecondPosition, p_Colour));
-	}
+void DrawImplementation::AddLine(const Mathematics::Vector3& p_Direction
+	, const Mathematics::LinearColour& p_Colour)
+{
+	Vector4 dir = MakeAffineVector(p_Direction);
+	m_VertexBuffer3D.Add(FlatVertex(dir, p_Colour));
+	m_VertexBuffer3D.Add(FlatVertex(-dir, p_Colour));
+}
+
+void DrawImplementation::AddCube(const Mathematics::Vector3& p_Centre
+	, const Mathematics::Quaternion& p_Rotation
+	, const Mathematics::scalar p_Width
+	, const Mathematics::LinearColour& p_Colour)
+{
+	//init positions
+	Abstracts::Array<Vector3, 2, 2, 2> cube;
+	const scalar halfWidth = p_Width * 0.5f;
+
+	cube(0, 0, 0) = -halfWidth * Ones3();
+	cube(1, 1, 1) = halfWidth * Ones3();
+
+	cube(1, 0, 0) = -halfWidth * Ones3() + p_Width * I();
+	cube(0, 1, 1) = halfWidth * Ones3() - p_Width * I();
+
+	cube(0, 1, 0) = -halfWidth * Ones3() + p_Width * J();
+	cube(1, 0, 1) = halfWidth * Ones3() - p_Width * J();
+
+	cube(0, 0, 1) = -halfWidth * Ones3() + p_Width * K();
+	cube(1, 1, 0) = halfWidth * Ones3() - p_Width * K();
+
+	p_Rotation.Rotate(cube(0, 0, 0));
+	p_Rotation.Rotate(cube(0, 0, 1));
+	p_Rotation.Rotate(cube(0, 1, 0));
+	p_Rotation.Rotate(cube(0, 1, 1));
+	p_Rotation.Rotate(cube(1, 0, 0));
+	p_Rotation.Rotate(cube(1, 0, 1));
+	p_Rotation.Rotate(cube(1, 1, 0));
+	p_Rotation.Rotate(cube(1, 1, 1));
+
+	cube(0, 0, 0) += p_Centre;
+	cube(0, 0, 1) += p_Centre;
+	cube(0, 1, 0) += p_Centre;
+	cube(0, 1, 1) += p_Centre;
+	cube(1, 0, 0) += p_Centre;
+	cube(1, 0, 1) += p_Centre;
+	cube(1, 1, 0) += p_Centre;
+	cube(1, 1, 1) += p_Centre;
+
+	//draw edges
+	AddEdge(cube(0, 0, 0), cube(0, 0, 1), p_Colour);
+	AddEdge(cube(0, 0, 1), cube(0, 1, 1), p_Colour);
+	AddEdge(cube(0, 1, 1), cube(0, 1, 0), p_Colour);
+	AddEdge(cube(0, 1, 0), cube(0, 0, 0), p_Colour);
+
+	AddEdge(cube(1, 0, 0), cube(1, 0, 1), p_Colour);
+	AddEdge(cube(1, 0, 1), cube(1, 1, 1), p_Colour);
+	AddEdge(cube(1, 1, 1), cube(1, 1, 0), p_Colour);
+	AddEdge(cube(1, 1, 0), cube(1, 0, 0), p_Colour);
+
+	AddEdge(cube(0, 0, 0), cube(1, 0, 0), p_Colour);
+	AddEdge(cube(0, 0, 1), cube(1, 0, 1), p_Colour);
+	AddEdge(cube(0, 1, 0), cube(1, 1, 0), p_Colour);
+	AddEdge(cube(0, 1, 1), cube(1, 1, 1), p_Colour);
 }
 
 void DrawImplementation::Render(const Camera& p_Camera)
 {
 	Assert(m_Initialized, "Not initialized!");
+	Assert(m_VertexBuffer3D.Size() % 2 == 0, "LineList cant have uneven amount of vertices!")
+		Time("SimpleDrawRender");
+
+	Matrix44 invScreenSpace(MakeNormalizedProjection(m_System.GetHeight(), m_System.GetWidth()).Transposition());
 	
-	Matrix44 invScreenSpace(ScreenToNDC(m_System.GetHeight(), m_System.GetWidth()).Transposition());
-	
-	SimpleDrawBuffer d;
-	d.transform = (p_Camera.GetPerspectiveTransform() * p_Camera.GetWorldToViewTransform()).Transposition();
-	m_ConstantBuffer.Set(&d);
-	m_ConstantBuffer.BindToVertexShader(0);
-
-	//set shaders
-	m_VertexShader.Bind();
-	m_PixelShader.Bind();
-
-	//set buffers
-	m_VertexBuffer2D.Bind();
-	m_VertexBuffer3D.Bind();
-
-	m_System.GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-	m_System.GetContext()->Draw(m_VertexBuffer3D.GetNumberOfVertices(), 0);
-
-	m_VertexBuffer2D.Clear();
+	//3d draw
+	m_VertexBuffer3D.Update();
+	m_Renderer3D.StartRendering(p_Camera);
+	m_Renderer3D.Render(m_VertexBuffer3D, TopologyIndexing::LineList);
+	m_Renderer3D.StopRendering();
 	m_VertexBuffer3D.Clear();
 }
 
@@ -196,7 +225,7 @@ void Visualization::Draw::Terminate()
 
 	m_Implementation->Terminate();
 
-	m_Implementation.reset();
+	m_Implementation.reset(nullptr);
 }
 
 //world space rendering
@@ -204,21 +233,60 @@ void Visualization::Draw::AddVector(const Mathematics::Vector3& p_Vector
 	, const Mathematics::Vector3& p_Position
 	, const Mathematics::LinearColour& p_Colour)
 {
-	m_Implementation->AddLineBetweenPoints(p_Position
-										, p_Position + p_Vector
-										, p_Colour);
+	m_Implementation->AddEdge(p_Position, p_Position + p_Vector, p_Colour);
 }
 
 void Visualization::Draw::AddVector(const Mathematics::Vector3& p_Vector
 	, const Mathematics::LinearColour& p_Colour)
 {
-	m_Implementation->AddLineBetweenPoints(Zero3(), p_Vector, p_Colour);
+	m_Implementation->AddEdge(Zero3(), p_Vector, p_Colour);
 }
 
-void Visualization::Draw::AddSimplex(const Mathematics::Edge& p_Edge
+void Visualization::Draw::AddSimplex(const Mathematics::Edge3& p_Edge
 	, const Mathematics::LinearColour& p_Colour)
 {
-	m_Implementation->AddLineBetweenPoints(p_Edge.First, p_Edge.Second, p_Colour);
+	m_Implementation->AddEdge(p_Edge.First(), p_Edge.Second(), p_Colour);
+}
+
+void  Visualization::Draw::AddCube(const Mathematics::Vector3& p_Centre
+	, const Mathematics::Quaternion& p_Rotation
+	, const Mathematics::scalar p_Width
+	, const Mathematics::LinearColour& p_Colour)
+{
+	m_Implementation->AddCube(p_Centre, p_Rotation, p_Width, p_Colour);
+}
+
+void Visualization::Draw::AddBox(const Mathematics::AABB3& p_Box
+			, const Mathematics::LinearColour& p_Colour)
+{
+	Vector3 mXmYmZ(p_Box.Centre + p_Box.Extents * MakeVector(-Unity, -Unity, -Unity));
+	Vector3 mXmYMZ(p_Box.Centre + p_Box.Extents * MakeVector(-Unity, -Unity, Unity));
+	Vector3 mXMYmZ(p_Box.Centre + p_Box.Extents * MakeVector(-Unity, Unity, -Unity));
+	Vector3 mXMYMZ(p_Box.Centre + p_Box.Extents * MakeVector(-Unity, Unity, Unity));
+	Vector3 MXmYmZ(p_Box.Centre + p_Box.Extents * MakeVector(Unity, -Unity, -Unity));
+	Vector3 MXmYMZ(p_Box.Centre + p_Box.Extents * MakeVector(Unity, -Unity, Unity));
+	Vector3 MXMYmZ(p_Box.Centre + p_Box.Extents * MakeVector(Unity, Unity, -Unity));
+	Vector3 MXMYMZ(p_Box.Centre + p_Box.Extents * MakeVector(Unity, Unity, Unity));
+
+	//min corner
+	m_Implementation->AddEdge(mXmYmZ, mXmYMZ, p_Colour);
+	m_Implementation->AddEdge(mXmYmZ, mXMYmZ, p_Colour);
+	m_Implementation->AddEdge(mXmYmZ, MXmYmZ, p_Colour);
+
+	//maxXmaxY
+	//m_Implementation->AddLineBetweenPoints(MXMYmZ, mXmYmZ, p_Colour);
+	//m_Implementation->AddLineBetweenPoints(MXMYmZ, mXmYmZ, p_Colour);
+	//m_Implementation->AddLineBetweenPoints(MXMYmZ, mXmYmZ, p_Colour);
+	//
+	////maxXmaxY
+	//m_Implementation->AddLineBetweenPoints(mXmYmZ, mXmYMZ, p_Colour);
+	//m_Implementation->AddLineBetweenPoints(mXmYmZ, mXmYMZ, p_Colour);
+	//m_Implementation->AddLineBetweenPoints(mXmYmZ, mXmYMZ, p_Colour);
+
+	//max corner
+	m_Implementation->AddEdge(MXMYMZ, MXMYmZ, p_Colour);
+	m_Implementation->AddEdge(MXMYMZ, MXmYMZ, p_Colour);
+	m_Implementation->AddEdge(MXMYMZ, mXMYMZ, p_Colour);
 }
 
 void Visualization::Draw::AddFrame(const Mathematics::Frame& p_Frame, f32 p_Length)
@@ -226,15 +294,59 @@ void Visualization::Draw::AddFrame(const Mathematics::Frame& p_Frame, f32 p_Leng
 	using namespace ColourPallet;
 	AddVector(p_Frame.GetRight() * p_Length, p_Frame.GetPosition(), Red);
 	AddVector(p_Frame.GetUp() * p_Length, p_Frame.GetPosition(), Green);
-	AddVector(p_Frame.GetForward() * p_Length, p_Frame.GetPosition(), Blue);
+	//AddVector(p_Frame.GetForward() * p_Length, p_Frame.GetPosition(), Blue); //openGL neg Z is forward
+	AddVector(-p_Frame.GetForward() * p_Length, p_Frame.GetPosition(), Blue); //Direct3D pos Z is forward
+}
+
+void Visualization::Draw::AddLine(const Mathematics::Line3& p_Line, const Mathematics::LinearColour& p_Colour)
+{
+	using namespace ColourPallet;
+	m_Implementation->AddLine(p_Line.Direction(), p_Colour);
 }
 
 void Visualization::Draw::AddCoordinateAxes()
 {
+	using namespace Mathematics;
 	using namespace ColourPallet;
-	m_Implementation->AddLineBetweenPoints(MakeVector(Maximum, Zero, Zero), MakeVector(Minimum, Zero, Zero), Red);
-	m_Implementation->AddLineBetweenPoints(MakeVector(Zero, Maximum, Zero), MakeVector(Zero, Minimum, Zero), Green);
-	m_Implementation->AddLineBetweenPoints(MakeVector(Zero, Zero, Maximum), MakeVector(Zero, Zero, Minimum), Blue);
+	m_Implementation->AddLine(I(), Red);
+	m_Implementation->AddLine(J(), Green);
+	m_Implementation->AddLine(K(), Blue);
+}
+		
+void Visualization::Draw::AddCoordinatePlaneXZ()
+{
+	Halt("Too slow!");
+
+	using namespace Mathematics;
+	using namespace ColourPallet;
+
+	const scalar dGrad = 10.0f / static_cast<scalar>(gridGraduations);
+	Vector3 posCursor = Zero3();
+	Vector3 negCursor = Zero3();
+
+	//draw Z graduations
+	for(u32 i = 0; i < gridGraduations; ++i)
+	{
+		AddLine(Line3(posCursor += dGrad*I(), K()), Blue);
+		AddLine(Line3(negCursor -= dGrad*I(), K()), Blue);
+	}
+
+	//draw X graduations
+	posCursor = Zero3();
+	negCursor = Zero3();
+	for(u32 i = 0; i < gridGraduations; ++i)
+	{
+		AddLine(Line3(posCursor += dGrad*K(), I()), Red);
+		AddLine(Line3(negCursor -= dGrad*K(), I()), Red);
+	}
+}
+
+void Visualization::Draw::AddCircle(const Mathematics::Vector3& p_Centre
+									, const Mathematics::Vector3& p_Normal
+									, const Mathematics::scalar p_Radius
+									, const Mathematics::LinearColour& p_Colour)
+{
+	Halt("Unimplemanted!");
 }
 
 void Visualization::Draw::Render(const Camera& p_Camera)

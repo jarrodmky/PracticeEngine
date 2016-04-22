@@ -18,14 +18,19 @@
     <ClInclude Include="Loader.h" />
     <ClInclude Include="ObjFile.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Library.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="TgaFile.h" />
     <ClInclude Include="Value.h" />
+    <ClInclude Include="XmlFile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CmdMain.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Value.cpp" />
+    <ClCompile Include="XmlFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
@@ -37,9 +42,18 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Dependencies\TinyXML\TinyXML.vcxproj">
+      <Project>{f0cfff50-94c6-418b-9109-8c0ee4c87270}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
       <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Meta\Meta.vcxproj">
+      <Project>{0388d1b4-25d4-49c4-9533-2506f4b8be01}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Library.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9ADED94D-2D67-413B-848C-CB47C75BD863}</ProjectGuid>
@@ -67,11 +81,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Precompiled.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Precompiled.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -79,9 +95,12 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>
+      </WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core;../Meta;../Abstracts;../Mathematics;../Algorithms;../Dependencies/TinyXML/Inc</AdditionalIncludeDirectories>
+      <TreatWarningAsError />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -90,13 +109,16 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>
+      </WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core;../Meta;../Abstracts;../Mathematics;../Algorithms;../Dependencies/TinyXML/Inc</AdditionalIncludeDirectories>
+      <TreatWarningAsError />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -10,6 +10,8 @@
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
 
+#include <iostream>
+
 //Engine
 #include <Core.h>
 #include <Abstracts.h>

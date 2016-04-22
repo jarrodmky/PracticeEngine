@@ -179,19 +179,19 @@ void System::Terminate()
 	Log("[System] Terminating...");
 
 	// Release devices
-	if (mpGamePadDevice != nullptr)
+	if (GamepadIsConnected())
 	{
 		mpGamePadDevice->Unacquire();
 		mpGamePadDevice->Release();
 		mpGamePadDevice = nullptr;
 	}
-	if (mpMouseDevice != nullptr)
+	if (MouseIsConnected())
 	{
 		mpMouseDevice->Unacquire();
 		mpMouseDevice->Release();
 		mpMouseDevice = nullptr;
 	}
-	if (mpKeyboardDevice != nullptr)
+	if (KeyboardIsConnected())
 	{
 		mpKeyboardDevice->Unacquire();
 		mpKeyboardDevice->Release();
@@ -213,19 +213,19 @@ void System::Update()
 	Assert(mInitialized, "[System] System not initialized.");
 
 	// Update keyboard
-	if (mpKeyboardDevice != nullptr)
+	if (KeyboardIsConnected())
 	{
 		UpdateKeyboard();
 	}
 
 	// Update mouse
-	if (mpMouseDevice != nullptr)
+	if (MouseIsConnected())
 	{
 		UpdateMouse();
 	}
 
 	// Update game pad
-	if (mpGamePadDevice != nullptr)
+	if (GamepadIsConnected())
 	{
 		UpdateGamePad();
 	}
@@ -462,7 +462,7 @@ void System::UpdateMouse()
 		{
 			if (sWriteToLog)
 			{
-				//LOG("[System] Mouse device is lost.");
+				Log("[System] Mouse device is lost.");
 				sWriteToLog = false;
 			}
 
@@ -471,7 +471,7 @@ void System::UpdateMouse()
 		}
 		else
 		{
-			Assert(false, "[System] Failed to get mouse state.");
+			Halt("[System] Failed to get mouse state.");
 			return;
 		}
 	}

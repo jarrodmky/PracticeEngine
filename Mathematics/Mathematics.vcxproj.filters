@@ -4,23 +4,20 @@
     <ClInclude Include="MathBase.h" />
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="Precompiled.h" />
-    <ClInclude Include="Algebra.h">
-      <Filter>Algebra</Filter>
-    </ClInclude>
     <ClInclude Include="Interval.h">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </ClInclude>
     <ClInclude Include="Series.h">
       <Filter>Generators</Filter>
@@ -35,24 +32,99 @@
       <Filter>Geometry</Filter>
     </ClInclude>
     <ClInclude Include="LinearColour.h">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </ClInclude>
     <ClInclude Include="MatrixStack.h">
       <Filter>Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="LinearAlgebra.h">
+      <Filter>Linear Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometricAlgebra.h">
+      <Filter>Geometric Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="ComplexShapes.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Polynomial.h">
+      <Filter>Linear Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Equations.h">
+      <Filter>Linear Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Linear.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Planar.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Round.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Topology.h">
+      <Filter>Topology</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitives.h">
+      <Filter>Topology</Filter>
+    </ClInclude>
+    <ClInclude Include="Spheres.h">
+      <Filter>Topology</Filter>
+    </ClInclude>
+    <ClInclude Include="VerletParticle.h">
+      <Filter>Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculus.h">
+      <Filter>Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="Constraint.h">
+      <Filter>Calculus</Filter>
+    </ClInclude>
+    <ClInclude Include="Operator.h">
+      <Filter>Calculus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Interval.inl">
-      <Filter>Algebra</Filter>
-    </None>
     <None Include="Matrix.inl">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </None>
     <None Include="Quaternion.inl">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </None>
     <None Include="Vector.inl">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Vector2.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Vector3.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Vector4.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Matrix22.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Matrix33.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Matrix44.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="Equations.inl">
+      <Filter>Linear Algebra</Filter>
+    </None>
+    <None Include="SpecificConstraint.inl">
+      <Filter>Calculus</Filter>
+    </None>
+    <None Include="SpecificOperator.inl">
+      <Filter>Calculus</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -61,21 +133,45 @@
       <Filter>Generators</Filter>
     </ClCompile>
     <ClCompile Include="LinearColour.cpp">
-      <Filter>Algebra</Filter>
+      <Filter>Linear Algebra</Filter>
     </ClCompile>
     <ClCompile Include="MatrixStack.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="Simplices.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Equations.cpp">
+      <Filter>Linear Algebra</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitives.cpp">
+      <Filter>Topology</Filter>
+    </ClCompile>
+    <ClCompile Include="Spheres.cpp">
+      <Filter>Topology</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Algebra">
-      <UniqueIdentifier>{8e628915-0627-47b5-b824-443bf47024cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Geometry">
       <UniqueIdentifier>{edd54f24-8bf5-4daf-a6d3-580a8b1d1c0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Generators">
       <UniqueIdentifier>{418892eb-3a52-4eb1-8562-2a9a2cc70466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linear Algebra">
+      <UniqueIdentifier>{8e628915-0627-47b5-b824-443bf47024cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometric Algebra">
+      <UniqueIdentifier>{72dc89d1-3acf-4486-b602-a3763d61be07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Topology">
+      <UniqueIdentifier>{17df55e3-f9df-4295-a960-6fd2374d1c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Calculus">
+      <UniqueIdentifier>{3be4546c-3a44-4551-bdad-a95b0e4a40be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

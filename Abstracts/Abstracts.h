@@ -12,12 +12,14 @@
 //===========================================================================
 
 #include "Array.h"
+#include "DynamicArray.h"
+#include "Pool.h"
+#include "SafePool.h"
 #include "List.h"
 #include "LinkedList.h"
 #include "Queue.h"
 #include "Stack.h"
 #include "Graph.h"
 #include "Grid.h"
-#include "Table.h"
 
 #endif //#ifndef IncludedAbstractsH

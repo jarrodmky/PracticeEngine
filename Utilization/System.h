@@ -4,6 +4,7 @@
 //====================================================================================================
 // Filename:	System.h
 // Created by:	Peter Chan
+// Modified by: Jarrod MacKay
 // Description:	Class for the input system with support for keyboard, mouse, and gamepad devices.
 //====================================================================================================
 
@@ -31,8 +32,16 @@ public:
 
 	void Update();
 
+	bool KeyboardIsConnected() const { return mpKeyboardDevice != nullptr; }
+	bool MouseIsConnected() const { return mpMouseDevice != nullptr; }
+	bool GamepadIsConnected() const { return mpGamePadDevice != nullptr; }
+
+	//keyboard
+
 	bool IsKeyDown(u32 key) const;
 	bool IsKeyPressed(u32 key) const;
+
+	//mouse
 
 	bool IsMouseDown(u32 button) const;
 	bool IsMousePressed(u32 button) const;
@@ -40,14 +49,16 @@ public:
 	s32 GetMouseScreenX() const;
 	s32 GetMouseScreenY() const;
 
+	s32 GetMouseMoveX() const;
+	s32 GetMouseMoveY() const;
+	s32 GetMouseMoveZ() const;
+
 	bool IsMouseLeftEdge() const;
 	bool IsMouseRightEdge() const;
 	bool IsMouseTopEdge() const;
 	bool IsMouseBottomEdge() const;
 
-	s32 GetMouseMoveX() const;
-	s32 GetMouseMoveY() const;
-	s32 GetMouseMoveZ() const;
+	//gamepad
 
 	bool IsGamePadButtonDown(u32 button) const;
 	bool IsGamePadButtonPressed(u32 button) const;
@@ -64,11 +75,6 @@ public:
 
 	f32 GetLeftTrigger() const;
 	f32 GetRightTrigger() const;
-
-	//Added by Jarrod
-	bool KeyboardIsConnected() const { return mpKeyboardDevice != nullptr; }
-	bool MouseIsConnected() const { return mpMouseDevice != nullptr; }
-	bool GamepadIsConnected() const { return mpGamePadDevice != nullptr; }
 
 private:
 	NonCopyable(System);

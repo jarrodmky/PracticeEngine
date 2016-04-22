@@ -7,11 +7,7 @@
 // Description:	Defines a class that represents a 3 dimensional vector
 //===========================================================================
 
-//===========================================================================
-// Includes
-//===========================================================================
-
-#include "Precompiled.h"
+#include <Core.h>
 
 //===========================================================================
 // Typedefs
@@ -19,10 +15,14 @@
 
 namespace Mathematics
 {
-	typedef f32	scalar;	
+
+	typedef f32	scalar;
+	const scalar eps = 0.00001f;
 	
 	typedef std::complex<scalar> complex;
-	
+	typedef std::pair<scalar, scalar> ScalarPair;
+	typedef std::pair<complex, complex> ComplexPair;
+
 	//TODO: define literal some general unit suffix e.g. (1.0s)
 
 	#ifdef max
@@ -36,9 +36,11 @@ namespace Mathematics
 	// Constants
 	//===========================================================================
 
+	//TODO extern the constants so no multiple def
+
 	const scalar Zero				= 0.0f;
 	const scalar Unity				= 1.0f;
-	const scalar Epsilon			= std::numeric_limits<scalar>::epsilon();
+	const scalar Epsilon = eps;// std::numeric_limits<scalar>::epsilon();
 	const scalar Infinity			= std::numeric_limits<scalar>::infinity();
 	const scalar NegativeInfinity	= -Infinity;
 	const scalar NotANumber			= std::numeric_limits<scalar>::signaling_NaN();
@@ -60,30 +62,94 @@ namespace Mathematics
 	const static u32 MaxU32					= 0xffffffffui32;
 	const static u64 MaxU64					= 0xffffffffffffffffui64;
 
+	//===========================================================================
+	// Integer Functions
+	//===========================================================================
+	
+	inline const u32 EulerCharacteristic(const u32 p_Vertices, const u32 p_Edges, const u32 p_Faces)
+	{
+		return p_Vertices - p_Edges + p_Faces;
+	}
+
+	//===========================================================================
+	// Float Functions
+	//===========================================================================
+
 	inline const scalar AbsoluteValue(const scalar p_Scalar)
 	{
 		return (p_Scalar > Zero) ? (p_Scalar) : (-p_Scalar);
 	}
 
-	inline bool ApproximateToEachOther(const scalar p_LHS, const scalar p_RHS, const scalar p_Tolerance)
+	inline const scalar Signum(const scalar p_Scalar)
 	{
-		return (AbsoluteValue(p_LHS - p_RHS) < p_Tolerance);
+		return (p_Scalar > Zero) ? (Unity) : (-Unity);
 	}
 
-	inline bool EquivalentToEachOther(const scalar p_LHS, const scalar p_RHS)
+	inline const scalar Signum(const scalar p_MagnitudeOf, const scalar p_SignOf)
 	{
-		return ApproximateToEachOther(p_LHS, p_RHS, Epsilon);
+		return Signum(p_SignOf) * AbsoluteValue(p_MagnitudeOf);
 	}
 
-	inline bool EquivalentToZero(const scalar p_Scalar)
+	//comparison to zero
+	inline bool IsApproximatelyZero(const scalar p_Scalar, const scalar p_Tolerance)
 	{
-		return (AbsoluteValue(p_Scalar) < Epsilon);
+		return (AbsoluteValue(p_Scalar) <= p_Tolerance);
 	}
 
+	inline bool IsZero(const scalar p_Scalar)
+	{
+		return IsApproximatelyZero(p_Scalar, Epsilon);
+	}
+
+	//comparison to number
+	inline bool Close(const scalar p_Scalar, const scalar p_Centre, const scalar p_Tolerance)
+	{
+		return IsApproximatelyZero(p_Scalar - p_Centre, p_Tolerance);
+	}
+
+	//absolute comparison to standard
+	inline bool IsApproximatelyUnity(const scalar p_Scalar, const scalar p_Tolerance)
+	{
+		return Close(p_Scalar, Unity, p_Tolerance);
+	}
+
+	inline bool IsUnity(const scalar p_Scalar)
+	{
+		return IsApproximatelyUnity(p_Scalar, Epsilon);
+	}
+
+	//relative comparison (non-zero standard)
+	inline bool IsApproximatelyEqualTo(const scalar p_Query, const scalar p_Standard, const scalar p_Tolerance)
+	{
+		return IsApproximatelyZero(p_Query - p_Standard, p_Tolerance * AbsoluteValue(p_Standard));
+	}
+
+	inline bool IsEqualTo(const scalar p_Query, const scalar p_Standard)
+	{
+		return IsApproximatelyEqualTo(p_Query, p_Standard, Epsilon);
+	}
+
+	//relative comparison (no standard)
+	inline bool ApproximatelyEqual(const scalar p_Lhs, const scalar p_Rhs, const scalar p_Tolerance)
+	{
+		scalar lAbs(AbsoluteValue(p_Lhs));
+		scalar rAbs(AbsoluteValue(p_Rhs));
+		scalar max = (lAbs > rAbs) ? (lAbs) : (rAbs);
+		return (IsApproximatelyZero(p_Lhs, p_Tolerance)) ? (IsApproximatelyZero(p_Rhs, p_Tolerance)) : 
+					((IsApproximatelyZero(p_Rhs, p_Tolerance)) ? (IsApproximatelyZero(p_Lhs, p_Tolerance)) : 
+						(IsApproximatelyZero(p_Lhs - p_Rhs, p_Tolerance * max)));
+	}
+	
+	inline bool Equal(const scalar p_Lhs, const scalar p_Rhs)
+	{
+		return ApproximatelyEqual(p_Lhs, p_Rhs, Epsilon);
+	}
+
+	//other comparisons
 	inline bool IsFinite(const scalar p_Scalar)
 	{
-		return !EquivalentToEachOther(Infinity, p_Scalar) 
-			&& !EquivalentToEachOther(NegativeInfinity, p_Scalar);
+		return !IsEqualTo(p_Scalar, Infinity)
+			&& !IsEqualTo(p_Scalar, NegativeInfinity);
 	}
 
 	inline bool IsInfinite(const scalar p_Scalar)
@@ -96,9 +162,16 @@ namespace Mathematics
 		return (NotANumber != p_Scalar);
 	}
 	
+	inline bool IsInInterval(const scalar p_Scalar, const scalar p_Min, const scalar p_Max)
+	{
+		Assert(p_Max > p_Min, "Invalid interval for testing!");
+		return (p_Scalar >= p_Min) && (p_Scalar <= p_Max);
+	}
+	
+	//manipulations
 	inline void Invert(scalar& p_Scalar)
 	{
-		Assert(!EquivalentToZero(p_Scalar), "Tried a division by zero!");
+		Assert(!IsZero(p_Scalar), "Tried a division by zero!");
 		p_Scalar = Unity / p_Scalar;
 	}
 
@@ -127,6 +200,29 @@ namespace Mathematics
 		temp = (p_Value > p_Max) ? (p_Max) : (p_Value);
 		temp = (p_Value < p_Min) ? (p_Min) : (p_Value);
 		return temp;
+	}
+
+	inline void Clean(scalar& p_Value)
+	{
+		p_Value = (IsZero(p_Value)) ? (Zero) :
+						((IsUnity(p_Value)) ? (Unity) :
+							((IsUnity(-p_Value)) ? (-Unity) : (p_Value)));
+	}
+
+	//===========================================================================
+	// Complex Functions
+	//===========================================================================
+
+	inline complex Euler(const scalar p_Angle)
+	{
+		return complex(std::cos(p_Angle), std::sin(p_Angle));
+	}
+
+	inline complex RootOfUnity(const u32 p_K, const u32 p_N)
+	{
+		Assert(p_K < p_N, "Degenerate root!");
+		const scalar f = static_cast<scalar>(p_K) / static_cast<scalar>(p_N);
+		return Euler(TwoPi * f);
 	}
 
 	//void RaiseExponentially(scalar& p_Base, const scalar p_Exponent)

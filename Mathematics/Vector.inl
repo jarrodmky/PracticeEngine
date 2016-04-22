@@ -7,190 +7,187 @@ namespace Mathematics
 {
 
 	//===========================================================================
-	// Operators Definitions
+	// Operator Definitions
 	//===========================================================================
 
-	//vector scaling
-	template <u32 t_Rows>
-	inline const Vector<t_Rows> operator *(const scalar p_Lhs, const Vector<t_Rows>& p_Rhs)
+	template <typename t_Scalar, u32 t_Rows>
+	inline const t_Scalar operator |(const Vector<t_Scalar, t_Rows>& p_Lhs, const Vector<t_Scalar, t_Rows>& p_Rhs)
+	{
+		scalar sum(0.0f);
+		for (u32 i = 0; i < t_Rows; ++i)
+		{
+			sum += p_Lhs(i) * p_Rhs(i);
+		}
+		return sum;
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	inline const Vector<t_Scalar, t_Rows> operator *(const t_Scalar p_Lhs, const Vector<t_Scalar, t_Rows>& p_Rhs)
 	{
 		return p_Rhs * p_Lhs;
 	}
 
-	//---------------------------------------------------------------------------
-
-	//cross product
-	inline Vector3& operator *=(Vector3& p_Lhs, const Vector3& p_Rhs)
-	{
-		const scalar crossX = p_Lhs(2) * p_Rhs(3) - p_Lhs(3) * p_Rhs(2);
-		const scalar crossY = p_Lhs(3) * p_Rhs(1) - p_Lhs(1) * p_Rhs(3);
-		const scalar crossZ = p_Lhs(1) * p_Rhs(2) - p_Lhs(2) * p_Rhs(1);
-
-		p_Lhs(1) = crossX;
-		p_Lhs(2) = crossY;
-		p_Lhs(3) = crossZ;
-
-		return p_Lhs;
-	}
-
-	//---------------------------------------------------------------------------
-
-	inline const Vector3 operator *(const Vector3& p_Lhs, const Vector3& p_Rhs)
-	{
-		return Vector3(p_Lhs) *= p_Rhs;
-	}
-
-	//---------------------------------------------------------------------------
-
-	inline Vector4& operator *=(Vector4& p_Lhs, const Vector4& p_Rhs)
-	{
-		const scalar crossX = p_Lhs(2) * p_Rhs(3) - p_Lhs(3) * p_Rhs(2);
-		const scalar crossY = p_Lhs(3) * p_Rhs(1) - p_Lhs(1) * p_Rhs(3);
-		const scalar crossZ = p_Lhs(1) * p_Rhs(2) - p_Lhs(2) * p_Rhs(1);
-
-		p_Lhs(1) = crossX;
-		p_Lhs(2) = crossY;
-		p_Lhs(3) = crossZ;
-		p_Lhs(4) = Zero;
-
-		return p_Lhs;
-	}
-
-	//---------------------------------------------------------------------------
-
-	inline const Vector4 operator *(const Vector4& p_Lhs, const Vector4& p_Rhs)
-	{
-		return Vector4(p_Lhs) *= p_Rhs;
-	}
-
 	//===========================================================================
-	// Constant Definitions
+	// Function Definitions
 	//===========================================================================
 
-	inline const Vector2 Zero2()
+	template <typename t_Scalar, u32 t_Rows>
+	inline const Vector<t_Scalar, t_Rows> Zeroes()
 	{
-		return Vector2(Zero);
+		return Vector<t_Scalar, t_Rows>(0);
 	}
 
-	inline const Vector2 Ones2()
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	inline const Vector<t_Scalar, t_Rows> Ones()
 	{
-		return Vector2(Unity);
+		return Vector<t_Scalar, t_Rows>(1);
 	}
 
-	inline const Vector2 U()
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows + 1> MakeAffineVector(const RealVector<t_Rows>& p_Vector)
 	{
-		Vector2 temp(Zero2());
-		temp(1) = Unity;
+		RealVector<t_Rows + 1> temp(Zero);
+		for (u32 i = 0; i < t_Rows; ++i)
+		{
+			temp(i) = p_Vector(i);
+		}
+		return temp;
+	}
+	
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows + 1> MakeAffinePoint(const RealVector<t_Rows>& p_Vector)
+	{
+		RealVector<t_Rows + 1> temp(Unity);
+		for (u32 i = 0; i < t_Rows; ++i)
+		{
+			temp(i) = p_Vector(i);
+		}
+		return temp;
+	}
+	
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows - 1> MakeProjectedVector(const RealVector<t_Rows>& p_Vector)
+	{
+		RealVector<t_Rows - 1> temp;
+		for (u32 i = 0; i < t_Rows - 1; ++i)
+		{
+			temp(i) = p_Vector(i);
+		}
+		return temp;
+	}
+	
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows - 1> MakeProjectedPoint(const RealVector<t_Rows>& p_Vector)
+	{
+		Assert(!p_Vector.IsAffineVector(), "Cannot project vector!");
+		RealVector<t_Rows - 1> temp;
+		const scalar invAffinity = Inverse(p_Vector.AffineComponent());
+		for (u32 i = 0; i < t_Rows - 1; ++i)
+		{
+			temp(i) = p_Vector(i) * invAffinity;
+		}
+		Assert(IsEqualTo(p_Vector.AffineComponent() * invAffinity, Unity), "Projection was invalid!");
 		return temp;
 	}
 
-	inline const Vector2 V()
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const scalar AngleBetween(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs)
 	{
-		Vector2 temp(Zero2());
-		temp(2) = Unity;
-		return temp;
+		return std::acos(p_Lhs.Direction() | p_Rhs.Direction());
 	}
 
-	inline const Vector3 Zero3()
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const bool Perpendicular(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs)
 	{
-		return Vector3(Zero);
+		return IsZero(p_Lhs | p_Rhs);
 	}
 
-	inline const Vector3 Ones3()
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const bool Acute(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs)
 	{
-		return Vector3(Unity);
+		return (p_Lhs | p_Rhs) > Zero;
 	}
 
-	inline const Vector3 I()
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const bool Obtuse(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs)
 	{
-		Vector3 temp(Zero3());
-		temp(1) = Unity;
-		return temp;
+		return (p_Lhs | p_Rhs) < Zero;
 	}
 
-	inline const Vector3 J()
+	//---------------------------------------------------------------------------
+
+	template <u32 t_Rows>
+	inline const bool Close(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs, const scalar p_Tolerance)
 	{
-		Vector3 temp(Zero3());
-		temp(2) = Unity;
-		return temp;
+		return IsApproximatelyZero((p_Lhs - p_Rhs).LengthSquared(), p_Tolerance);
 	}
 
-	inline const Vector3 K()
-	{
-		Vector3 temp(Zero3());
-		temp(3) = Unity;
-		return temp;
-	}
+	//---------------------------------------------------------------------------
 
-	inline const Vector4 Zero4()
+	template <u32 t_Rows>
+	inline const bool ApproximatelyEqual(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs, const scalar p_Tolerance)
 	{
-		return Vector4(Zero);
-	}
-
-	inline const Vector4 Ones4()
-	{
-		return Vector4(Unity);
-	}
-
-	inline const Vector4 W()
-	{
-		Vector4 temp(Zero4());
-		temp(4) = Unity;
-		return temp;
-	}
-
-	inline const Vector4 X()
-	{
-		Vector4 temp(Zero4());
-		temp(1) = Unity;
-		return temp;
-	}
-
-	inline const Vector4 Y()
-	{
-		Vector4 temp(Zero4());
-		temp(2) = Unity;
-		return temp;
-	}
-
-	inline const Vector4 Z()
-	{
-		Vector4 temp(Zero4());
-		temp(3) = Unity;
-		return temp;
+		for (u32 i = 0; i < t_Rows; ++i)
+		{
+			if (!ApproximatelyEqual(p_Lhs(i), p_Rhs(i), p_Tolerance))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	//===========================================================================
 	// Class Definitions
 	//===========================================================================
 
-	template <u32 t_Rows>
-	Vector<t_Rows>::Vector(const scalar p_Scalar)
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>::Vector(const t_Scalar p_Scalar)
 		: m_Column(p_Scalar)
 	{}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const bool Vector<t_Rows>::operator ==(const Vector<t_Rows>& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::operator ==(const Vector<t_Scalar, t_Rows>& p_Rhs) const
 	{
-		return m_Column.Equals(p_Rhs.m_Column, EquivalentToEachOther);
+		return m_Column.Equals(p_Rhs.m_Column, Equal);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const bool Vector<t_Rows>::operator !=(const Vector& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::operator !=(const Vector<t_Scalar, t_Rows>& p_Rhs) const
 	{
 		return !((*this) == p_Rhs);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::Negate()
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::Negate()
 	{
-		m_Column.ApplyFunction([](const scalar& p_Value)->const scalar
+		m_Column.Map([](const scalar& p_Value)->const scalar
 		{
 			return -p_Value;
 		});
@@ -200,19 +197,19 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::operator -() const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::operator -() const
 	{
-		return Vector<t_Rows>(*this).Negate();
+		return Vector<t_Scalar, t_Rows>(*this).Negate();
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::operator +=(const Vector<t_Rows>& p_Rhs)
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::operator +=(const Vector<t_Scalar, t_Rows>& p_Rhs)
 	{
-		m_Column.ApplyFunction(p_Rhs.m_Column,
-			[](const scalar& p_L, const scalar& p_R)->const scalar
+		m_Column.Map(p_Rhs.m_Column,
+			[](const t_Scalar& p_L, const t_Scalar& p_R)->const t_Scalar
 		{
 			return p_L + p_R;
 		});
@@ -222,19 +219,19 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::operator +(const Vector<t_Rows>& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::operator +(const Vector<t_Scalar, t_Rows>& p_Rhs) const
 	{
-		return (Vector<t_Rows>(*this) += p_Rhs);
+		return (Vector<t_Scalar, t_Rows>(*this) += p_Rhs);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::operator -=(const Vector<t_Rows>& p_Rhs)
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::operator -=(const Vector<t_Scalar, t_Rows>& p_Rhs)
 	{
-		m_Column.ApplyFunction(p_Rhs.m_Column,
-			[](const scalar& p_L, const scalar& p_R)->const scalar
+		m_Column.Map(p_Rhs.m_Column,
+			[](const t_Scalar& p_L, const t_Scalar& p_R)->const t_Scalar
 		{
 			return p_L - p_R;
 		});
@@ -244,18 +241,39 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::operator -(const Vector<t_Rows>& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::operator -(const Vector<t_Scalar, t_Rows>& p_Rhs) const
 	{
-		return (Vector<t_Rows>(*this) -= p_Rhs);
+		return (Vector<t_Scalar, t_Rows>(*this) -= p_Rhs);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::operator *=(const scalar& p_Rhs)
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::operator %=(const Vector<t_Scalar, t_Rows>& p_Rhs)
 	{
-		m_Column.ApplyFunction([&](const scalar& p_Value)->const scalar
+		m_Column.Map(p_Rhs.m_Column,
+			[](const t_Scalar& p_L, const t_Scalar& p_R)->const t_Scalar
+		{
+			return p_L * p_R;
+		});
+		return *this;
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::operator %(const Vector<t_Scalar, t_Rows>& p_Rhs) const
+	{
+		return (Vector<t_Scalar, t_Rows>(*this) %= p_Rhs);
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::operator *=(const t_Scalar& p_Rhs)
+	{
+		m_Column.Map([&](const t_Scalar& p_Value)->const t_Scalar
 		{
 			return p_Value * p_Rhs;
 		});
@@ -265,92 +283,78 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::operator *(const scalar p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::operator *(const t_Scalar p_Rhs) const
 	{
-		return (Vector<t_Rows>(*this) *= p_Rhs);
+		return (Vector<t_Scalar, t_Rows>(*this) *= p_Rhs);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::operator /=(const scalar& p_Rhs)
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::operator /=(const t_Scalar& p_Rhs)
 	{
-		Assert(!EquivalentToZero(p_Rhs), "Trying to divide by zero!");
-		const scalar inv = 1.0f / p_Rhs;
+		const t_Scalar inv = Inverse(p_Rhs);
 		(*this) *= inv;
 		return *this;
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::operator /(const scalar p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::operator /(const t_Scalar p_Rhs) const
 	{
-		return (Vector<t_Rows>(*this) /= p_Rhs);
+		return (Vector<t_Scalar, t_Rows>(*this) /= p_Rhs);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const scalar Vector<t_Rows>::operator |(const Vector<t_Rows>& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	inline t_Scalar& Vector<t_Scalar, t_Rows>::operator ()(const u32 p_Row)
 	{
-		scalar sum(0.0f);
-		for (u32 i = 0; i < t_Rows; ++i)
-		{
-			sum += m_Column(i) * p_Rhs.m_Column(i);
-		}
-		return sum;
+		return m_Column[p_Row];
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	inline scalar& Vector<t_Rows>::operator ()(const u32 p_Row)
+	template <typename t_Scalar, u32 t_Rows>
+	inline const t_Scalar Vector<t_Scalar, t_Rows>::operator ()(const u32 p_Row) const
 	{
-		return m_Column(p_Row-1);
+		return m_Column[p_Row];
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	inline const scalar Vector<t_Rows>::operator ()(const u32 p_Row) const
-	{
-		return m_Column(p_Row-1);
-	}
-
-	//---------------------------------------------------------------------------
-
-	template <u32 t_Rows>
-	const scalar Vector<t_Rows>::LengthSquared() const
+	template <typename t_Scalar, u32 t_Rows>
+	const t_Scalar Vector<t_Scalar, t_Rows>::LengthSquared() const
 	{
 		return (*this) | (*this);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const scalar Vector<t_Rows>::Length() const
+	template <typename t_Scalar, u32 t_Rows>
+	const t_Scalar Vector<t_Scalar, t_Rows>::Length() const
 	{
 		return std::sqrt(LengthSquared());
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const scalar Vector<t_Rows>::InverseLength() const
+	template <typename t_Scalar, u32 t_Rows>
+	const t_Scalar Vector<t_Scalar, t_Rows>::InverseLength() const
 	{
-		const scalar len(Length());
+		const t_Scalar len(Length());
 
-		return (!EquivalentToZero(len)) ? (Unity / len) : (Zero);
+		return (IsZero(len)) ? (Infinity) : (Unity / len);
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	inline const scalar Vector<t_Rows>::ManhattanLength() const
+	template <typename t_Scalar, u32 t_Rows>
+	inline const t_Scalar Vector<t_Scalar, t_Rows>::ManhattanLength() const
 	{
-		scalar sum(0.0f);
+		t_Scalar sum(0);
 		for (u32 i = 0; i < t_Rows; ++i)
 		{
 			sum += AbsoluteValue(m_Column(i));
@@ -360,8 +364,16 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::Normalize()
+	template <typename t_Scalar, u32 t_Rows>
+	inline const t_Scalar Vector<t_Scalar, t_Rows>::AffineComponent() const
+	{
+		return m_Column[t_Rows - 1];
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::Normalize()
 	{
 		(*this) *= InverseLength();
 		return *this;
@@ -369,50 +381,71 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::Direction() const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::Direction() const
 	{
-		return Vector<t_Rows>(*this).Normalize();
+		return (IsUnit()) ? (*this) : (Vector<t_Scalar, t_Rows>(*this).Normalize());
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const scalar Vector<t_Rows>::LengthAlong(const Vector<t_Rows>& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const t_Scalar Vector<t_Scalar, t_Rows>::LengthAlong(const Vector<t_Scalar, t_Rows>& p_Direction) const
 	{
-		return (*this) | p_Rhs.Direction();
+		Assert(p_Direction.IsUnit(), "Vector is not unit length!");
+		return (*this) | p_Direction;
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	Vector<t_Rows>& Vector<t_Rows>::ProjectAlong(const Vector<t_Rows>& p_Rhs)
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::ProjectAlong(const Vector<t_Scalar, t_Rows>& p_Direction)
 	{
-		scalar invSquareLHS = p_Rhs.LengthSquared();
-		Invert(invSquareLHS);
-
-		(*this) = p_Rhs * (((*this) | p_Rhs) * invSquareLHS);
+		(*this) = ProjectionAlong(p_Direction);
 		return *this;
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	const Vector<t_Rows> Vector<t_Rows>::ProjectedAlong(const Vector<t_Rows>& p_Rhs) const
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::ProjectionAlong(const Vector<t_Scalar, t_Rows>& p_Direction) const
 	{
-		Vector temp(*this);
-		temp.ProjectAlong(p_Rhs);
-		return temp;
+		return p_Direction * (LengthAlong(p_Direction));
 	}
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	bool Vector<t_Rows>::IsNull() const
+	template <typename t_Scalar, u32 t_Rows>
+	Vector<t_Scalar, t_Rows>& Vector<t_Scalar, t_Rows>::RejectFrom(const Vector<t_Scalar, t_Rows>& p_Direction)
+	{
+		(*this) -= ProjectionAlong(p_Direction);
+		return *this;
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	const Vector<t_Scalar, t_Rows> Vector<t_Scalar, t_Rows>::RejectionFrom(const Vector<t_Scalar, t_Rows>& p_Direction) const
+	{
+		return Vector<t_Scalar, t_Rows>(*this).RejectFrom(p_Direction);
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::IsAffineVector() const
+	{
+		return IsZero(AffineComponent());
+	}
+
+	//---------------------------------------------------------------------------
+
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::IsAtOrigin() const
 	{
 		for (u32 i = 0; i < t_Rows; ++i)
 		{
-			if (!EquivalentToZero(m_Column(i)))
+			if (!IsZero(m_Column[i]))
 			{
 				return false;
 			}
@@ -422,12 +455,12 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	bool Vector<t_Rows>::IsAtInfinity() const
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::IsAtInfinity() const
 	{
 		for (u32 i = 0; i < t_Rows; ++i)
 		{
-			if (IsInfinite(m_Column(i)))
+			if (IsInfinite(m_Column[i]))
 			{
 				return true;
 			}
@@ -437,12 +470,12 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	bool Vector<t_Rows>::IsValid() const
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::IsValid() const
 	{
 		for (u32 i = 0; i < t_Rows; ++i)
 		{
-			if (!IsANumber(m_Column(i)))
+			if (!IsANumber(m_Column[i]))
 			{
 				return false;
 			}
@@ -452,9 +485,9 @@ namespace Mathematics
 
 	//---------------------------------------------------------------------------
 
-	template <u32 t_Rows>
-	bool Vector<t_Rows>::IsUnit() const
+	template <typename t_Scalar, u32 t_Rows>
+	const bool Vector<t_Scalar, t_Rows>::IsUnit() const
 	{
-		return EquivalentToEachOther(ConstantScalars::Unity, this->LengthSquared());
+		return IsUnity(this->LengthSquared());
 	}
 }

@@ -12,7 +12,6 @@
 //===========================================================================
 
 #include <Mathematics.h>
-#include "LinearColour.h"
 
 //===========================================================================
 // Classes
@@ -28,21 +27,16 @@ namespace Visualization
 
 		Light()
 			: Position(Mathematics::Zero4())
-			, Ambient(Mathematics::ColourPallet::White)
 			, Diffuse(Mathematics::ColourPallet::White)
-			, Specular(Mathematics::ColourPallet::White)
+			, Ambient(Mathematics::ColourPallet::White)
 		{}
 
 	//Attributes
 	public:
 
 		Mathematics::Vector4 Position;
-
-		Mathematics::LinearColour Ambient;
-
 		Mathematics::LinearColour Diffuse;
-
-		Mathematics::LinearColour Specular;
+		Mathematics::LinearColour Ambient;
 	};
 } // namespace Visualization
 

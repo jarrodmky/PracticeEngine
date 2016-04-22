@@ -5,12 +5,10 @@ using namespace Algorithms;
 
 u32 DepthFirst::Next(SearchContext<DepthFirst>& p_Context)
 {
-	u32 index = 0;
-	p_Context.OpenList.Pop(index);
-	return index;
+	return p_Context.OpenList.Pull();
 }
 	
-void DepthFirst::Open(SearchContext<DepthFirst>& p_Context, const u32 p_Index, const u32 p_Parent)
+void DepthFirst::Open(SearchContext<DepthFirst>& p_Context, const u32 p_Index)
 {
 	p_Context.OpenList.Push(p_Index);
 	p_Context.HaveOpened[p_Index] = true;
@@ -23,7 +21,7 @@ u32 BreadthFirst::Next(SearchContext<BreadthFirst>& p_Context)
 	return index;
 }
 
-void BreadthFirst::Open(SearchContext<BreadthFirst>& p_Context, const u32 p_Index, const u32 p_Parent)
+void BreadthFirst::Open(SearchContext<BreadthFirst>& p_Context, const u32 p_Index)
 {
 	p_Context.OpenList.push_back(p_Index);
 	p_Context.HaveOpened[p_Index] = true;

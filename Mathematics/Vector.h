@@ -13,6 +13,7 @@
 
 #include "../Abstracts/Array.h"
 #include "MathBase.h"
+#include "Random.h"
 
 //===========================================================================
 // Classes
@@ -20,118 +21,175 @@
 
 namespace Mathematics
 {
-	template <u32 t_Rows>
+	template <typename t_Scalar, u32 t_Rows>
 	class Vector
 	{
-	//Attributes
+		//Attributes
 	public:
 
-		Abstracts::Array<scalar, t_Rows> m_Column;
+		typedef t_Scalar ComponentType;
 
-	//Operators
+		Abstracts::Array<t_Scalar, t_Rows> m_Column;
+
+		//Operators
 	public:
-		
-		inline Vector(const scalar p_Scalar = Zero);
-		
+
+		inline explicit Vector(const t_Scalar p_Scalar = 0);
+
 		//equality
-		inline const bool operator ==(const Vector& p_Rhs) const;
-		inline const bool operator !=(const Vector& p_Rhs) const;
+		inline const bool operator ==(const Vector<t_Scalar, t_Rows>& p_Rhs) const;
+		inline const bool operator !=(const Vector<t_Scalar, t_Rows>& p_Rhs) const;
 
 		//arithmetic
-		inline Vector<t_Rows>& Negate();
-		inline const  Vector<t_Rows> operator -() const;
-		inline  Vector<t_Rows>& operator +=(const  Vector<t_Rows>& p_Rhs);
-		inline const  Vector<t_Rows> operator +(const  Vector<t_Rows>& p_Rhs) const;
-		inline  Vector<t_Rows>& operator -=(const  Vector<t_Rows>& p_Rhs);
-		inline const  Vector<t_Rows> operator -(const  Vector<t_Rows>& p_Rhs) const;
+		inline Vector<t_Scalar, t_Rows>& Negate();
+		inline const  Vector<t_Scalar, t_Rows> operator -() const;
+		inline  Vector<t_Scalar, t_Rows>& operator +=(const  Vector<t_Scalar, t_Rows>& p_Rhs);
+		inline const  Vector<t_Scalar, t_Rows> operator +(const  Vector<t_Scalar, t_Rows>& p_Rhs) const;
+		inline  Vector<t_Scalar, t_Rows>& operator -=(const  Vector<t_Scalar, t_Rows>& p_Rhs);
+		inline const  Vector<t_Scalar, t_Rows> operator -(const  Vector<t_Scalar, t_Rows>& p_Rhs) const;
+
+		//componentwise product
+		inline  Vector<t_Scalar, t_Rows>& operator %=(const  Vector<t_Scalar, t_Rows>& p_Rhs);
+		inline const  Vector<t_Scalar, t_Rows> operator %(const  Vector<t_Scalar, t_Rows>& p_Rhs) const;
 
 		//scalar multiplication
-		inline  Vector<t_Rows>& operator *=(const scalar& p_Rhs);
-		inline const  Vector<t_Rows> operator *(const scalar p_Rhs) const;
-		inline  Vector<t_Rows>& operator /=(const scalar& p_Rhs);
-		inline const  Vector<t_Rows> operator /(const scalar p_Rhs) const;
-
-		//inner (dot) product
-		inline const scalar operator |(const  Vector<t_Rows>& p_Rhs) const;
+		inline  Vector<t_Scalar, t_Rows>& operator *=(const t_Scalar& p_Rhs);
+		inline const  Vector<t_Scalar, t_Rows> operator *(const t_Scalar p_Rhs) const;
+		inline  Vector<t_Scalar, t_Rows>& operator /=(const t_Scalar& p_Rhs);
+		inline const  Vector<t_Scalar, t_Rows> operator /(const t_Scalar p_Rhs) const;
 
 		//access
-		inline scalar& operator ()(const u32 p_Row);
-		inline const scalar operator ()(const u32 p_Row) const;
+		inline t_Scalar& operator ()(const u32 p_Row);
+		inline const t_Scalar operator ()(const u32 p_Row) const;
 
-
-	//Methods
+		//Methods
 	public:
-		
-		//magnitude
-		inline const scalar LengthSquared() const;
-		inline const scalar Length() const;
-		inline const scalar InverseLength() const;
 
-		inline const scalar ManhattanLength() const;
+		//magnitude
+		inline const t_Scalar LengthSquared() const;
+		inline const t_Scalar Length() const;
+		inline const t_Scalar InverseLength() const;
+
+		inline const t_Scalar ManhattanLength() const;
+		inline const t_Scalar AffineComponent() const;
 
 		//direction
-		inline  Vector<t_Rows>& Normalize();
-		inline const  Vector<t_Rows> Direction() const;
+		inline Vector<t_Scalar, t_Rows>& Normalize();
+		inline const Vector<t_Scalar, t_Rows> Direction() const;
 
 		//scalar projection
-		const scalar LengthAlong(const  Vector<t_Rows>& p_Rhs) const;
+		const t_Scalar LengthAlong(const Vector<t_Scalar, t_Rows>& p_Direction) const;
 
-		// vector projection
-		 Vector<t_Rows>& ProjectAlong(const  Vector<t_Rows>& p_Rhs);
-		const  Vector<t_Rows> ProjectedAlong(const  Vector<t_Rows>& p_Rhs) const;
+		// vector projections
+		Vector<t_Scalar, t_Rows>& ProjectAlong(const Vector<t_Scalar, t_Rows>& p_Direction);
+		const  Vector<t_Scalar, t_Rows> ProjectionAlong(const Vector<t_Scalar, t_Rows>& p_Direction) const;
+
+		// vector rejections
+		Vector<t_Scalar, t_Rows>& RejectFrom(const Vector<t_Scalar, t_Rows>& p_Rhs);
+		const Vector<t_Scalar, t_Rows> RejectionFrom(const Vector<t_Scalar, t_Rows>& p_Direction) const;
 
 		//boolean
-		inline bool IsNull() const;
-		inline bool IsAtInfinity() const;
-		inline bool IsValid() const;
-		inline bool IsUnit() const;
+		inline const bool IsAffineVector() const;
+		inline const bool IsAtOrigin() const;
+		inline const bool IsAtInfinity() const;
+		inline const bool IsValid() const;
+		inline const bool IsUnit() const;
 	};
 
-	//==========
-	// Definitions
-	//==========
+	template <u32 t_Rows>
+	using IntVector = Vector<s32, t_Rows>;
 
-	typedef Vector<2> Vector2;
-	typedef Vector<3> Vector3;
-	typedef Vector<4> Vector4;
+	template <u32 t_Rows>
+	using UintVector = Vector<u32, t_Rows>;
+
+	template <u32 t_Rows>
+	using RealVector = Vector<scalar, t_Rows>;
+
+	template <u32 t_Rows>
+	using ComplexVector = Vector<complex, t_Rows>;
 
 	//==========
 	// Operators
 	//==========
 
-	//vector scaling
+	//dot product
+	template <typename t_Scalar, u32 t_Rows>
+	inline const t_Scalar operator |(const Vector<t_Scalar, t_Rows>& p_Lhs, const Vector<t_Scalar, t_Rows>& p_Rhs);
+
+	//scalar product
+	template <typename t_Scalar, u32 t_Rows>
+	inline const Vector<t_Scalar, t_Rows> operator *(const t_Scalar p_Lhs, const Vector<t_Scalar, t_Rows>& p_Rhs);
+
+	//==========
+	// Functions
+	//==========
+
+	template <typename t_Scalar, u32 t_Rows>
+	inline const Vector<t_Scalar, t_Rows> Zeroes();
+
+	template <typename t_Scalar, u32 t_Rows>
+	inline const Vector<t_Scalar, t_Rows> Ones();
+
+	//casting
 	template <u32 t_Rows>
-	inline const Vector<t_Rows> operator *(const scalar p_Lhs, const Vector<t_Rows>& p_Rhs);
+	inline const RealVector<t_Rows + 1> MakeAffineVector(const RealVector<t_Rows>& p_Vector);
 
-	//cross product
-	inline Vector3& operator *=(Vector3& p_Lhs, const Vector3& p_Rhs);
-	inline const Vector3 operator *(const Vector3& p_Lhs, const Vector3& p_Rhs);
-	inline Vector4& operator *=(Vector4& p_Lhs, const Vector4& p_Rhs);
-	inline const Vector4 operator *(const Vector4& p_Lhs, const Vector4& p_Rhs);
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows + 1> MakeAffinePoint(const RealVector<t_Rows>& p_Vector);
+
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows - 1> MakeProjectedVector(const RealVector<t_Rows>& p_Vector);
+
+	template <u32 t_Rows>
+	inline const RealVector<t_Rows - 1> MakeProjectedPoint(const RealVector<t_Rows>& p_Vector);
+
+	//geometry
+	template <u32 t_Rows>
+	inline const scalar AngleBetween(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs);
+
+	template <u32 t_Rows>
+	inline const bool Perpendicular(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs);
+
+	template <u32 t_Rows>
+	inline const bool Acute(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs);
+
+	template <u32 t_Rows>
+	inline const bool Obtuse(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs);
+
+	//approximation
+	template <u32 t_Rows>
+	inline const bool Close(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs, const scalar p_Tolerance);
+
+	template <u32 t_Rows>
+	inline const bool ApproximatelyEqual(const RealVector<t_Rows>& p_Lhs, const RealVector<t_Rows>& p_Rhs, const scalar p_Tolerance);
 
 	//==========
-	// Constants
+	// Definitions
 	//==========
+	
+	//stop compilation of 0 or zero length vectors
+	template <typename t_Scalar>
+	class Vector<t_Scalar, 0>;
+	template <typename t_Scalar>
+	class Vector<t_Scalar, 1>;
 
-	inline const Vector2 Zero2();
-	inline const Vector2 Ones2();
-	inline const Vector2 U();
-	inline const Vector2 V();
+	typedef RealVector<2> Vector2;
+	typedef RealVector<3> Vector3;
+	typedef RealVector<4> Vector4;
 
-	inline const Vector3 Zero3();
-	inline const Vector3 Ones3();
-	inline const Vector3 I();
-	inline const Vector3 J();
-	inline const Vector3 K();
+	typedef IntVector<2> IntVector2;
+	typedef IntVector<3> IntVector3;
+	typedef IntVector<4> IntVector4;
 
-	inline const Vector4 Zero4();
-	inline const Vector4 Ones4();
-	inline const Vector4 W();
-	inline const Vector4 X();
-	inline const Vector4 Y();
-	inline const Vector4 Z();
+	typedef UintVector<2> UintVector2;
+	typedef UintVector<3> UintVector3;
+	typedef UintVector<4> UintVector4;
+
 } // namespace Mathematics
 
 #include "Vector.inl"
+#include "Vector2.inl"
+#include "Vector3.inl"
+#include "Vector4.inl"
 
 #endif //#ifndef IncludedMathVectorH

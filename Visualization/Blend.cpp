@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "Blend.h"
+#include "System.h"
 
 using namespace Visualization;
 
@@ -73,7 +74,7 @@ void Blend::Initialize(System& p_System, BlendMethod p_BlendMode)
 		Blending(p_System, m_Blend, true);
 		break;
 	default:
-		Assert(false, "Invalid blend method!!");
+		Halt("Invalid blend method!!");
 	}
 }
 

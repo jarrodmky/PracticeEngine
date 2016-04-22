@@ -8,7 +8,28 @@
 // Includes
 //===========================================================================
 
-#include "Game.h"
+#include <Gameplay.h>
+#include "PlanetDemo.h"
+#include "Test.h"
+
+
+template <typename t_Game>
+void GameLoop(HINSTANCE p_MSInstance, LPCSTR p_AppName)
+{
+	t_Game runningGame;
+	runningGame.Initialize(p_MSInstance, "GRAPHICS TEST", 1024, 768);
+
+	Gameplay::MetaRegistration();
+
+	while (runningGame.IsRunning())
+	{
+		Time("TotalLoop");
+		runningGame.Update();
+	}
+
+	runningGame.Terminate();
+}
+
 
 //===========================================================================
 // Main
@@ -19,14 +40,7 @@ int WINAPI WinMain( HINSTANCE hInstance
 				   ,  LPSTR     lpCmdLine
 				   ,  int       nCmdShow)
 {
-	Game myApplication;
-	myApplication.Initialize(hInstance, "JARROD", 1024, 768);
-
-	while(myApplication.IsRunning())
-	{
-		myApplication.Update();
-	}
-
-	myApplication.Terminate();
+	//GameLoop<PlanetDemo>(hInstance, "Planet Demonstration!");
+	GameLoop<Test>(hInstance, "GRAPHICS TEST");
 	return 0;
 }

@@ -11,10 +11,18 @@
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="Value.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="TgaFile.h" />
+    <ClInclude Include="XmlFile.h" />
+    <ClInclude Include="Library.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CmdMain.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Value.cpp" />
+    <ClCompile Include="XmlFile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Library.inl" />
   </ItemGroup>
 </Project>

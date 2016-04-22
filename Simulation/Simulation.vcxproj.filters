@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Particles.h" />
     <ClInclude Include="Simulation.h" />
-    <ClInclude Include="Body.h" />
-    <ClInclude Include="BodySystem.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="Raycaster.h" />
+    <ClInclude Include="ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="Raycaster.cpp" />
   </ItemGroup>
 </Project>

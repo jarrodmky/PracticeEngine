@@ -15,6 +15,7 @@
 
 #include "InputTypes.h"
 #include "System.h"
-#include "InputState.h"
+#include "InputStates.h"
+#include "Controller.h"
 
 #endif // #ifndef INCLUDED_INPUT_H

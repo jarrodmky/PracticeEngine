@@ -8,6 +8,7 @@ namespace AbstractsTest
 	TEST_CLASS(GraphTest)
 	{
 	public:		
+
 		TEST_METHOD(GraphConstruction)
 		{
 			Graph tester;

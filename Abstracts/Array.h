@@ -4,12 +4,14 @@
 //===========================================================================
 // Filename:	Array.h
 // Author:		Jarrod MacKay
-// Description:	Defines a generic 3-dimensional array class.
+// Description:	Defines a generic 3-dimensional static array class.
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
+
+#include <Core.h>
 
 //===========================================================================
 // Templates
@@ -17,12 +19,13 @@
 
 namespace Abstracts
 {
-
-	template<typename t_Type, u32 t_Rows, u32 t_Columns = 1, u32 t_Pages = 1>
+	template <typename t_Type, u32 t_Rows, u32 t_Columns = 1, u32 t_Pages = 1>
 	class Array
 	{
-		//Attributes
+	//Attributes
 	private:
+
+		typedef const Array<t_Type, t_Rows, t_Columns, t_Pages>& ArrayRef;
 
 		t_Type m_Array[t_Rows * t_Columns * t_Pages];
 
@@ -36,20 +39,37 @@ namespace Abstracts
 			Assert(0 < t_Columns, "Invalid number of columns!");
 			Assert(0 < t_Pages, "Invalid number of pages!");
 
-			Fill(p_Initial);
+			Clear(p_Initial);
+		}
+
+		//ctor
+		inline Array(const t_Type* p_Initial, const u32 p_Size)
+			: Array()
+		{
+			Assert(p_Size <= t_Rows * t_Columns * t_Pages, "Cannot fit initializer array!");
+			Assert(!((p_Size == 0) ^ (p_Initial == nullptr)), "Size zero means null array!");
+			Assert((sizeof(t_Type*) == sizeof(p_Initial)) || (sizeof(p_Initial) == p_Size), "Should be same size!");
+			std::copy_n(p_Initial, p_Size, m_Array);
 		}
 
 		//copy ctor
-		inline Array(const Array<t_Type, t_Rows, t_Columns, t_Pages>& p_Other)
+		inline Array(ArrayRef p_Other)
+			: Array()
 		{
 			std::copy_n(p_Other.m_Array, t_Rows * t_Columns * t_Pages, m_Array);
 		}
 
 		//copy assignment
-		inline Array<t_Type, t_Rows, t_Columns, t_Pages>& operator =(const Array<t_Type, t_Rows, t_Columns, t_Pages>& p_Other)
+		inline ArrayRef operator =(ArrayRef p_Other)
 		{
 			std::copy_n(p_Other.m_Array, t_Rows * t_Columns * t_Pages, m_Array);
 			return *this;
+		}
+
+		//comparison
+		inline const bool operator ==(ArrayRef p_Other) const
+		{
+			return std::equal(m_Array, (m_Array + t_Rows * t_Columns * t_Pages), p_Other.m_Array);
 		}
 
 		inline t_Type& operator ()(const u32 p_Row, const u32 p_Column, const u32 p_Page)
@@ -57,44 +77,40 @@ namespace Abstracts
 			return m_Array[GetIndex(p_Row, p_Column, p_Page)];
 		}
 
-		inline t_Type operator ()(const u32 p_Row, const u32 p_Column, const u32 p_Page) const
+		inline const t_Type& operator ()(const u32 p_Row, const u32 p_Column, const u32 p_Page) const
 		{
 			return m_Array[GetIndex(p_Row, p_Column, p_Page)];
 		}
 
-	//Methods
-	public:
-
-		//raw array access
-		inline t_Type* GetPointer()
+		inline t_Type* operator*()
 		{
-			return &m_Array;
+			return m_Array;
 		}
 
+		//Methods
+	public:
+
 		//single value assignment
-		inline void Fill(const t_Type& p_Value = t_Type())
+		inline void Clear(const t_Type& p_Value = t_Type())
 		{
 			std::fill(m_Array, (m_Array + t_Rows * t_Columns * t_Pages), p_Value);
 		}
 
 		//comparisons
-		inline const bool Equals(const Array<t_Type, t_Rows, t_Columns, t_Pages>& p_Other
-			                   , std::function<const bool(const t_Type&, const t_Type&)> p_Function) const
+		inline const bool Equals(ArrayRef p_Other, BoolFxn<t_Type> p_Function) const
 		{
-			return std::equal(m_Array, m_Array + (t_Rows * t_Columns * t_Pages), p_Other.m_Array, p_Function);
+			return std::equal(m_Array, (m_Array + t_Rows * t_Columns * t_Pages), p_Other.m_Array, p_Function);
 		}
 
 		//apply function methods
-		inline void ApplyFunction(std::function<const t_Type(const t_Type&)> p_Function)
+		inline void Map(UnaryFxn<t_Type> p_Function)
 		{
-			std::transform(m_Array, m_Array + (t_Rows * t_Columns * t_Page), m_Array, p_Function);
+			std::transform(m_Array, (m_Array + t_Rows * t_Columns * t_Pages), m_Array, p_Function);
 		}
 
-		inline void ApplyFunction(
-			  const Array<t_Type, t_Rows, t_Columns, t_Pages>& p_Other
-			, std::function<const t_Type(const t_Type&, const t_Type&)> p_Function)
+		inline void Map(ArrayRef p_Other, BinaryFxn<t_Type> p_Function)
 		{
-			std::transform(m_Array, m_Array + (t_Rows * t_Columns * t_Page), p_Other.m_Array, m_Array, p_Function);
+			std::transform(m_Array, (m_Array + t_Rows * t_Columns * t_Pages), p_Other.m_Array, m_Array, p_Function);
 		}
 
 	private:
@@ -105,9 +121,8 @@ namespace Abstracts
 			Assert(p_Column < t_Columns, "Invalid column index!");
 			Assert(p_Page < t_Pages, "Invalid page index!");
 
-			return (t_Rows * t_Columns) * p_Page + (t_Rows)* p_Column + p_Row;
+			return (t_Rows * t_Columns) * p_Page + (t_Rows) * p_Column + p_Row;
 		}
-
 	};
 
 	//===========================================================================
@@ -117,12 +132,13 @@ namespace Abstracts
 	//==========
 	// 2D array
 	//==========
-
-	template<typename t_Type, u32 t_Rows, u32 t_Columns>
-	class Array<t_Type, t_Rows, t_Columns, 1>
+	template <typename t_Type, u32 t_Rows, u32 t_Columns>
+	class Array <t_Type, t_Rows, t_Columns, 1>
 	{
-		//Attributes
+	//Attributes
 	private:
+
+		typedef const Array<t_Type, t_Rows, t_Columns>& ArrayRef;
 
 		t_Type m_Array[t_Rows * t_Columns];
 
@@ -135,20 +151,37 @@ namespace Abstracts
 			Assert(0 < t_Rows, "Invalid number of rows!");
 			Assert(0 < t_Columns, "Invalid number of columns!");
 
-			Fill(p_Initial);
+			Clear(p_Initial);
+		}
+
+		//ctor
+		inline Array(const t_Type* p_Initial, const u32 p_Size)
+			: Array()
+		{
+			Assert(p_Size <= t_Rows * t_Columns, "Cannot fit initializer array!");
+			Assert(!((p_Size == 0) ^ (p_Initial == nullptr)), "Size zero means null array!");
+			Assert((sizeof(t_Type*) == sizeof(p_Initial)) || (sizeof(p_Initial) == p_Size), "Should be same size!");
+			std::copy_n(p_Initial, p_Size, m_Array);
 		}
 
 		//copy ctor
-		inline Array(const Array<t_Type, t_Rows, t_Columns>& p_Other)
+		inline Array(ArrayRef p_Other)
+			: Array()
 		{
 			std::copy_n(p_Other.m_Array, t_Rows * t_Columns, m_Array);
 		}
 
 		//copy assignment
-		inline Array<t_Type, t_Rows, t_Columns>& operator =(const Array<t_Type, t_Rows, t_Columns>& p_Other)
+		inline ArrayRef operator =(ArrayRef p_Other)
 		{
 			std::copy_n(p_Other.m_Array, t_Rows * t_Columns, m_Array);
 			return *this;
+		}
+
+		//comparison
+		inline const bool operator ==(ArrayRef p_Other) const
+		{
+			return std::equal(m_Array, (m_Array + t_Rows * t_Columns), p_Other.m_Array);
 		}
 
 		inline t_Type& operator ()(const u32 p_Row, const u32 p_Column)
@@ -156,44 +189,40 @@ namespace Abstracts
 			return m_Array[GetIndex(p_Row, p_Column)];
 		}
 
-		inline t_Type operator ()(const u32 p_Row, const u32 p_Column) const
+		inline const t_Type& operator ()(const u32 p_Row, const u32 p_Column) const
 		{
 			return m_Array[GetIndex(p_Row, p_Column)];
+		}
+
+		inline t_Type* operator*()
+		{
+			return m_Array;
 		}
 
 		//Methods
 	public:
 
-		//raw array access
-		inline t_Type* GetPointer()
-		{
-			return &m_Array;
-		}
-
 		//single value assignment
-		inline void Fill(const t_Type& p_Value = t_Type())
+		inline void Clear(const t_Type& p_Value = t_Type())
 		{
 			std::fill(m_Array, (m_Array + t_Rows * t_Columns), p_Value);
 		}
 
 		//comparisons
-		inline const bool Equals(const Array<t_Type, t_Rows, t_Columns>& p_Other
-			, std::function<const bool(const t_Type&, const t_Type&)> p_Function) const
+		inline const bool Equals(ArrayRef p_Other, BoolFxn<t_Type> p_Function) const
 		{
-			return std::equal(m_Array, m_Array + (t_Rows * t_Columns), p_Other.m_Array, p_Function);
+			return std::equal(m_Array, (m_Array + t_Rows * t_Columns), p_Other.m_Array, p_Function);
 		}
 
 		//apply function methods
-		inline void ApplyFunction(std::function<const t_Type(const t_Type&)> p_Function)
+		inline void Map(UnaryFxn<t_Type> p_Function)
 		{
-			std::transform(m_Array, m_Array + (t_Rows * t_Columns), m_Array, p_Function);
+			std::transform(m_Array, (m_Array + t_Rows * t_Columns), m_Array, p_Function);
 		}
 
-		inline void ApplyFunction(
-			const Array<t_Type, t_Rows, t_Columns>& p_Other
-			, std::function<const t_Type(const t_Type&, const t_Type&)> p_Function)
+		inline void Map(ArrayRef p_Other, BinaryFxn<t_Type> p_Function)
 		{
-			std::transform(m_Array, m_Array + (t_Rows * t_Columns), p_Other.m_Array, m_Array, p_Function);
+			std::transform(m_Array, (m_Array + t_Rows * t_Columns), p_Other.m_Array, m_Array, p_Function);
 		}
 
 	private:
@@ -203,20 +232,20 @@ namespace Abstracts
 			Assert(p_Row < t_Rows, "Invalid row index!");
 			Assert(p_Column < t_Columns, "Invalid column index!");
 
-			return (t_Rows)* p_Column + p_Row;
+			return (t_Rows) * p_Column + p_Row;
 		}
-
 	};
 
 	//==========
 	// 1D array
 	//==========
-
-	template<typename t_Type, u32 t_Rows>
-	class Array<t_Type, t_Rows, 1, 1>
+	template <typename t_Type, u32 t_Rows>
+	class Array <t_Type, t_Rows, 1, 1>
 	{
-		//Attributes
+	//Attributes
 	private:
+
+		typedef const Array<t_Type, t_Rows>& ArrayRef;
 
 		t_Type m_Array[t_Rows];
 
@@ -226,71 +255,86 @@ namespace Abstracts
 		//ctor
 		inline Array(const t_Type p_Initial = t_Type())
 		{
-			Assert(0 < t_Rows, "Invalid number of rows!");
+			Clear(p_Initial);
+		}
 
-			Fill(p_Initial);
+		//ctor
+		inline Array(const t_Type* p_Initial, const u32 p_Size)
+			: Array()
+		{
+			Assert(p_Size <= t_Rows, "Cannot fit initializer array!");
+			Assert(!((p_Size == 0) ^ (p_Initial == nullptr)), "Size zero means null array!");
+			Assert((sizeof(t_Type*) == sizeof(p_Initial)) || (sizeof(p_Initial) == p_Size), "Should be same size!");
+			std::copy_n(p_Initial, p_Size, m_Array);
 		}
 
 		//copy ctor
-		inline Array(const Array<t_Type, t_Rows>& p_Other)
+		inline Array(ArrayRef p_Other)
+			: Array()
 		{
 			std::copy_n(p_Other.m_Array, t_Rows, m_Array);
 		}
 
 		//copy assignment
-		inline Array<t_Type, t_Rows>& operator =(const Array<t_Type, t_Rows>& p_Other)
+		inline ArrayRef operator =(ArrayRef p_Other)
 		{
 			std::copy_n(p_Other.m_Array, t_Rows, m_Array);
 			return *this;
 		}
 
-		inline t_Type& operator ()(const u32 p_Row)
+		//comparison
+		inline const bool operator ==(ArrayRef p_Other) const
 		{
-			Assert(p_Row < t_Rows, "Invalid row index!");
+			return std::equal(m_Array, (m_Array + t_Rows), p_Other.m_Array);
+		}
+
+		inline t_Type& operator [](const u32 p_Row)
+		{
 			return m_Array[p_Row];
 		}
 
-		inline t_Type operator ()(const u32 p_Row) const
+		inline const t_Type& operator [](const u32 p_Row) const
 		{
-			Assert(p_Row < t_Rows, "Invalid row index!");
 			return m_Array[p_Row];
+		}
+
+		inline t_Type* operator*()
+		{
+			return m_Array;
 		}
 
 		//Methods
 	public:
 
-		//raw array access
-		inline t_Type* GetPointer()
-		{
-			return &m_Array[0];
-		}
-
 		//single value assignment
-		inline void Fill(const t_Type& p_Value = t_Type())
+		inline void Clear(const t_Type& p_Value = t_Type())
 		{
 			std::fill(m_Array, (m_Array + t_Rows), p_Value);
 		}
 
 		//comparisons
-		inline const bool Equals(const Array<t_Type, t_Rows>& p_Other
-			, std::function<const bool(const t_Type&, const t_Type&)> p_Function) const
+		inline const bool Equals(ArrayRef p_Other, BoolFxn<t_Type> p_Function) const
 		{
-			return std::equal(m_Array, m_Array + (t_Rows), p_Other.m_Array, p_Function);
+			return std::equal(m_Array, (m_Array + t_Rows), p_Other.m_Array, p_Function);
 		}
 
 		//apply function methods
-		inline void ApplyFunction(std::function<const t_Type(const t_Type&)> p_Function)
+		inline void Map(UnaryFxn<t_Type> p_Function)
 		{
-			std::transform(m_Array, m_Array + (t_Rows), m_Array, p_Function);
+			std::transform(m_Array, (m_Array + t_Rows), m_Array, p_Function);
 		}
 
-		inline void ApplyFunction(
-			const Array<t_Type, t_Rows>& p_Other
-			, std::function<const t_Type(const t_Type&, const t_Type&)> p_Function)
+		inline void Map(ArrayRef p_Other, BinaryFxn<t_Type> p_Function)
 		{
-			std::transform(m_Array, m_Array + (t_Rows), p_Other.m_Array, m_Array, p_Function);
+			std::transform(m_Array, (m_Array + t_Rows), p_Other.m_Array, m_Array, p_Function);
 		}
 	};
 
+	
+	//==========
+	// Error array
+	//==========
+	template <typename t_Type>
+	class Array <t_Type, 0, 0, 0>;
 }
 #endif // #ifndef IncludedAbstArrayH

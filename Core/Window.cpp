@@ -127,7 +127,7 @@ LRESULT CALLBACK Window::HandleMessages(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		PostQuitMessage(0);
 		break;
 	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
+		return DefWindowProcA(hwnd, msg, wParam, lParam);
 	}
 	return 1;
 }

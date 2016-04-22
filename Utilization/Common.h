@@ -27,5 +27,6 @@
 //====================================================================================================
 
 #pragma comment (lib, "dinput8.lib")
+#pragma comment (lib, "dxguid.lib")
 
 #endif // #ifndef INCLUDED_INPUT_COMMON_H

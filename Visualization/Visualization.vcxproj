@@ -31,61 +31,85 @@
     <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
       <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Meta\Meta.vcxproj">
+      <Project>{0388d1b4-25d4-49c4-9533-2506f4b8be01}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
+      <Project>{9aded94d-2d67-413b-848c-cb47c75bd863}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Simulation\Simulation.vcxproj">
       <Project>{a0839ec9-803b-46c2-a033-ae420b626d63}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blend.cpp" />
-    <ClCompile Include="BumpedSolid.cpp" />
-    <ClCompile Include="DepthStencil.cpp" />
-    <ClCompile Include="MeshUtil.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Dashboard.cpp" />
+    <ClCompile Include="DepthMap.cpp" />
+    <ClCompile Include="FlatRenderer.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="LitRenderer.cpp" />
+    <ClCompile Include="MetaRegistration.cpp" />
+    <ClCompile Include="PaintedRenderer.cpp" />
+    <ClCompile Include="Rasterizer.cpp" />
+    <ClCompile Include="FramedRenderer.cpp" />
+    <ClCompile Include="Spriter.cpp" />
+    <ClCompile Include="SurfaceRenderer.cpp" />
+    <ClCompile Include="Tester.cpp" />
+    <ClCompile Include="Util.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="D3DSystem.cpp" />
+    <ClCompile Include="SomeSingleton.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Sampler.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Draw.cpp" />
-    <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Vertices.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Utilization\Precompiled.h" />
     <ClInclude Include="Blend.h" />
-    <ClInclude Include="Buffers.h" />
-    <ClInclude Include="BumpedSolid.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="Dashboard.h" />
+    <ClInclude Include="DepthMap.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="GraphicBasic.h" />
+    <ClInclude Include="MetaRegistration.h" />
+    <ClInclude Include="Rasterizer.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SomeSingleton.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConicColour.h" />
-    <ClInclude Include="DataStructures.h" />
-    <ClInclude Include="DepthStencil.h" />
+    <ClInclude Include="Spriter.h" />
+    <ClInclude Include="Tester.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Material.h" />
+    <ClInclude Include="Materials.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshBuilder.h" />
-    <ClInclude Include="MeshUtil.h" />
-    <ClInclude Include="ParticleEffect.h" />
-    <ClInclude Include="Pigment.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Sampler.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Draw.h" />
-    <ClInclude Include="Solid.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Vertices.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="Visualization.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Buffers.inl" />
+    <None Include="Buffer.inl" />
     <None Include="Mesh.inl" />
     <None Include="MeshBuilder.inl" />
-    <None Include="Shaders.inl" />
+    <None Include="Model.inl" />
+    <None Include="Shader.inl" />
+    <None Include="SpecificShader.inl" />
+    <None Include="ShaderBuffers.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{42F4E3E6-7D3C-4C8F-858A-FE3B9F3A36F1}</ProjectGuid>
@@ -118,11 +142,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Precompiled.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Precompiled.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -132,7 +158,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms;../Serialization;../Simulation;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Serialization;../Simulation;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -152,7 +178,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms;../Serialization;../Simulation;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Serialization;../Simulation;../Dependencies/DirectXTK/Inc;$(WindowsSDK_IncludePath)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
     </ClCompile>

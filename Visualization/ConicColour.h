@@ -11,7 +11,7 @@
 // Includes
 //===========================================================================
 
-#include "LinearColour.h"
+#include <Core.h>
 
 //===========================================================================
 // Definitions
@@ -33,7 +33,7 @@ namespace Visualization
 	//Operators
 	public:
 
-		ConicColour(const LinearColour& p_Colour);
+		ConicColour();
 	};
 } // namespace Visualization
 

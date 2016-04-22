@@ -1,20 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Precompiled.cpp" />
+    <ClCompile Include="Graph.cpp">
+      <Filter>Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Graphs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="Grid.h" />
     <ClInclude Include="Abstracts.h" />
     <ClInclude Include="Precompiled.h" />
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="List.h" />
-    <ClInclude Include="Stack.h" />
-    <ClInclude Include="Queue.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="Table.h" />
+    <ClInclude Include="Array.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicArray.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="SafePool.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{9b57fa31-ba76-4120-9b43-8a89759a3e33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphs">
+      <UniqueIdentifier>{2103cf48-5f60-48b6-b30a-a6c8645b4d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Patterns">
+      <UniqueIdentifier>{398c3f98-ffdc-4f15-889d-abad28c6b6fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

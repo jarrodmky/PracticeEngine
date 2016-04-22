@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Meta;../Abstracts;../Mathematics;../Algorithms</AdditionalIncludeDirectories>
     </ClCompile>
     <Link />
   </ItemDefinitionGroup>

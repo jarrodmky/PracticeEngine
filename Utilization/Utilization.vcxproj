@@ -12,14 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="InputState.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="InputStates.h" />
     <ClInclude Include="Utilization.h" />
     <ClInclude Include="InputTypes.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="InputState.cpp" />
-    <ClCompile Include="InputTypes.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="InputStates.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="System.cpp" />
   </ItemGroup>
@@ -54,11 +55,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Precompiled.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Precompiled.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

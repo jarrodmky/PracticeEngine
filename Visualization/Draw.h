@@ -16,11 +16,7 @@
 namespace Visualization
 {
 	class Camera;
-	class LinearColour;
 	class System;
-	struct AABB;
-	struct OBB;
-	struct Rectangle;
 
 //===========================================================================
 // Declarations
@@ -39,12 +35,29 @@ namespace Visualization
 			, const Mathematics::Vector3& p_Position
 					 , const Mathematics::LinearColour& p_Colour);
 
-		void AddSimplex(const Mathematics::Edge& p_Edge
+		void AddSimplex(const Mathematics::Edge3& p_Edge
+			, const Mathematics::LinearColour& p_Colour); 
+		
+		void AddCube(const Mathematics::Vector3& p_Centre
+			, const Mathematics::Quaternion& p_Rotation
+			, const Mathematics::scalar p_Width
 			, const Mathematics::LinearColour& p_Colour);
+
+		void AddBox(const Mathematics::AABB3& p_Box
+			, const Mathematics::LinearColour& p_Colour);
+
+		void AddLine(const Mathematics::Line3& p_Line, const Mathematics::LinearColour& p_Colour);
 
 		void AddFrame(const Mathematics::Frame& p_Frame, f32 p_Length); 
 		
 		void AddCoordinateAxes();
+		
+		void AddCoordinatePlaneXZ();
+
+		void AddCircle(const Mathematics::Vector3& p_Centre
+						   , const Mathematics::Vector3& p_Normal
+						   , const Mathematics::scalar p_Radius
+						   , const Mathematics::LinearColour& p_Colour);
 
 		//TODO
 		//screen space rendering

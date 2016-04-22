@@ -11,12 +11,15 @@
 // Includes
 //===========================================================================
 
+#include <Mathematics.h>
+
 #include "JsonFile.h"
 #include "CsvFile.h"
 #include "ObjFile.h"
 #include "BmpFile.h"
 #include "Converter.h"
 #include "Loader.h"
+#include "XmlFile.h"
 
 namespace Serialization
 {
@@ -24,7 +27,7 @@ namespace Serialization
 	//===========================================================================
 	// Functions
 	//===========================================================================
-
+	
 	/*
 	Given "<filepath>[/ or \]<basename>.<file extension>" returns "<basename>" as json string
 	*/

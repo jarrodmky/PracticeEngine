@@ -14,7 +14,11 @@
 //===========================================================================
 
 #include <Core.h>
+#include <Abstracts.h>
 #include <Mathematics.h>
+#include <Meta.h>
+#include <Algorithms.h>
+#include <Serialization.h>
 
 #ifdef UseDirect3D
 

@@ -9,6 +9,8 @@
 
 #include "Precompiled.h"
 #include "Application.h"
+#include "ScopeTimer.h"
+#include "Logger.h"
 
 using namespace Core;
 
@@ -36,6 +38,10 @@ void Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width
 
 	CoInitialize(nullptr);
 
+	Logger::get().open();
+
+	ScopeTimer::StaticInitialize();
+
 	OnApplicationInitialize(p_Width, p_Height);
 }
 
@@ -44,6 +50,10 @@ void Application::Initialize(HINSTANCE p_Instance, LPCSTR p_AppName, u32 p_Width
 void Application::Terminate()
 {
 	OnApplicationTerminate();
+	
+	ScopeTimer::StaticShutdown();
+
+	Logger::get().close();
 
 	CoUninitialize();
 }

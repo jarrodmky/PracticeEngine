@@ -18,11 +18,14 @@ using namespace Core;
 //====================================================================================================
 
 Timer::Timer()
-	: mElapsedTime(0.0f)
-	, mTotalTime(0.0f)
-	, mNextUpdateTime(0.0f)
-	, mFrameSinceLastSecond(0.0f)
-	, mFramesPerSecond(0.0f)
+	: mTicksPerSecond()
+	, mLastTick()
+	, mCurrentTick()
+	, mElapsedTime(0.0)
+	, mTotalTime(0.0)
+	, mNextUpdateTime(0.0)
+	, mFrameSinceLastSecond(0.0)
+	, mFramesPerSecond(0.0)
 {
 	mTicksPerSecond.QuadPart = 0;
 	mLastTick.QuadPart = 0;
@@ -36,15 +39,16 @@ void Timer::Initialize()
 	// Get the system clock frequency and current tick
 	QueryPerformanceFrequency(&mTicksPerSecond);
 	QueryPerformanceCounter(&mCurrentTick);
-
 	mLastTick = mCurrentTick;
+
+	m_SecondsPerTick = 1.0 / static_cast<f64>(mTicksPerSecond.QuadPart);
 	
 	// Reset
-	mElapsedTime = 0.0f;
-	mTotalTime = 0.0f;
-	mNextUpdateTime = 0.0f;
-	mFrameSinceLastSecond = 0.0f;
-	mFramesPerSecond = 0.0f;
+	mElapsedTime = 0.0;
+	mTotalTime = 0.0;
+	mNextUpdateTime = 0.0;
+	mFrameSinceLastSecond = 0.0;
+	mFramesPerSecond = 0.0;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -55,39 +59,46 @@ void Timer::Update()
 	QueryPerformanceCounter(&mCurrentTick);
 
 	// Calculate the total time and elapsed time
-	mElapsedTime = static_cast<f32>(mCurrentTick.QuadPart - mLastTick.QuadPart) / mTicksPerSecond.QuadPart;
+	mElapsedTime = static_cast<f64>(mCurrentTick.QuadPart - mLastTick.QuadPart) * m_SecondsPerTick;
 	mTotalTime += mElapsedTime;
 
 	// Update the last tick count
 	mLastTick = mCurrentTick;
 
 	// Calculate the FPS
-	mFrameSinceLastSecond += 1.0f;
+	mFrameSinceLastSecond += 1.0;
 	if (mTotalTime >= mNextUpdateTime)
 	{
 		mFramesPerSecond = mFrameSinceLastSecond;
-		mFrameSinceLastSecond = 0.0f;
-		mNextUpdateTime += 1.0f;
+		mFrameSinceLastSecond = 0.0;
+		mNextUpdateTime += 1.0;
 	}
 }
 
 //----------------------------------------------------------------------------------------------------
 
-f32 Timer::GetElapsedTime() const
+f64 Timer::GetElapsedTime() const
 {
 	return mElapsedTime;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-f32 Timer::GetTotalTime() const
+f64 Timer::GetTotalTime() const
 {
 	return mTotalTime;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-f32 Timer::GetFramesPerSecond() const
+f64 Timer::GetFramesPerSecond() const
 {
 	return mFramesPerSecond;
+}
+	
+f64 Timer::GetTime() const
+{
+	LARGE_INTEGER tick;
+	QueryPerformanceCounter(&tick);
+	return static_cast<f64>(tick.QuadPart) * m_SecondsPerTick;
 }

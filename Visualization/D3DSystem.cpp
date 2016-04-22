@@ -41,7 +41,8 @@ namespace
 //====================================================================================================
 
 System::System()
-	: mpD3DDevice(nullptr)
+	: ControlPanel(*this)
+	, mpD3DDevice(nullptr)
 	, mpImmediateContext(nullptr)
 	, mpSwapChain(nullptr)
 	, mpRenderTargetView(nullptr)
@@ -232,12 +233,16 @@ void System::Initialize(HWND window, bool fullscreen)
 	mViewport.TopLeftX = 0;
 	mViewport.TopLeftY = 0;
 	mpImmediateContext->RSSetViewports(1, &mViewport);
+
+	ControlPanel.Initialize();
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void System::Terminate()
 {
+	ControlPanel.Terminate();
+
 	ProperlyRelease(mpDepthStencilView);
 	ProperlyRelease(mpDepthStencilBuffer);
 	ProperlyRelease(mpRenderTargetView);
@@ -264,6 +269,22 @@ void System::EndRender()
 
 //----------------------------------------------------------------------------------------------------
 
+void System::ResetRenderTarget()
+{
+	Assert(mpImmediateContext != nullptr, "Failed to reset render target!");
+	mpImmediateContext->OMSetRenderTargets(1, &mpRenderTargetView, mpDepthStencilView);
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void System::ResetViewport()
+{
+	Assert(mpImmediateContext != nullptr, "Failed to reset viewport!");
+	mpImmediateContext->RSSetViewports(1, &mViewport);
+}
+
+//----------------------------------------------------------------------------------------------------
+
 void System::ToggleFullscreen()
 {
 	mFullscreen = !mFullscreen;
@@ -284,4 +305,37 @@ u32 System::GetHeight() const
 {
 	Assert(mpSwapChain != nullptr, "[System] Failed to get swap chain buffer width.");
 	return mSwapChainDesc.BufferDesc.Height;
+}
+
+u32 System::GetCentreX() const
+{
+	return GetHeight() >> 1;
+}
+
+u32 System::GetCentreY() const
+{
+	return GetWidth() >> 1;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+f64 System::GetAspectRatio() const
+{
+	return static_cast<f64>(GetHeight()) / static_cast<f64>(GetWidth());
+}
+
+
+Mathematics::Vector2 System::GetCentre() const
+{
+	using namespace Mathematics;
+	return MakeVector(static_cast<scalar>(GetCentreX()), static_cast<scalar>(GetCentreY()));
+}
+
+Mathematics::UintVector2 System::GetScreenWidthHeight() const
+{
+	using namespace Mathematics;
+	UintVector2 ret;
+	ret(0) = GetWidth();
+	ret(1) = GetHeight();
+	return ret;
 }

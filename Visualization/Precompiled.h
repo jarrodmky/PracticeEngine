@@ -11,10 +11,7 @@
 // Includes
 //===========================================================================
 
-#include <Core.h>
-#include <Abstracts.h>
-#include <Mathematics.h>
-#include <Algorithms.h>
-#include <Serialization.h>
+#include "Common.h"
+
 
 #endif //#ifndef IncludedVisuPrecompiledH

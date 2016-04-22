@@ -11,8 +11,7 @@
 // Includes
 //===========================================================================
 
-#include "Particles.h"
-#include "Body.h"
-#include "BodySystem.h"
+#include "ParticleSystem.h"
+#include "Raycaster.h"
 
 #endif //#ifndef IncludedSimulationH

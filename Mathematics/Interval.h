@@ -33,7 +33,12 @@ namespace Mathematics
 	//Operators
 	public:
 		
-		inline Interval(const scalar p_Min, const scalar p_Max);
+		inline Interval(const t_Type& p_Min, const t_Type& p_Max)
+			: m_Minimum(p_Min)
+			, m_Maximum(p_Max)
+		{
+			Assert(p_Max > p_Min, "Interval is invalid!");
+		}
 
 		//equality
 		inline const bool operator ==(const Interval& p_Rhs) const;
@@ -45,7 +50,7 @@ namespace Mathematics
 		inline Interval& operator -=(const Interval& p_Rhs);
 		inline const Interval operator -(const Interval& p_Rhs) const;
 		inline Interval& operator /=(const Interval& p_Rhs);
-		inline const Interval operator /(const Interval p_Rhs) const;
+		inline const Interval operator /(const Interval& p_Rhs) const;
 		inline Interval& operator *=(const Interval& p_Rhs);
 		inline const Interval operator *(const Interval& p_Rhs) const;
 
@@ -58,16 +63,25 @@ namespace Mathematics
 		inline Interval<t_Type>& Bisect();
 
 		//queries
+		inline t_Type MinValue() const {return m_Minimum;}
+		inline t_Type MaxValue() const {return m_Maximum;}
 		inline bool HasElement(const t_Type& p_Value) const;
-		inline bool HasNoElement(const t_Type& p_Value) const;
 
 		//projections
 		inline t_Type ProjectWrapping(const t_Type& p_Value) const;
 		inline t_Type ProjectMirroring(const t_Type& p_Value) const;
 		inline t_Type ProjectClamping(const t_Type& p_Value) const;
 	};
-} // namespace Mathematics
 
-#include "Interval.inl"
+	typedef Interval<scalar> RealInterval;
+
+	template <u32 t_Dimensions>
+	using VectorInterval = Interval< RealVector<t_Dimensions> >;
+
+	inline const scalar Midpoint(const RealInterval& p_Interval)
+	{
+		return (p_Interval.MaxValue() + p_Interval.MinValue()) * 0.5f;
+	}
+} // namespace Mathematics
 
 #endif //#ifndef IncludedMathIntervalH

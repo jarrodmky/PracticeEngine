@@ -36,10 +36,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -54,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms;../Utilization;../Serialization;../Visualization;../Simulation</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Utilization;../Serialization;../Visualization;../Simulation</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -70,7 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms;../Utilization;../Serialization;../Visualization;../Simulation</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;..Meta/;../Algorithms;../Utilization;../Serialization;../Visualization;../Simulation</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,12 +83,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Encoding.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Synchronization.h" />
-    <ClInclude Include="WindowedApp.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WindowedApp.cpp" />
+    <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abstracts\Abstracts.vcxproj">
@@ -100,6 +103,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
       <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Meta\Meta.vcxproj">
+      <Project>{0388d1b4-25d4-49c4-9533-2506f4b8be01}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Simulation\Simulation.vcxproj">
       <Project>{a0839ec9-803b-46c2-a033-ae420b626d63}</Project>

@@ -5,201 +5,186 @@
 // Filename:	Frame.h
 // Author:		Jarrod MacKay
 // Description:	Defines a class that represents a 3 dimensional orthonormal
-//				basis relative to some other frame (that frame is taken as
-//				f = {i, j, j, O} or cartesian coordinates)
+//				basis relative to the standard basis.
 //===========================================================================
 
 //===========================================================================
 // Includes
 //===========================================================================
 
-#include "Algebra.h"
-#include "Geometry.h"
+#include "LinearAlgebra.h"
+#include "Planar.h"
 
-namespace Mathematics 
+namespace Mathematics
 {
 
-//===========================================================================
-// Classes
-//===========================================================================
+	//===========================================================================
+	// Classes
+	//===========================================================================
 
 	class Frame
 	{
 	//Attributes
 	private:
 
-		//TODO use scale!
-
-		//std::shared_ptr<Frame> m_RelativeFrame;
+		//TODO use scale and store 3rd vector!
 
 		Vector3 m_Origin;
+
+		//Quaternion m_Orientation;
 
 		Vector3 m_Up;
 
 		Vector3 m_Forward;
 
-		Vector3 m_Scale;
-
-	//Operators
+		//Operators
 	public:
 
-		Frame()
-			: m_Origin(Zero3())
-			, m_Up(J())
-			, m_Forward(K())
-			, m_Scale(Ones3())
-		{}
+		Frame(const Vector3& p_Up = WorldUp()
+			, const Vector3& p_Forward = WorldForward()
+			, const Vector3& p_Position = Zero3())
+			: m_Origin(p_Position)
+			, m_Up(p_Up)
+			, m_Forward(p_Forward)
+			//, m_Orientation()
+		{
+			SetOrientation(p_Forward, p_Up);
+		}
 
 	//Methods
 	public:
-		
-		void Set(const Vector3& p_Up = J()
-			, const Vector3& p_Forward = K()
-			, const Vector3& p_Position = Zero3())
+
+		inline void SetPosition(const Vector3& p_Position = Zero3())
 		{
 			m_Origin = p_Position;
-
-			m_Forward = p_Forward;
-			Vector3 left = p_Up * p_Forward;
-			m_Up = m_Forward * left;
-
-			Renormalize();
 		}
 
-		void SetPosition(const Vector3& p_Position)
+		inline void SetOrientation(const Vector3& p_Forward = WorldForward()
+								 , const Vector3& p_Up = WorldUp())
 		{
-			Set(GetUp(), GetForward(), p_Position);
+			Assert(p_Forward.IsUnit(), "Not unit forward!");
+			Assert(p_Up.IsUnit(), "Not unit up!");
+			m_Up = p_Up;
+			m_Forward = p_Forward;
+			//Reorient(p_Up, p_Forward);
 		}
 
 		//access
-		const Vector3 GetLeft() const
+
+		inline const Vector3 GetRight() const
 		{
-			return m_Up * m_Forward;
+			return m_Forward * m_Up;
+			//return m_Orientation.Rotate(WorldRight());
 		}
 
-		const Vector3 GetRight() const
+		inline const Vector3 GetLeft() const
 		{
-			return -(m_Up * m_Forward);
+			return -GetRight();
 		}
 
-		const Vector3 GetUp() const
+		inline const Vector3 GetUp() const
 		{
 			return m_Up;
+			//return m_Orientation.Rotate(WorldUp());
 		}
 
-		const Vector3 GetForward() const
+		inline const Vector3 GetForward() const
 		{
 			return m_Forward;
+			//return m_Orientation.Rotate(WorldForward());
 		}
 
-		const Vector3 GetPosition() const
+		inline const Vector3 GetPosition() const
 		{
 			return m_Origin;
 		}
 
-		const Matrix44 GetLocalToWorld() const
+		inline const Matrix44 GetRotation() const
 		{
-			return Translation(m_Origin) * GetRotation() * GetScaling();
+			return MakeChangeOfBasis(GetRight(), GetUp(), GetForward());
+			//return MakeRotation(m_Orientation);
 		}
 
-		const Matrix44 GetWorldToLocal() const
+		//inline const Quaternion GetOrientation() const
+		//{
+		//	return m_Orientation;
+		//}
+
+		inline const Matrix44 GetLocalToWorld() const
 		{
-			return MakeMatrix(ScalingInverse(m_Scale)) * GetRotation().Transposition() * Translation(-m_Origin);
+			return MakeTranslation(m_Origin) * GetRotation();
 		}
 
-		const Matrix44 GetLocalToWorldNS() const
+		inline const Matrix44 GetWorldToLocal() const
 		{
-			return Translation(m_Origin) * GetRotation();
-		}
-
-		const Matrix44 GetWorldToLocalNS() const
-		{
-			return GetRotation().Transposition() * Translation(-m_Origin);
-		}
-
-		const Matrix44 GetRotation() const
-		{
-			return MakeMatrix(MakeMatrix(GetLeft(), GetUp(), GetForward()));
-		}
-
-		const Matrix44 GetScaling() const
-		{
-			return MakeMatrix(Scaling(m_Scale));
+			return GetRotation().Transposition() * MakeTranslation(-m_Origin);
 		}
 
 		//translations
-		void Translate(const Vector3& p_Displacement)
+		inline void Translate(const Vector3& p_Displacement)
 		{
 			m_Origin += p_Displacement;
 		}
 
-		void MoveUp(const f32 p_Distance)
+		inline void MoveUp(const f32 p_Distance)
 		{
 			Translate(GetUp() * p_Distance);
 		}
 
-		void MoveDown(const f32 p_Distance)
+		inline void MoveDown(const f32 p_Distance)
 		{
 			Translate(-GetUp() * p_Distance);
 		}
 
-		void MoveForward(const f32 p_Distance)
+		inline void MoveForward(const f32 p_Distance)
 		{
 			Translate(GetForward() * p_Distance);
 		}
 
-		void MoveBack(const f32 p_Distance)
+		inline void MoveBack(const f32 p_Distance)
 		{
 			Translate(-GetForward() * p_Distance);
 		}
 
-		void MoveLeft(const f32 p_Distance)
+		inline void MoveLeft(const f32 p_Distance)
 		{
 			Translate(GetLeft() * p_Distance);
 		}
 
-		void MoveRight(const f32 p_Distance)
+		inline void MoveRight(const f32 p_Distance)
 		{
 			Translate(GetRight() * p_Distance);
 		}
+
+		void Renormalize();
 
 		//rotations
 		void Rotate(const Vector3& p_Axis, const scalar p_Angle)
 		{
 			Quaternion rotator(p_Axis, p_Angle);
-			rotator.RotateVector(m_Up);
-			rotator.RotateVector(m_Forward);
+			rotator.Rotate(m_Up);
+			rotator.Rotate(m_Forward);
+
+			//m_Orientation = rotator * m_Orientation;
+
 			Renormalize();
 		}
 
-		void Roll(const scalar p_Angle)
+		inline void Roll(const scalar p_Angle)
 		{
 			Rotate(GetForward(), p_Angle);
 		}
 
-		void Pitch(const scalar p_Angle)
+		inline void Pitch(const scalar p_Angle)
 		{
 			Rotate(GetRight(), p_Angle);
 		}
 
-		void Yaw(const scalar p_Angle)
+		inline void Yaw(const scalar p_Angle)
 		{
 			Rotate(GetUp(), p_Angle);
 		}
 
-		//scalings
-		void Scale(const scalar p_Scale)
-		{
-			m_Scale = Vector3(p_Scale);
-		}
-
-		//renormalize
-		void Renormalize()
-		{
-			m_Forward = m_Forward.Direction();
-			Vector3 left = m_Up * m_Forward;
-			m_Up = (m_Forward * left).Direction();
-		}
 	};
 }
 #endif

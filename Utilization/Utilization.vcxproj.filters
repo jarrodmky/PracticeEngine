@@ -5,12 +5,13 @@
     <ClInclude Include="InputTypes.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Utilization.h" />
-    <ClInclude Include="InputState.h" />
+    <ClInclude Include="InputStates.h" />
+    <ClInclude Include="Controller.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="InputTypes.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="System.cpp" />
-    <ClCompile Include="InputState.cpp" />
+    <ClCompile Include="InputStates.cpp" />
+    <ClCompile Include="Controller.cpp" />
   </ItemGroup>
 </Project>

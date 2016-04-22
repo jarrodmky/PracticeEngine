@@ -36,11 +36,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Engine.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Libraries.props" />
     <Import Project="..\Engine.props" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -52,10 +54,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>
+      </WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms;../Serialization;../Visualization;../Utilization;../Synchronization</AdditionalIncludeDirectories>
+      <TreatWarningAsError />
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Serialization;../Utilization;../Simulation;../Visualization;../Gameplay;../Synchronization</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -64,13 +68,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>
+      </WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Algorithms;../Serialization;../Visualization;../Utilization;../Synchronization</AdditionalIncludeDirectories>
+      <TreatWarningAsError />
+      <AdditionalIncludeDirectories>../Core;../Abstracts;../Mathematics;../Meta;../Algorithms;../Serialization;../Utilization;../Simulation;../Visualization;../Gameplay;../Synchronization</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,8 +95,17 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{2e3e511b-7c63-4b6a-b768-fabb4ee4047d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Gameplay\Gameplay.vcxproj">
+      <Project>{6839848d-8325-4cb5-8e0e-4425cd0a34d7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Mathematics\Mathematics.vcxproj">
       <Project>{d7cd47ef-70f5-44cd-959d-a45e5a44fbd7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Meta\Meta.vcxproj">
+      <Project>{0388d1b4-25d4-49c4-9533-2506f4b8be01}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
+      <Project>{9aded94d-2d67-413b-848c-cb47c75bd863}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Simulation\Simulation.vcxproj">
       <Project>{a0839ec9-803b-46c2-a033-ae420b626d63}</Project>
@@ -106,11 +121,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="PlanetDemo.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="PlanetDemo.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

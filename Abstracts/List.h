@@ -58,8 +58,13 @@ namespace Abstracts
 		List(const List& p_Other)
 			: m_NumberOfElements(p_Other.m_NumberOfElements)
 			, m_Capacity(p_Other.m_Capacity)
-			, m_Array(std::make_unique<t_Type[]>(*p_Other.m_Array))
-		{}
+			, m_Array(std::make_unique<t_Type[]>(p_Other.m_Capacity))
+		{
+			for(u32 i = 0; i < m_NumberOfElements; ++i)
+			{
+				m_Array[i] = p_Other.m_Array[i];
+			}
+		}
 
 		List(const List&& p_Other)
 			: m_NumberOfElements(p_Other.m_NumberOfElements)
@@ -101,7 +106,7 @@ namespace Abstracts
 	public:
 
 		//raw array access
-		inline t_Type* GetPointer()
+		inline t_Type* GetPointer() const
 		{
 			return m_Array.get();
 		}
@@ -173,9 +178,23 @@ namespace Abstracts
 			newList.Destroy();
 		}
 
-		void Resize(const u32 p_NewCapacity, const t_Type& p_Value = t_Type())
+		void Resize(const t_Type* p_NewData, const u32 p_Size)
 		{
-			Reserve(p_NewCapacity);
+			//make new list and copy in values
+			List newList(p_Size);
+			memcpy(newList.m_Array.get(), p_NewData, p_Size);
+
+			m_Array.swap(newList.m_Array);
+
+			newList.Destroy();
+
+			m_Capacity = p_Size;
+			m_NumberOfElements = p_Size;
+		}
+
+		void Resize(const u32 p_Size, const t_Type& p_Value = t_Type())
+		{
+			Reserve(p_Size);
 			Fill(p_Value);
 		}
 

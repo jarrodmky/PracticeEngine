@@ -19,9 +19,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Algebra.h" />
+    <ClInclude Include="Calculus.h" />
+    <ClInclude Include="Constraint.h" />
+    <ClInclude Include="Equations.h" />
+    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="GeometricAlgebra.h" />
+    <ClInclude Include="Linear.h" />
+    <ClInclude Include="LinearAlgebra.h" />
     <ClInclude Include="LinearColour.h" />
     <ClInclude Include="MatrixStack.h" />
+    <ClInclude Include="Operator.h" />
+    <ClInclude Include="Planar.h" />
+    <ClInclude Include="ComplexShapes.h" />
+    <ClInclude Include="Polynomial.h" />
+    <ClInclude Include="Primitives.h" />
+    <ClInclude Include="Round.h" />
     <ClInclude Include="Series.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Geometry.h" />
@@ -33,19 +45,36 @@
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Simplices.h" />
+    <ClInclude Include="Spheres.h" />
+    <ClInclude Include="Topology.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VerletParticle.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Interval.inl" />
+    <None Include="SpecificConstraint.inl" />
+    <None Include="Equations.inl" />
     <None Include="Matrix.inl" />
+    <None Include="Matrix22.inl" />
+    <None Include="Matrix33.inl" />
+    <None Include="Matrix44.inl" />
+    <None Include="SpecificOperator.inl" />
     <None Include="Quaternion.inl" />
     <None Include="Vector.inl" />
+    <None Include="Vector2.inl" />
+    <None Include="Vector3.inl" />
+    <None Include="Vector4.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Equations.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="Primitives.cpp" />
+    <ClCompile Include="Simplices.cpp" />
     <ClCompile Include="LinearColour.cpp" />
     <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="Precompiled.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Spheres.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D7CD47EF-70F5-44CD-959D-A45E5A44FBD7}</ProjectGuid>
@@ -71,20 +100,24 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Warnings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>
+      </WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
+      <TreatWarningAsError />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -96,7 +129,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>
+      </WarningLevel>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -104,6 +138,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../Core</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Precompiled.h</PrecompiledHeaderFile>
+      <TreatWarningAsError />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

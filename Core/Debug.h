@@ -2,10 +2,12 @@
 #define IncludedCoreDebugH
 
 //===========================================================================
-// Filename:	Debug.h
+// Filename:	Macros.h
 // Author:		Jarrod MacKay
 // Description:	Provides assertion macros.
 //===========================================================================
+
+#include "Logger.h"
 
 //===========================================================================
 // Macros
@@ -13,40 +15,39 @@
 
 #if defined(_DEBUG)
 
-	#define DebugTest(...) do { __VA_ARGS__; } while (0)
+//TODO: should do a memcopy to truncate inputs to fit buffer
+#define Log(format, ...)\
+	Core::Logger::get().log(format, __VA_ARGS__)
 
-	//TODO: should do a memcopy to truncate inputs to fit buffer
-	#define Log(format, ...)\
-	{\
-		char writeOutBuffer[1024];\
-		int writeLength = sprintf_s(writeOutBuffer, 1023, (format), __VA_ARGS__);\
-		writeOutBuffer[writeLength] = '\n';\
-		writeOutBuffer[writeLength + 1] = '\0';\
-		OutputDebugStringA(writeOutBuffer);\
+#define Halt(format, ...)\
+		{\
+			Log((format), __VA_ARGS__);\
+			Core::Logger::get().close();\
+			DebugBreak();\
 		}
 
-	#define Assert(condition, format, ...)\
-	{\
-		if(!(condition))\
+#define Assert(condition, format, ...)\
 		{\
-			Log(format, __VA_ARGS__)\
-			DebugBreak();\
-		}\
-	}
+		if(!(condition))\
+			{\
+			Halt((format), __VA_ARGS__);\
+			}\
+		}
 
-	#define AssertOnly(condition) Assert(condition, #condition);
+#define AssertOnly(condition) Assert(condition, #condition)
 
-	#define Verify(condition, format, ...)\
-	{\
-		Assert(condition, format, __VA_ARGS__);\
-	}
+#define Verify(condition, format, ...) Assert(condition, format, __VA_ARGS__)
+
+#define DebugBlock(...) ScopedBlock(__VA_ARGS__)
 
 #else
 
-	#define DebugTest(...)
-	#define Log(format, ...)
-	#define Assert(condition, format, ...)
-	#define Verify(condition, format, ...) condition
+#define Log(format, ...)
+#define Assert(condition, format, ...) Likely(condition)
+#define Verify(condition, format, ...) condition
+#define TestBlock(...)
+
+#define DebugBlock(...)
 
 #endif // #if defined(_DEBUG)
 

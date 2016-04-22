@@ -9,6 +9,7 @@
 
 #include "Common.h"
 #include <Mathematics.h>
+#include "Dashboard.h"
 
 //====================================================================================================
 // Namespace
@@ -34,13 +35,25 @@ public:
 	void BeginRender(Mathematics::LinearColour p_ClearColour = Mathematics::ColourPallet::Black);
 	void EndRender();
 
+	void ResetRenderTarget();
+	void ResetViewport();
+
 	void ToggleFullscreen();
 	
 	u32 GetWidth() const;
 	u32 GetHeight() const;
+	u32 GetCentreX() const;
+	u32 GetCentreY() const;
+	f64 GetAspectRatio() const;
+	Mathematics::Vector2 GetCentre() const;
+	Mathematics::UintVector2 GetScreenWidthHeight() const;
 
 	ID3D11Device* GetDevice()			{ return mpD3DDevice; }
 	ID3D11DeviceContext* GetContext()	{ return mpImmediateContext; }
+
+public:
+
+	Dashboard ControlPanel;
 	
 private:
 	NonCopyable(System);

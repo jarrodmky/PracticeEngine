@@ -6,6 +6,8 @@
 //*/
 #include "Precompiled.h"
 //
+
+char filler = '_';
 ////enumerates the accepted types of tokens
 //enum TokenType
 //{

@@ -31,9 +31,12 @@ namespace Mathematics
 	//Operators
 	public:
 
-		inline Quaternion(const scalar p_Value = Zero);
-		inline Quaternion(const Vector3& p_Axis, const scalar p_Angle = Zero);
 		inline Quaternion(const scalar p_Real, const Vector3& p_Imaginary);
+		inline Quaternion();
+		inline explicit Quaternion(const scalar p_Value);
+		inline explicit Quaternion(const Vector3& p_Axis, const scalar p_Angle = Zero);
+		inline Quaternion(const Vector3& p_Start, const Vector3& p_Final);
+		inline Quaternion(const scalar p_Real, const scalar p_Imag0, const scalar p_Imag1, const scalar p_Imag2);
 
 		//equality
 		inline const bool operator ==(const Quaternion& p_Rhs) const;
@@ -57,6 +60,9 @@ namespace Mathematics
 		inline Quaternion& operator /=(const scalar& p_Rhs);
 		inline const Quaternion operator /(const scalar p_Rhs) const;
 
+		//inner (dot) product
+		inline const scalar operator |(const Quaternion& p_Rhs) const;
+
 	//Methods
 	public:
 
@@ -71,7 +77,7 @@ namespace Mathematics
 		inline Quaternion& Invert();
 		inline const Quaternion Inverse() const;
 		inline Quaternion& Conjugate();
-		inline const Quaternion Conjugate() const;
+		inline const Quaternion Conjugation() const;
 
 		//magnitude
 		inline const scalar LengthSquared() const;
@@ -85,6 +91,8 @@ namespace Mathematics
 		//decomposition
 		inline const scalar ScalarPart() const;
 		inline const Vector3 VectorPart() const;
+		inline const scalar Real() const;
+		inline const Vector3 Imaginary() const;
 
 		//boolean
 		inline bool IsAtOrigin() const;
@@ -94,16 +102,30 @@ namespace Mathematics
 		inline bool IsVector() const;
 		inline bool IsUnit() const;
 
-		//vector functions
-		inline void RotateVector(Vector3& p_Vector) const;
+		//vector rotation
+		inline void Rotate(Vector3& p_Vector) const;
+		inline Vector3 Rotate(const Vector3& p_Vector) const;
 	};
+
+	//==========
+	// Operators
+	//==========
+
+	inline const Quaternion operator *(const scalar p_Lhs, const Quaternion& p_Rhs);
+
+	//==========
+	// Functions
+	//==========
+
+	inline const bool ApproximatelyEqual(const Quaternion& p_Lhs, const Quaternion& p_Rhs, const scalar p_Tolerance);
+	inline const Quaternion MakeRandomVersor();
 
 	//==========
 	// Constants
 	//==========
 
-	inline const Quaternion Origin();
-	inline const Quaternion Identity();
+	inline const Quaternion ZeroRotor();
+	inline const Quaternion IdentityRotor();
 
 } // namespace Mathematics
 

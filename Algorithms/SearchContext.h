@@ -30,7 +30,7 @@ public:
 
 	static u32 Next(SearchContext<DepthFirst>& p_Context);
 
-	static void Open(SearchContext<DepthFirst>& p_Context, const u32 p_Index, const u32 p_Parent);
+	static void Open(SearchContext<DepthFirst>& p_Context, const u32 p_Index);
 };
 
 class BreadthFirst
@@ -40,7 +40,7 @@ public:
 
 	static u32 Next(SearchContext<BreadthFirst>& p_Context);
 
-	static void Open(SearchContext<BreadthFirst>& p_Context, const u32 p_Index, const u32 p_Parent);
+	static void Open(SearchContext<BreadthFirst>& p_Context, const u32 p_Index);
 };
 
 class Dijkstra
