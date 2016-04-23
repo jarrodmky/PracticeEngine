@@ -1,6 +1,6 @@
 # SimulacraEngine
 
-A framework for making simple 3D games. Currently uses Direct3D 11 to render simple shapes and particle simulations.  Features a templatized math library; '.bmp', '.csv' and '.json' file I/O; and a plethora of graphics wrappers.  Hopes to one day be API agnostic with support for D3D12, OpenGL and/or Vulcan. 
+A framework for making simple 3D games. Currently uses Direct3D 11 to render simple shapes and particle simulations.  Features a templatized math library; '.bmp', '.csv' and '.json' file I/O; and a plethora of graphics wrappers.  Hopes to one day be API agnostic with support for OpenGL and/or Vulkan. 
 
 B.N: Some parts of the framework utilize DirectXTK, tinyXML and AssImp libraries.
 
